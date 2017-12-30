@@ -20,10 +20,43 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
+#ifdef __cplusplus
+extern "C" NSString *STComposeString(NSString *, ...);
+extern "C" NSString *getScalarDescription(NSValue *left);
+#else
+extern NSString *STComposeString(NSString *, ...);
+extern NSString *getScalarDescription(NSValue *left);
+#endif
+
+FOUNDATION_EXPORT NSString * const SenTestFailureException;
+
+FOUNDATION_EXPORT NSString * const SenFailureTypeKey;
+
+FOUNDATION_EXPORT NSString * const SenConditionFailure;
+FOUNDATION_EXPORT NSString * const SenRaiseFailure;
+FOUNDATION_EXPORT NSString * const SenEqualityFailure;
+FOUNDATION_EXPORT NSString * const SenUnconditionalFailure;
+
+FOUNDATION_EXPORT NSString * const SenTestConditionKey;
+FOUNDATION_EXPORT NSString * const SenTestEqualityLeftKey;
+FOUNDATION_EXPORT NSString * const SenTestEqualityRightKey;
+FOUNDATION_EXPORT NSString * const SenTestEqualityAccuracyKey;
+FOUNDATION_EXPORT NSString * const SenTestFilenameKey;
+FOUNDATION_EXPORT NSString * const SenTestLineNumberKey;
+FOUNDATION_EXPORT NSString * const SenTestDescriptionKey;
+
+@interface NSException (TestFailure)
+
++ (NSException *) failureInCondition:(NSString *) condition isTrue:(BOOL) isTrue inFile:(NSString *) filename atLine:(int) lineNumber withDescription:(NSString *) formatString, ...;
+
+@end
+
 @interface JiveAsyncTestCase : SenTestCase
 
 - (void)waitForTimeout:(void (^)(dispatch_block_t finishedBlock))asynchBlock file:(const char *)file line:(int)line;
 - (void)delay;
+
+- (void)failWithException:(NSException *)exception;
 
 @end
 

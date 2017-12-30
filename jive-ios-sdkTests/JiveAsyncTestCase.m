@@ -23,6 +23,85 @@
 static NSTimeInterval const JiveAsyncTestCaseTimeout = 5;
 static NSTimeInterval const JiveAsyncTestCaseDelayInterval = 1;
 
+NSString *STComposeString(NSString *format, ...) {
+    if (!format) return @"";
+
+    NSString *composedString;
+    va_list args;
+
+    va_start(args, format);
+    composedString = [[NSString alloc] initWithFormat:format arguments:args];
+    va_end(args);
+
+    return composedString;
+}
+
+@implementation NSException (TestFailure)
+
++ (NSException *) failureInCondition:(NSString *) condition isTrue:(BOOL) isTrue inFile:(NSString *) filename atLine:(int) lineNumber withDescription:(NSString *)formatString, ...
+/*" This method returns a NSException with a name of "SenTestFailureException".
+ A reason constructed from the condition, the boolean isTrue and the
+ formatString and the variable number of arguments that follow it
+ (just like in the NSString method -stringWithFormat:).
+ And an user info dictionary that contain the following information for the
+ given keys:
+ _{SenFailureTypeKey SenConditionFailure.}
+ _{SenTestConditionKey The condition (as a string) that caused this failure.}
+ _{SenTestFilenameKey The filename containing the code that caused the exception.}
+ _{SenTestLineNumberKey The lineNumber of the code that caused the exception.}
+ _{SenTestDescriptionKey A description constructed from the formatString and
+ the variable number of arguments that follow it.}
+ "*/
+{
+    NSString *stkDescription = nil;
+    NSString *aReason = nil;
+    NSDictionary *aUserInfo = nil;
+
+    if ( formatString != nil ) {
+        va_list argList;
+
+        va_start(argList, formatString);
+        stkDescription = [[NSString alloc] initWithFormat:formatString
+                                                arguments:argList];
+
+        va_end(argList);
+    } else {
+        stkDescription = @"";
+    }
+
+    aReason = [NSString stringWithFormat:@"\"%@\" should be %@. %@",
+               condition, (isTrue ? @"false" : @"true"), stkDescription];
+    aUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                 SenConditionFailure, SenFailureTypeKey,
+                 condition, SenTestConditionKey,
+                 filename, SenTestFilenameKey,
+                 [NSNumber numberWithInt:lineNumber], SenTestLineNumberKey,
+                 stkDescription, SenTestDescriptionKey,
+                 nil];
+    return [self exceptionWithName:SenTestFailureException
+                            reason:aReason
+                          userInfo:aUserInfo];
+}
+
+@end
+
+NSString * const SenTestFailureException = @"SenTestFailureException";
+
+NSString * const SenFailureTypeKey = @"SenFailureTypeKey";
+NSString * const SenUnconditionalFailure = @"SenUnconditionalFailure";
+NSString * const SenConditionFailure = @"SenConditionFailure";
+NSString * const SenEqualityFailure = @"SenEqualityFailure";
+NSString * const SenRaiseFailure = @"SenRaiseFailure";
+
+NSString * const SenTestConditionKey = @"SenTestConditionKey";
+NSString * const SenTestEqualityLeftKey = @"SenTestEqualityLeftKey";
+NSString * const SenTestEqualityRightKey = @"SenTestEqualityRightKey";
+NSString * const SenTestEqualityAccuracyKey = @"SenTestEqualityAccuracyKey";
+
+NSString * const SenTestFilenameKey = @"SenTestFilenameKey";
+NSString * const SenTestLineNumberKey = @"SenTestLineNumberKey";
+NSString * const SenTestDescriptionKey = @"SenTestDescriptionKey";
+
 #define JVAssertTrue(expr, file, line, description, ...) \
 do { \
     BOOL _evaluatedExpression = !!(expr);\
@@ -76,6 +155,10 @@ do { \
     NSDate *loopUntilDate = [NSDate dateWithTimeIntervalSinceNow:JiveAsyncTestCaseDelayInterval];
     [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                              beforeDate:loopUntilDate];
+}
+
+- (void)failWithException:(NSException *)exception {
+    [exception raise];
 }
 
 @end
