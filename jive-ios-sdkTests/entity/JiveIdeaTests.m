@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.idea.type, @"idea", @"Wrong type.");
+    XCTAssertEqualObjects(self.idea.type, @"idea", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.idea.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.idea class], @"Idea class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.idea class], @"Idea class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.idea class], @"Idea class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.idea class], @"Idea class not registered with JiveContent.");
 }
 
 - (void)initializeIdea {
@@ -85,40 +85,40 @@
 - (void)testIdeaToJSON {
     NSDictionary *JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"idea", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"idea", @"Wrong type");
     
     [self initializeIdea];
     
     JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveIdeaAttributes.authorship], self.idea.authorship, @"Wrong authorship");
-    STAssertEqualObjects(JSON[JiveIdeaAttributes.visibility], self.idea.visibility, @"Wrong visibility");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveIdeaAttributes.authorship], self.idea.authorship, @"Wrong authorship");
+    XCTAssertEqualObjects(JSON[JiveIdeaAttributes.visibility], self.idea.visibility, @"Wrong visibility");
     
     NSArray *authorsJSON = JSON[JiveIdeaAttributes.authors];
     NSDictionary *authorJSON = [authorsJSON objectAtIndex:0];
     
-    STAssertTrue([[authorsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([authorsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([authorJSON objectForKey:JivePersonAttributes.location],
+    XCTAssertTrue([[authorsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([authorsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([authorJSON objectForKey:JivePersonAttributes.location],
                          ((JivePerson *)self.idea.authors[0]).location, @"Wrong value");
     
     NSArray *usersJSON = JSON[JiveIdeaAttributes.users];
     
-    STAssertTrue([[usersJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([usersJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([usersJSON objectAtIndex:0], self.idea.users[0], @"Wrong value");
+    XCTAssertTrue([[usersJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([usersJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([usersJSON objectAtIndex:0], self.idea.users[0], @"Wrong value");
     
     NSArray *categoriesJSON = JSON[JiveIdeaAttributes.categories];
     
-    STAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([categoriesJSON objectAtIndex:0], self.idea.categories[0], @"Wrong value");
+    XCTAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([categoriesJSON objectAtIndex:0], self.idea.categories[0], @"Wrong value");
 }
 
 - (void)testIdeaToJSON_alternate {
@@ -126,35 +126,35 @@
     
     NSDictionary *JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveIdeaAttributes.authorship], self.idea.authorship, @"Wrong authorship");
-    STAssertEqualObjects(JSON[JiveIdeaAttributes.visibility], self.idea.visibility, @"Wrong visibility");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveIdeaAttributes.authorship], self.idea.authorship, @"Wrong authorship");
+    XCTAssertEqualObjects(JSON[JiveIdeaAttributes.visibility], self.idea.visibility, @"Wrong visibility");
     
     NSArray *authorsJSON = JSON[JiveIdeaAttributes.authors];
     NSDictionary *authorJSON = [authorsJSON objectAtIndex:0];
     
-    STAssertTrue([[authorsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([authorsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([authorJSON objectForKey:JivePersonAttributes.location],
+    XCTAssertTrue([[authorsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([authorsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([authorJSON objectForKey:JivePersonAttributes.location],
                          ((JivePerson *)self.idea.authors[0]).location, @"Wrong value");
     
     NSArray *usersJSON = JSON[JiveIdeaAttributes.users];
     NSDictionary *userJSON = [usersJSON objectAtIndex:0];
     
-    STAssertTrue([[usersJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([usersJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([userJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([userJSON objectForKey:JivePersonAttributes.location],
+    XCTAssertTrue([[usersJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([usersJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([userJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([userJSON objectForKey:JivePersonAttributes.location],
                          ((JivePerson *)self.idea.users[0]).location, @"Wrong value");
     
     NSArray *categoriesJSON = JSON[JiveIdeaAttributes.categories];
     
-    STAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([categoriesJSON objectAtIndex:0], self.idea.categories[0], @"Wrong value");
+    XCTAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([categoriesJSON objectAtIndex:0], self.idea.categories[0], @"Wrong value");
 }
 
 - (void)testToJSON_authors {
@@ -167,37 +167,37 @@
     
     NSDictionary *JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
     
     NSArray *array = JSON[JiveIdeaAttributes.authors];
     id object1 = [array objectAtIndex:0];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"authors array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person object not converted");
-    STAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"authors array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value");
     
     [self.idea setValue:[self.idea.authors arrayByAddingObject:person2] forKey:JiveIdeaAttributes.authors];
     
     JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
     
     array = JSON[JiveIdeaAttributes.authors];
     object1 = [array objectAtIndex:0];
     
     id object2 = [array objectAtIndex:1];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"authors array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"person 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:JivePersonAttributes.location], person2.location, @"Wrong value 2");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"authors array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value 1");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"person 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:JivePersonAttributes.location], person2.location, @"Wrong value 2");
 }
 
 - (void)testToJSON_users {
@@ -210,37 +210,37 @@
     
     NSDictionary *JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
     
     NSArray *array = JSON[JiveIdeaAttributes.users];
     id object1 = [array objectAtIndex:0];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person object not converted");
-    STAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value");
     
     [self.idea setValue:[self.idea.users arrayByAddingObject:person2] forKey:JiveIdeaAttributes.users];
     
     JSON = [self.idea toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.idea.type, @"Wrong type");
     
     array = JSON[JiveIdeaAttributes.users];
     object1 = [array objectAtIndex:0];
     
     id object2 = [array objectAtIndex:1];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"person 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:JivePersonAttributes.location], person2.location, @"Wrong value 2");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"person 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JivePersonAttributes.location], person1.location, @"Wrong value 1");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"person 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:JivePersonAttributes.location], person2.location, @"Wrong value 2");
 }
 
 - (void)testIdeaParsing {
@@ -250,24 +250,24 @@
     id JSON = [self.idea persistentJSON];
     JiveIdea *newContent = [JiveIdea objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.idea class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.idea.type, @"Wrong type");
-    STAssertEqualObjects(newContent.authorship, self.idea.authorship, @"Wrong authorship");
-    STAssertEqualObjects(newContent.authorshipPolicy, self.idea.authorshipPolicy, @"Wrong authorshipPolicy");
-    STAssertEqualObjects(newContent.commentCount, self.idea.commentCount, @"Wrong commentCount");
-    STAssertEqualObjects(newContent.score, self.idea.score, @"Wrong score");
-    STAssertEqualObjects(newContent.stage, self.idea.stage, @"Wrong stage");
-    STAssertEqualObjects(newContent.visibility, self.idea.visibility, @"Wrong visibility");
-    STAssertEqualObjects(newContent.voteCount, self.idea.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects(newContent.voted, self.idea.voted, @"Wrong voted");
-    STAssertEquals([newContent.categories count], [self.idea.categories count], @"Wrong number of tags");
-    STAssertEqualObjects([newContent.categories objectAtIndex:0], self.idea.categories[0], @"Wrong category");
-    STAssertEquals([newContent.authors count], [self.idea.authors count], @"Wrong number of author objects");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.idea class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.idea.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.authorship, self.idea.authorship, @"Wrong authorship");
+    XCTAssertEqualObjects(newContent.authorshipPolicy, self.idea.authorshipPolicy, @"Wrong authorshipPolicy");
+    XCTAssertEqualObjects(newContent.commentCount, self.idea.commentCount, @"Wrong commentCount");
+    XCTAssertEqualObjects(newContent.score, self.idea.score, @"Wrong score");
+    XCTAssertEqualObjects(newContent.stage, self.idea.stage, @"Wrong stage");
+    XCTAssertEqualObjects(newContent.visibility, self.idea.visibility, @"Wrong visibility");
+    XCTAssertEqualObjects(newContent.voteCount, self.idea.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects(newContent.voted, self.idea.voted, @"Wrong voted");
+    XCTAssertEqual([newContent.categories count], [self.idea.categories count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newContent.categories objectAtIndex:0], self.idea.categories[0], @"Wrong category");
+    XCTAssertEqual([newContent.authors count], [self.idea.authors count], @"Wrong number of author objects");
     if ([newContent.authors count] > 0) {
         id convertedObject = [newContent.authors objectAtIndex:0];
-        STAssertEquals([convertedObject class], [JivePerson class], @"Wrong author object class");
+        XCTAssertEqual([convertedObject class], [JivePerson class], @"Wrong author object class");
         if ([[convertedObject class] isSubclassOfClass:[JivePerson class]])
-            STAssertEqualObjects([(JivePerson *)convertedObject location],
+            XCTAssertEqualObjects([(JivePerson *)convertedObject location],
                                  ((JivePerson *)self.idea.authors[0]).location, @"Wrong author object");
     }
     
@@ -287,33 +287,33 @@
     id JSON = [self.idea persistentJSON];
     JiveIdea *newContent = [JiveIdea objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.idea class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.idea.type, @"Wrong type");
-    STAssertEqualObjects(newContent.authorship, self.idea.authorship, @"Wrong authorship");
-    STAssertEqualObjects(newContent.authorshipPolicy, self.idea.authorshipPolicy, @"Wrong authorshipPolicy");
-    STAssertEqualObjects(newContent.commentCount, self.idea.commentCount, @"Wrong commentCount");
-    STAssertEqualObjects(newContent.score, self.idea.score, @"Wrong score");
-    STAssertEqualObjects(newContent.stage, self.idea.stage, @"Wrong stage");
-    STAssertEqualObjects(newContent.visibility, self.idea.visibility, @"Wrong visibility");
-    STAssertEqualObjects(newContent.voteCount, self.idea.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects(newContent.voted, self.idea.voted, @"Wrong voted");
-    STAssertEquals([newContent.categories count], [self.idea.categories count], @"Wrong number of tags");
-    STAssertEqualObjects([newContent.categories objectAtIndex:0], self.idea.categories[0], @"Wrong category");
-    STAssertEquals([newContent.authors count], [self.idea.authors count], @"Wrong number of author objects");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.idea class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.idea.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.authorship, self.idea.authorship, @"Wrong authorship");
+    XCTAssertEqualObjects(newContent.authorshipPolicy, self.idea.authorshipPolicy, @"Wrong authorshipPolicy");
+    XCTAssertEqualObjects(newContent.commentCount, self.idea.commentCount, @"Wrong commentCount");
+    XCTAssertEqualObjects(newContent.score, self.idea.score, @"Wrong score");
+    XCTAssertEqualObjects(newContent.stage, self.idea.stage, @"Wrong stage");
+    XCTAssertEqualObjects(newContent.visibility, self.idea.visibility, @"Wrong visibility");
+    XCTAssertEqualObjects(newContent.voteCount, self.idea.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects(newContent.voted, self.idea.voted, @"Wrong voted");
+    XCTAssertEqual([newContent.categories count], [self.idea.categories count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newContent.categories objectAtIndex:0], self.idea.categories[0], @"Wrong category");
+    XCTAssertEqual([newContent.authors count], [self.idea.authors count], @"Wrong number of author objects");
     if ([newContent.authors count] > 0) {
         id convertedObject = [newContent.authors objectAtIndex:0];
-        STAssertEquals([convertedObject class], [JivePerson class], @"Wrong author object class");
+        XCTAssertEqual([convertedObject class], [JivePerson class], @"Wrong author object class");
         if ([[convertedObject class] isSubclassOfClass:[JivePerson class]])
-            STAssertEqualObjects([(JivePerson *)convertedObject location],
+            XCTAssertEqualObjects([(JivePerson *)convertedObject location],
                                  ((JivePerson *)self.idea.authors[0]).location, @"Wrong author object");
     }
     
-    STAssertEquals([newContent.users count], [self.idea.users count], @"Wrong number of user objects");
+    XCTAssertEqual([newContent.users count], [self.idea.users count], @"Wrong number of user objects");
     if ([newContent.users count] > 0) {
         id convertedObject = [newContent.users objectAtIndex:0];
-        STAssertEquals([convertedObject class], [JivePerson class], @"Wrong user object class");
+        XCTAssertEqual([convertedObject class], [JivePerson class], @"Wrong user object class");
         if ([[convertedObject class] isSubclassOfClass:[JivePerson class]])
-            STAssertEqualObjects([(JivePerson *)convertedObject location],
+            XCTAssertEqualObjects([(JivePerson *)convertedObject location],
                                  ((JivePerson *)self.idea.users[0]).location, @"Wrong user object");
     }
 }

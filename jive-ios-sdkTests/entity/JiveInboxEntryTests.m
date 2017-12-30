@@ -40,25 +40,25 @@
     JiveActivityObject *activity = [[JiveActivityObject alloc] init];
 
     [self.inboxEntry setValue:activity forKey:JiveInboxEntryAttributes.object];
-    STAssertEqualObjects(self.inboxEntry.description, @"(null) (null) -'(null)'", @"Empty description");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"(null) (null) -'(null)'", @"Empty description");
     
     activity.displayName = @"object";
-    STAssertEqualObjects(self.inboxEntry.description, @"(null) (null) -'object'", @"Just a display name");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"(null) (null) -'object'", @"Just a display name");
     
     self.inboxEntry.verb = @"walking";
-    STAssertEqualObjects(self.inboxEntry.description, @"(null) walking -'object'", @"Verb and display name");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"(null) walking -'object'", @"Verb and display name");
     
     [activity setValue:[NSURL URLWithString:@"http://test.com"] forKey:@"url"];
-    STAssertEqualObjects(self.inboxEntry.description, @"http://test.com walking -'object'", @"URL, verb and display name");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"http://test.com walking -'object'", @"URL, verb and display name");
     
     activity.displayName = @"tree";
-    STAssertEqualObjects(self.inboxEntry.description, @"http://test.com walking -'tree'", @"A different display name");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"http://test.com walking -'tree'", @"A different display name");
     
     self.inboxEntry.verb = @"sitting";
-    STAssertEqualObjects(self.inboxEntry.description, @"http://test.com sitting -'tree'", @"A different verb");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"http://test.com sitting -'tree'", @"A different verb");
     
     [activity setValue:[NSURL URLWithString:@"http://bad.net"] forKey:@"url"];
-    STAssertEqualObjects(self.inboxEntry.description, @"http://bad.net sitting -'tree'", @"A different url");
+    XCTAssertEqualObjects(self.inboxEntry.description, @"http://bad.net sitting -'tree'", @"A different url");
 }
 
 - (void)initializeInboxEntry {
@@ -136,183 +136,183 @@
 - (void)testPersistentJSON {
     NSDictionary *JSON = [self.inboxEntry persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeInboxEntry];
     JSON = [self.inboxEntry persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)15, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.published], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.updated], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.url], [self.inboxEntry.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)15, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.published], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.updated], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.url], [self.inboxEntry.url absoluteString], @"Wrong url.");
     
     NSDictionary *actorJSON = JSON[JiveInboxEntryAttributes.actor];
     
-    STAssertTrue([[actorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([actorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(actorJSON[JiveObjectConstants.id], self.inboxEntry.actor.jiveId, @"Wrong value");
+    XCTAssertTrue([[actorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([actorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(actorJSON[JiveObjectConstants.id], self.inboxEntry.actor.jiveId, @"Wrong value");
     
     NSDictionary *generatorJSON = JSON[JiveInboxEntryAttributes.generator];
     
-    STAssertTrue([[generatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([generatorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(generatorJSON[JiveObjectConstants.id], self.inboxEntry.generator.jiveId, @"Wrong value");
+    XCTAssertTrue([[generatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([generatorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(generatorJSON[JiveObjectConstants.id], self.inboxEntry.generator.jiveId, @"Wrong value");
     
     NSDictionary *objectJSON = JSON[JiveInboxEntryAttributes.object];
     
-    STAssertTrue([[objectJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([objectJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(objectJSON[JiveObjectConstants.id], self.inboxEntry.object.jiveId, @"Wrong value");
+    XCTAssertTrue([[objectJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([objectJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(objectJSON[JiveObjectConstants.id], self.inboxEntry.object.jiveId, @"Wrong value");
     
     NSDictionary *providerJSON = JSON[JiveInboxEntryAttributes.provider];
     
-    STAssertTrue([[providerJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([providerJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(providerJSON[JiveObjectConstants.id], self.inboxEntry.provider.jiveId, @"Wrong value");
+    XCTAssertTrue([[providerJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([providerJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(providerJSON[JiveObjectConstants.id], self.inboxEntry.provider.jiveId, @"Wrong value");
     
     NSDictionary *targetJSON = JSON[JiveInboxEntryAttributes.target];
     
-    STAssertTrue([[targetJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([targetJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(targetJSON[JiveObjectConstants.id], self.inboxEntry.target.jiveId, @"Wrong value");
+    XCTAssertTrue([[targetJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([targetJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(targetJSON[JiveObjectConstants.id], self.inboxEntry.target.jiveId, @"Wrong value");
     
     NSDictionary *iconJSON = JSON[JiveInboxEntryAttributes.icon];
     
-    STAssertTrue([[iconJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([iconJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(iconJSON[@"url"], [self.inboxEntry.icon.url absoluteString], @"Wrong value");
+    XCTAssertTrue([[iconJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([iconJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(iconJSON[@"url"], [self.inboxEntry.icon.url absoluteString], @"Wrong value");
     
     NSDictionary *jiveJSON = JSON[JiveInboxEntryAttributes.jive];
     
-    STAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([jiveJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(jiveJSON[@"state"], self.inboxEntry.jive.state, @"Wrong value");
-    STAssertEqualObjects(jiveJSON[JiveExtensionAttributes.collection],
+    XCTAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([jiveJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(jiveJSON[@"state"], self.inboxEntry.jive.state, @"Wrong value");
+    XCTAssertEqualObjects(jiveJSON[JiveExtensionAttributes.collection],
                          self.inboxEntry.jive.collection, @"Wrong value");
     
     NSDictionary *openSocialJSON = JSON[JiveInboxEntryAttributes.openSocial];
     NSArray *deliverToArray = openSocialJSON[@"deliverTo"];
     
-    STAssertTrue([[openSocialJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([openSocialJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertTrue([[deliverToArray class] isSubclassOfClass:[NSArray class]], @"Sub-array not converted");
-    STAssertEquals([deliverToArray count], (NSUInteger)1, @"Sub-array had the wrong number of entries");
-    STAssertEqualObjects([deliverToArray objectAtIndex:0],
+    XCTAssertTrue([[openSocialJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([openSocialJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertTrue([[deliverToArray class] isSubclassOfClass:[NSArray class]], @"Sub-array not converted");
+    XCTAssertEqual([deliverToArray count], (NSUInteger)1, @"Sub-array had the wrong number of entries");
+    XCTAssertEqualObjects([deliverToArray objectAtIndex:0],
                          [self.inboxEntry.openSocial.deliverTo objectAtIndex:0], @"Wrong value");
 }
 
 - (void)testPersistentJSON_alternate {
     NSDictionary *JSON = [self.inboxEntry persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self alternateInitializeInboxEntry];
     JSON = [self.inboxEntry persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)15, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.published], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.updated], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.url], [self.inboxEntry.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)15, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.published], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.updated], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.url], [self.inboxEntry.url absoluteString], @"Wrong url.");
     
     NSDictionary *actorJSON = JSON[JiveInboxEntryAttributes.actor];
     
-    STAssertTrue([[actorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([actorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(actorJSON[JiveObjectConstants.id], self.inboxEntry.actor.jiveId, @"Wrong value");
+    XCTAssertTrue([[actorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([actorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(actorJSON[JiveObjectConstants.id], self.inboxEntry.actor.jiveId, @"Wrong value");
     
     NSDictionary *generatorJSON = JSON[JiveInboxEntryAttributes.generator];
     
-    STAssertTrue([[generatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([generatorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(generatorJSON[JiveObjectConstants.id], self.inboxEntry.generator.jiveId, @"Wrong value");
+    XCTAssertTrue([[generatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([generatorJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(generatorJSON[JiveObjectConstants.id], self.inboxEntry.generator.jiveId, @"Wrong value");
     
     NSDictionary *objectJSON = JSON[JiveInboxEntryAttributes.object];
     
-    STAssertTrue([[objectJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([objectJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(objectJSON[JiveObjectConstants.id], self.inboxEntry.object.jiveId, @"Wrong value");
+    XCTAssertTrue([[objectJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([objectJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(objectJSON[JiveObjectConstants.id], self.inboxEntry.object.jiveId, @"Wrong value");
     
     NSDictionary *providerJSON = JSON[JiveInboxEntryAttributes.provider];
     
-    STAssertTrue([[providerJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([providerJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(providerJSON[JiveObjectConstants.id], self.inboxEntry.provider.jiveId, @"Wrong value");
+    XCTAssertTrue([[providerJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([providerJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(providerJSON[JiveObjectConstants.id], self.inboxEntry.provider.jiveId, @"Wrong value");
     
     NSDictionary *targetJSON = JSON[JiveInboxEntryAttributes.target];
     
-    STAssertTrue([[targetJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([targetJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(targetJSON[JiveObjectConstants.id], self.inboxEntry.target.jiveId, @"Wrong value");
+    XCTAssertTrue([[targetJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([targetJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(targetJSON[JiveObjectConstants.id], self.inboxEntry.target.jiveId, @"Wrong value");
     
     NSDictionary *iconJSON = JSON[JiveInboxEntryAttributes.icon];
     
-    STAssertTrue([[iconJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([iconJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(iconJSON[@"url"], [self.inboxEntry.icon.url absoluteString], @"Wrong value");
+    XCTAssertTrue([[iconJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([iconJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(iconJSON[@"url"], [self.inboxEntry.icon.url absoluteString], @"Wrong value");
     
     NSDictionary *jiveJSON = JSON[JiveInboxEntryAttributes.jive];
     
-    STAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([jiveJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(jiveJSON[@"state"], self.inboxEntry.jive.state, @"Wrong value");
-    STAssertEqualObjects(jiveJSON[JiveExtensionAttributes.collection],
+    XCTAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([jiveJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(jiveJSON[@"state"], self.inboxEntry.jive.state, @"Wrong value");
+    XCTAssertEqualObjects(jiveJSON[JiveExtensionAttributes.collection],
                          self.inboxEntry.jive.collection, @"Wrong value");
     
     NSDictionary *openSocialJSON = JSON[JiveInboxEntryAttributes.openSocial];
     NSArray *deliverToArray = openSocialJSON[@"deliverTo"];
     
-    STAssertTrue([[openSocialJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([openSocialJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertTrue([[deliverToArray class] isSubclassOfClass:[NSArray class]], @"Sub-array not converted");
-    STAssertEquals([deliverToArray count], (NSUInteger)1, @"Sub-array had the wrong number of entries");
-    STAssertEqualObjects([deliverToArray objectAtIndex:0],
+    XCTAssertTrue([[openSocialJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([openSocialJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertTrue([[deliverToArray class] isSubclassOfClass:[NSArray class]], @"Sub-array not converted");
+    XCTAssertEqual([deliverToArray count], (NSUInteger)1, @"Sub-array had the wrong number of entries");
+    XCTAssertEqualObjects([deliverToArray objectAtIndex:0],
                          [self.inboxEntry.openSocial.deliverTo objectAtIndex:0], @"Wrong value");
 }
 
 - (void)testToJSON {
     NSDictionary *JSON = [self.inboxEntry toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeInboxEntry];
     JSON = [self.inboxEntry toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
 }
 
 - (void)testToJSON_alternate {
     NSDictionary *JSON = [self.inboxEntry toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self alternateInitializeInboxEntry];
     JSON = [self.inboxEntry toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
-    STAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.content], self.inboxEntry.content, @"Wrong content.");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.inboxEntry.jiveId, @"Wrong jive id.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.title], self.inboxEntry.title, @"Wrong title.");
+    XCTAssertEqualObjects(JSON[JiveInboxEntryAttributes.verb], self.inboxEntry.verb, @"Wrong verb.");
 }
 
 - (void)testPlaceParsing {
@@ -321,23 +321,23 @@
     id JSON = [self.inboxEntry persistentJSON];
     JiveInboxEntry *entry = [JiveInboxEntry objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([entry class], [self.inboxEntry class], @"Wrong item class");
-    STAssertEqualObjects(entry.jiveId, self.inboxEntry.jiveId, @"Wrong id");
-    STAssertEqualObjects(entry.content, self.inboxEntry.content, @"Wrong content");
-    STAssertEqualObjects(entry.title, self.inboxEntry.title, @"Wrong title");
-    STAssertEqualObjects(entry.verb, self.inboxEntry.verb, @"Wrong verb");
-    STAssertEqualObjects(entry.published, self.inboxEntry.published, @"Wrong published");
-    STAssertEqualObjects(entry.updated, self.inboxEntry.updated, @"Wrong updated");
-    STAssertEqualObjects(entry.url, self.inboxEntry.url, @"Wrong url");
-    STAssertEqualObjects(entry.actor.jiveId, self.inboxEntry.actor.jiveId, @"Wrong actor");
-    STAssertEqualObjects(entry.generator.jiveId, self.inboxEntry.generator.jiveId, @"Wrong generator");
-    STAssertEqualObjects(entry.object.jiveId, self.inboxEntry.object.jiveId, @"Wrong object");
-    STAssertEqualObjects(entry.provider.jiveId, self.inboxEntry.provider.jiveId, @"Wrong provider");
-    STAssertEqualObjects(entry.target.jiveId, self.inboxEntry.target.jiveId, @"Wrong target");
-    STAssertEqualObjects(entry.icon.url, self.inboxEntry.icon.url, @"Wrong icon");
-    STAssertEqualObjects(entry.jive.state, self.inboxEntry.jive.state, @"Wrong jive");
-    STAssertEquals([entry.openSocial.deliverTo count], [self.inboxEntry.openSocial.deliverTo count], @"Wrong number of deliverTo objects");
-    STAssertEqualObjects([entry.openSocial.deliverTo objectAtIndex:0],
+    XCTAssertEqual([entry class], [self.inboxEntry class], @"Wrong item class");
+    XCTAssertEqualObjects(entry.jiveId, self.inboxEntry.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(entry.content, self.inboxEntry.content, @"Wrong content");
+    XCTAssertEqualObjects(entry.title, self.inboxEntry.title, @"Wrong title");
+    XCTAssertEqualObjects(entry.verb, self.inboxEntry.verb, @"Wrong verb");
+    XCTAssertEqualObjects(entry.published, self.inboxEntry.published, @"Wrong published");
+    XCTAssertEqualObjects(entry.updated, self.inboxEntry.updated, @"Wrong updated");
+    XCTAssertEqualObjects(entry.url, self.inboxEntry.url, @"Wrong url");
+    XCTAssertEqualObjects(entry.actor.jiveId, self.inboxEntry.actor.jiveId, @"Wrong actor");
+    XCTAssertEqualObjects(entry.generator.jiveId, self.inboxEntry.generator.jiveId, @"Wrong generator");
+    XCTAssertEqualObjects(entry.object.jiveId, self.inboxEntry.object.jiveId, @"Wrong object");
+    XCTAssertEqualObjects(entry.provider.jiveId, self.inboxEntry.provider.jiveId, @"Wrong provider");
+    XCTAssertEqualObjects(entry.target.jiveId, self.inboxEntry.target.jiveId, @"Wrong target");
+    XCTAssertEqualObjects(entry.icon.url, self.inboxEntry.icon.url, @"Wrong icon");
+    XCTAssertEqualObjects(entry.jive.state, self.inboxEntry.jive.state, @"Wrong jive");
+    XCTAssertEqual([entry.openSocial.deliverTo count], [self.inboxEntry.openSocial.deliverTo count], @"Wrong number of deliverTo objects");
+    XCTAssertEqualObjects([entry.openSocial.deliverTo objectAtIndex:0],
                          [self.inboxEntry.openSocial.deliverTo objectAtIndex:0], @"Wrong deliverTo object");
 }
 
@@ -347,23 +347,23 @@
     id JSON = [self.inboxEntry persistentJSON];
     JiveInboxEntry *entry = [JiveInboxEntry objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([entry class], [self.inboxEntry class], @"Wrong item class");
-    STAssertEqualObjects(entry.jiveId, self.inboxEntry.jiveId, @"Wrong id");
-    STAssertEqualObjects(entry.content, self.inboxEntry.content, @"Wrong content");
-    STAssertEqualObjects(entry.title, self.inboxEntry.title, @"Wrong title");
-    STAssertEqualObjects(entry.verb, self.inboxEntry.verb, @"Wrong verb");
-    STAssertEqualObjects(entry.published, self.inboxEntry.published, @"Wrong published");
-    STAssertEqualObjects(entry.updated, self.inboxEntry.updated, @"Wrong updated");
-    STAssertEqualObjects(entry.url, self.inboxEntry.url, @"Wrong url");
-    STAssertEqualObjects(entry.actor.jiveId, self.inboxEntry.actor.jiveId, @"Wrong actor");
-    STAssertEqualObjects(entry.generator.jiveId, self.inboxEntry.generator.jiveId, @"Wrong generator");
-    STAssertEqualObjects(entry.object.jiveId, self.inboxEntry.object.jiveId, @"Wrong object");
-    STAssertEqualObjects(entry.provider.jiveId, self.inboxEntry.provider.jiveId, @"Wrong provider");
-    STAssertEqualObjects(entry.target.jiveId, self.inboxEntry.target.jiveId, @"Wrong target");
-    STAssertEqualObjects(entry.icon.url, self.inboxEntry.icon.url, @"Wrong icon");
-    STAssertEqualObjects(entry.jive.state, self.inboxEntry.jive.state, @"Wrong jive");
-    STAssertEquals([entry.openSocial.deliverTo count], [self.inboxEntry.openSocial.deliverTo count], @"Wrong number of deliverTo objects");
-    STAssertEqualObjects([entry.openSocial.deliverTo objectAtIndex:0],
+    XCTAssertEqual([entry class], [self.inboxEntry class], @"Wrong item class");
+    XCTAssertEqualObjects(entry.jiveId, self.inboxEntry.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(entry.content, self.inboxEntry.content, @"Wrong content");
+    XCTAssertEqualObjects(entry.title, self.inboxEntry.title, @"Wrong title");
+    XCTAssertEqualObjects(entry.verb, self.inboxEntry.verb, @"Wrong verb");
+    XCTAssertEqualObjects(entry.published, self.inboxEntry.published, @"Wrong published");
+    XCTAssertEqualObjects(entry.updated, self.inboxEntry.updated, @"Wrong updated");
+    XCTAssertEqualObjects(entry.url, self.inboxEntry.url, @"Wrong url");
+    XCTAssertEqualObjects(entry.actor.jiveId, self.inboxEntry.actor.jiveId, @"Wrong actor");
+    XCTAssertEqualObjects(entry.generator.jiveId, self.inboxEntry.generator.jiveId, @"Wrong generator");
+    XCTAssertEqualObjects(entry.object.jiveId, self.inboxEntry.object.jiveId, @"Wrong object");
+    XCTAssertEqualObjects(entry.provider.jiveId, self.inboxEntry.provider.jiveId, @"Wrong provider");
+    XCTAssertEqualObjects(entry.target.jiveId, self.inboxEntry.target.jiveId, @"Wrong target");
+    XCTAssertEqualObjects(entry.icon.url, self.inboxEntry.icon.url, @"Wrong icon");
+    XCTAssertEqualObjects(entry.jive.state, self.inboxEntry.jive.state, @"Wrong jive");
+    XCTAssertEqual([entry.openSocial.deliverTo count], [self.inboxEntry.openSocial.deliverTo count], @"Wrong number of deliverTo objects");
+    XCTAssertEqualObjects([entry.openSocial.deliverTo objectAtIndex:0],
                          [self.inboxEntry.openSocial.deliverTo objectAtIndex:0], @"Wrong deliverTo object");
 }
 

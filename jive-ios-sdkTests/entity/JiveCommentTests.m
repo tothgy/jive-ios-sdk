@@ -31,15 +31,15 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.comment.type, @"comment", @"Wrong type.");
+    XCTAssertEqualObjects(self.comment.type, @"comment", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.comment.type
                                                                             forKey:JiveTypedObjectAttributes.type];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.comment class], @"Comment class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.comment class], @"Comment class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.comment class], @"Comment class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.comment class], @"Comment class not registered with JiveContent.");
 }
 
 - (void)initializeCommentData {
@@ -67,44 +67,44 @@
 - (void)testCommentToJSON {
     NSDictionary *JSON = [self.comment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
     
     [self initializeCommentData];
     
     JSON = [self.comment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
 }
 
 - (void)testCommentPersistentJSON {
     NSDictionary *JSON = [self.comment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"comment", @"Wrong type");
     
     [self initializeCommentData];
     
     JSON = [self.comment persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.comment.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.externalID],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.comment.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.externalID],
                          self.comment.externalID, @"Wrong externalID");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootExternalID],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootExternalID],
                          self.comment.rootExternalID, @"Wrong rootExternalID");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootType], self.comment.rootType,
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootType], self.comment.rootType,
                          @"Wrong rootType");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootURI], self.comment.rootURI,
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootURI], self.comment.rootURI,
                          @"Wrong rootURI");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedCalendarDate],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedCalendarDate],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong publishedCalendarDate");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedTime],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedTime],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong publishedTime");
 }
 
@@ -113,20 +113,20 @@
     
     NSDictionary *JSON = [self.comment persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.comment.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.externalID],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.comment.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.externalID],
                          self.comment.externalID, @"Wrong externalID");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootExternalID],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootExternalID],
                          self.comment.rootExternalID, @"Wrong rootExternalID");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootType], self.comment.rootType,
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootType], self.comment.rootType,
                          @"Wrong rootType");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootURI], self.comment.rootURI,
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.rootURI], self.comment.rootURI,
                          @"Wrong rootURI");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedCalendarDate],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedCalendarDate],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong publishedCalendarDate");
-    STAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedTime],
+    XCTAssertEqualObjects([JSON objectForKey:JiveCommentAttributes.publishedTime],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong publishedTime");
 }
 
@@ -136,13 +136,13 @@
     NSDictionary *JSON = [self.comment persistentJSON];
     JiveComment *newComment = [JiveComment objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects(newComment.type, self.comment.type, @"Wrong type");
-    STAssertEqualObjects(newComment.externalID, self.comment.externalID, @"Wrong externalID");
-    STAssertEqualObjects(newComment.rootExternalID, self.comment.rootExternalID, @"Wrong rootExternalID");
-    STAssertEqualObjects(newComment.rootType, self.comment.rootType, @"Wrong rootType");
-    STAssertEqualObjects(newComment.rootURI, self.comment.rootURI, @"Wrong rootURI");
-    STAssertEqualObjects(newComment.publishedCalendarDate, self.comment.publishedCalendarDate, @"Wrong publishedCalendarDate");
-    STAssertEqualObjects(newComment.publishedTime, self.comment.publishedTime, @"Wrong publishedTime");
+    XCTAssertEqualObjects(newComment.type, self.comment.type, @"Wrong type");
+    XCTAssertEqualObjects(newComment.externalID, self.comment.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects(newComment.rootExternalID, self.comment.rootExternalID, @"Wrong rootExternalID");
+    XCTAssertEqualObjects(newComment.rootType, self.comment.rootType, @"Wrong rootType");
+    XCTAssertEqualObjects(newComment.rootURI, self.comment.rootURI, @"Wrong rootURI");
+    XCTAssertEqualObjects(newComment.publishedCalendarDate, self.comment.publishedCalendarDate, @"Wrong publishedCalendarDate");
+    XCTAssertEqualObjects(newComment.publishedTime, self.comment.publishedTime, @"Wrong publishedTime");
 }
 
 - (void)testCommentJSONParsing_alternate {
@@ -151,13 +151,13 @@
     NSDictionary *JSON = [self.comment persistentJSON];
     JiveComment *newComment = [JiveComment objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects(newComment.type, self.comment.type, @"Wrong type");
-    STAssertEqualObjects(newComment.externalID, self.comment.externalID, @"Wrong externalID");
-    STAssertEqualObjects(newComment.rootExternalID, self.comment.rootExternalID, @"Wrong rootExternalID");
-    STAssertEqualObjects(newComment.rootType, self.comment.rootType, @"Wrong rootType");
-    STAssertEqualObjects(newComment.rootURI, self.comment.rootURI, @"Wrong rootURI");
-    STAssertEqualObjects(newComment.publishedCalendarDate, self.comment.publishedCalendarDate, @"Wrong publishedCalendarDate");
-    STAssertEqualObjects(newComment.publishedTime, self.comment.publishedTime, @"Wrong publishedTime");
+    XCTAssertEqualObjects(newComment.type, self.comment.type, @"Wrong type");
+    XCTAssertEqualObjects(newComment.externalID, self.comment.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects(newComment.rootExternalID, self.comment.rootExternalID, @"Wrong rootExternalID");
+    XCTAssertEqualObjects(newComment.rootType, self.comment.rootType, @"Wrong rootType");
+    XCTAssertEqualObjects(newComment.rootURI, self.comment.rootURI, @"Wrong rootURI");
+    XCTAssertEqualObjects(newComment.publishedCalendarDate, self.comment.publishedCalendarDate, @"Wrong publishedCalendarDate");
+    XCTAssertEqualObjects(newComment.publishedTime, self.comment.publishedTime, @"Wrong publishedTime");
 }
 
 @end

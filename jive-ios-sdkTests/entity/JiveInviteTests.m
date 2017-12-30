@@ -80,22 +80,22 @@
     
     JiveInvite *newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newInvite class] isSubclassOfClass:[self.invite class]], @"Wrong item class");
-    STAssertEqualObjects(newInvite.body, self.invite.body, @"Wrong body");
-    STAssertEqualObjects(newInvite.email, self.invite.email, @"Wrong email");
-    STAssertEqualObjects(newInvite.jiveId, self.invite.jiveId, @"Wrong id");
-    STAssertEqualObjects(newInvite.invitee.location, invitee.location, @"Wrong invitee");
-    STAssertEqualObjects(newInvite.inviter.location, inviter.location, @"Wrong inviter");
-    STAssertEqualObjects(newInvite.place.displayName, place.displayName, @"Wrong place");
-    STAssertEqualObjects(newInvite.published, self.invite.published, @"Wrong published");
-    STAssertEqualObjects(newInvite.revokeDate, self.invite.revokeDate, @"Wrong revokeDate");
-    STAssertEqualObjects(newInvite.revoker.location, revoker.location, @"Wrong revoker");
-    STAssertEqualObjects(newInvite.sentDate, self.invite.sentDate, @"Wrong sentDate");
-    STAssertEquals(newInvite.state, JiveInviteProcessing, @"Wrong state");
-    STAssertEqualObjects(newInvite.type, @"invite", @"Wrong type");
-    STAssertEqualObjects(newInvite.updated, self.invite.updated, @"Wrong updated");
-    STAssertEquals([newInvite.resources count], [self.invite.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newInvite.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertTrue([[newInvite class] isSubclassOfClass:[self.invite class]], @"Wrong item class");
+    XCTAssertEqualObjects(newInvite.body, self.invite.body, @"Wrong body");
+    XCTAssertEqualObjects(newInvite.email, self.invite.email, @"Wrong email");
+    XCTAssertEqualObjects(newInvite.jiveId, self.invite.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newInvite.invitee.location, invitee.location, @"Wrong invitee");
+    XCTAssertEqualObjects(newInvite.inviter.location, inviter.location, @"Wrong inviter");
+    XCTAssertEqualObjects(newInvite.place.displayName, place.displayName, @"Wrong place");
+    XCTAssertEqualObjects(newInvite.published, self.invite.published, @"Wrong published");
+    XCTAssertEqualObjects(newInvite.revokeDate, self.invite.revokeDate, @"Wrong revokeDate");
+    XCTAssertEqualObjects(newInvite.revoker.location, revoker.location, @"Wrong revoker");
+    XCTAssertEqualObjects(newInvite.sentDate, self.invite.sentDate, @"Wrong sentDate");
+    XCTAssertEqual(newInvite.state, JiveInviteProcessing, @"Wrong state");
+    XCTAssertEqualObjects(newInvite.type, @"invite", @"Wrong type");
+    XCTAssertEqualObjects(newInvite.updated, self.invite.updated, @"Wrong updated");
+    XCTAssertEqual([newInvite.resources count], [self.invite.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newInvite.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
 }
 
 - (void)testContentParsingAlternate {
@@ -146,22 +146,22 @@
     
     JiveInvite *newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newInvite class] isSubclassOfClass:[self.invite class]], @"Wrong item class");
-    STAssertEqualObjects(newInvite.body, self.invite.body, @"Wrong body");
-    STAssertEqualObjects(newInvite.email, self.invite.email, @"Wrong email");
-    STAssertEqualObjects(newInvite.jiveId, self.invite.jiveId, @"Wrong id");
-    STAssertEqualObjects(newInvite.invitee.location, invitee.location, @"Wrong invitee");
-    STAssertEqualObjects(newInvite.inviter.location, inviter.location, @"Wrong inviter");
-    STAssertEqualObjects(newInvite.place.displayName, place.displayName, @"Wrong place");
-    STAssertEqualObjects(newInvite.published, self.invite.published, @"Wrong published");
-    STAssertEqualObjects(newInvite.revokeDate, self.invite.revokeDate, @"Wrong revokeDate");
-    STAssertEqualObjects(newInvite.revoker.location, revoker.location, @"Wrong revoker");
-    STAssertEqualObjects(newInvite.sentDate, self.invite.sentDate, @"Wrong sentDate");
-    STAssertEquals(newInvite.state, JiveInviteFulfilled, @"Wrong state");
-    STAssertEqualObjects(newInvite.type, @"invite", @"Wrong type");
-    STAssertEqualObjects(newInvite.updated, self.invite.updated, @"Wrong updated");
-    STAssertEquals([newInvite.resources count], [self.invite.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newInvite.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertTrue([[newInvite class] isSubclassOfClass:[self.invite class]], @"Wrong item class");
+    XCTAssertEqualObjects(newInvite.body, self.invite.body, @"Wrong body");
+    XCTAssertEqualObjects(newInvite.email, self.invite.email, @"Wrong email");
+    XCTAssertEqualObjects(newInvite.jiveId, self.invite.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newInvite.invitee.location, invitee.location, @"Wrong invitee");
+    XCTAssertEqualObjects(newInvite.inviter.location, inviter.location, @"Wrong inviter");
+    XCTAssertEqualObjects(newInvite.place.displayName, place.displayName, @"Wrong place");
+    XCTAssertEqualObjects(newInvite.published, self.invite.published, @"Wrong published");
+    XCTAssertEqualObjects(newInvite.revokeDate, self.invite.revokeDate, @"Wrong revokeDate");
+    XCTAssertEqualObjects(newInvite.revoker.location, revoker.location, @"Wrong revoker");
+    XCTAssertEqualObjects(newInvite.sentDate, self.invite.sentDate, @"Wrong sentDate");
+    XCTAssertEqual(newInvite.state, JiveInviteFulfilled, @"Wrong state");
+    XCTAssertEqualObjects(newInvite.type, @"invite", @"Wrong type");
+    XCTAssertEqualObjects(newInvite.updated, self.invite.updated, @"Wrong updated");
+    XCTAssertEqual([newInvite.resources count], [self.invite.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newInvite.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
 }
 
 - (void)testContentParsingStateValues {
@@ -172,15 +172,15 @@
     
     JiveInvite *newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals(newInvite.state, JiveInviteDeleted, @"Wrong state");
+    XCTAssertEqual(newInvite.state, JiveInviteDeleted, @"Wrong state");
     
     [JSON setValue:@"revoked" forKey:@"state"];
     newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
-    STAssertEquals(newInvite.state, JiveInviteRevoked, @"Wrong state");
+    XCTAssertEqual(newInvite.state, JiveInviteRevoked, @"Wrong state");
     
     [JSON setValue:@"sent" forKey:@"state"];
     newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
-    STAssertEquals(newInvite.state, JiveInviteSent, @"Wrong state");
+    XCTAssertEqual(newInvite.state, JiveInviteSent, @"Wrong state");
 }
 
 - (void)testContentParsingStateInvalidValues {
@@ -191,15 +191,15 @@
     
     JiveInvite *newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals(newInvite.state, 0, @"Wrong state");
+    XCTAssertEqual(newInvite.state, 0, @"Wrong state");
     
     [JSON setValue:@"revoke" forKey:@"state"];
     newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
-    STAssertEquals(newInvite.state, 0, @"Wrong state");
+    XCTAssertEqual(newInvite.state, 0, @"Wrong state");
     
     [JSON setValue:@"sen" forKey:@"state"];
     newInvite = [JiveInvite objectFromJSON:JSON withInstance:self.instance];
-    STAssertEquals(newInvite.state, 0, @"Wrong state");
+    XCTAssertEqual(newInvite.state, 0, @"Wrong state");
 }
 
 @end

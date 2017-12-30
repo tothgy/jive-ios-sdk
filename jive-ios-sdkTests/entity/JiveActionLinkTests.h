@@ -17,8 +17,8 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface JiveActionLinkTests : SenTestCase
+@interface JiveActionLinkTests : XCTestCase
 
 @end

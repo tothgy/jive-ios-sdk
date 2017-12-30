@@ -37,7 +37,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"origin=unknown&filter=nameonly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"origin=unknown&filter=nameonly", asString, @"Wrong string contents");
 }
 
 - (void)testNameOnlyWithOtherFields {
@@ -47,11 +47,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&origin=unknown&filter=nameonly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&origin=unknown&filter=nameonly", asString, @"Wrong string contents");
     
     [self.peopleOptions addSearchTerm:@"mention"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&origin=unknown&filter=search(mention)&filter=nameonly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&origin=unknown&filter=search(mention)&filter=nameonly", asString, @"Wrong string contents");
 }
 
 @end

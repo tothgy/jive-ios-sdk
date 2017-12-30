@@ -41,12 +41,12 @@
 #pragma mark - tests
 
 - (void)testClassUnderTestIsSubclassOfAFHTTPRequestOperation {
-    STAssertTrue([[self classUnderTest] isSubclassOfClass:[AFHTTPRequestOperation class]], nil);
+    XCTAssertTrue([[self classUnderTest] isSubclassOfClass:[AFHTTPRequestOperation class]]);
 }
 
 - (void)testCanProcessRequestYESOnlyForExactJiveRetryingHTTPRequestOperationClass {
     NSURLRequest *URLRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://example.com"]];
-    STAssertTrue([JiveRetryingHTTPRequestOperation canProcessRequest:URLRequest], nil);
+    XCTAssertTrue([JiveRetryingHTTPRequestOperation canProcessRequest:URLRequest]);
 }
 
 - (void)testSuccessCallback {
@@ -75,8 +75,8 @@
     // in case it got tacked onto the end of the run loop somehow
     [self delay];
     
-    STAssertTrue(successCalled, nil);
-    STAssertFalse(failureCalled, nil);
+    XCTAssertTrue(successCalled);
+    XCTAssertFalse(failureCalled);
 }
 
 - (void)testFailureCallback {
@@ -105,11 +105,11 @@
     // in case it got tacked onto the end of the run loop somehow
     [self delay];
     
-    STAssertFalse(successCalled, nil);
-    STAssertTrue(failureCalled, nil);
+    XCTAssertFalse(successCalled);
+    XCTAssertTrue(failureCalled);
     
-    STAssertEqualObjects([testObject.error domain], [testError domain], nil);
-    STAssertEquals([testObject.error code], [testError code], nil);
+    XCTAssertEqualObjects([testObject.error domain], [testError domain]);
+    XCTAssertEqual([testObject.error code], [testError code]);
 }
 
 - (void)testFailureCallbackBecauseOfStatusCode {
@@ -140,11 +140,11 @@
     // in case it got tacked onto the end of the run loop somehow
     [self delay];
     
-    STAssertFalse(successCalled, nil);
-    STAssertTrue(failureCalled, nil);
+    XCTAssertFalse(successCalled);
+    XCTAssertTrue(failureCalled);
     
-    STAssertEqualObjects([testObject.error domain], AFNetworkingErrorDomain, nil);
-    STAssertEquals([testObject.error code], (NSInteger)NSURLErrorBadServerResponse, nil);
+    XCTAssertEqualObjects([testObject.error domain], AFNetworkingErrorDomain);
+    XCTAssertEqual([testObject.error code], (NSInteger)NSURLErrorBadServerResponse);
 }
 
 - (void)testInvalidRequestOperation {
@@ -156,13 +156,13 @@
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"We didn't get a real operation");
-        STAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"The operation must respond to JiveRetryingOperation");
+        XCTAssertNotNil(operation, @"We didn't get a real operation");
+        XCTAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"The operation must respond to JiveRetryingOperation");
         [operation start];
-        STAssertFalse(errorReporterCalled, @"Wait for it");
+        XCTAssertFalse(errorReporterCalled, @"Wait for it");
     });
     
-    STAssertTrue(errorReporterCalled, @"Do it now");
+    XCTAssertTrue(errorReporterCalled, @"Do it now");
 }
 
 @end

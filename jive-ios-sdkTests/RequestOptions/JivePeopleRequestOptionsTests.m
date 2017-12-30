@@ -36,13 +36,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=title(Head%20Honcho)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=title(Head%20Honcho)", asString, @"Wrong string contents");
     
     self.peopleOptions.title = @"grunt";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=title(grunt)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=title(grunt)", asString, @"Wrong string contents");
 }
 
 - (void)testTitleWithFields {
@@ -52,13 +52,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=title(Head%20Honcho)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=title(Head%20Honcho)", asString, @"Wrong string contents");
 
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=title(Head%20Honcho)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=title(Head%20Honcho)", asString, @"Wrong string contents");
 }
 
 - (void)testDepartment {
@@ -67,13 +67,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=department(Engineering)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=department(Engineering)", asString, @"Wrong string contents");
     
     self.peopleOptions.department = @"Human Resources";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=department(Human%20Resources)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=department(Human%20Resources)", asString, @"Wrong string contents");
 }
 
 - (void)testDepartmentWithFields {
@@ -83,18 +83,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=department(Engineering)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=department(Engineering)", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=department(Engineering)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=department(Engineering)", asString, @"Wrong string contents");
     
     self.peopleOptions.title = @"Head Honcho";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=title(Head%20Honcho)&filter=department(Engineering)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=title(Head%20Honcho)&filter=department(Engineering)", asString, @"Wrong string contents");
 }
 
 - (void)testLocation {
@@ -103,13 +103,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=location(Portland)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=location(Portland)", asString, @"Wrong string contents");
     
     self.peopleOptions.location = @"Boulder, CO";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=location(Boulder%2C%20CO)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=location(Boulder%2C%20CO)", asString, @"Wrong string contents");
 }
 
 - (void)testLocationWithFields {
@@ -119,18 +119,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=location(Portland)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=location(Portland)", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=location(Portland)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=location(Portland)", asString, @"Wrong string contents");
     
     self.peopleOptions.department = @"Engineering";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=department(Engineering)&filter=location(Portland)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=department(Engineering)&filter=location(Portland)", asString, @"Wrong string contents");
 }
 
 - (void)testCompany {
@@ -139,13 +139,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=company(Jive)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=company(Jive)", asString, @"Wrong string contents");
     
     self.peopleOptions.company = @"American Express";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=company(American%20Express)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=company(American%20Express)", asString, @"Wrong string contents");
 }
 
 - (void)testCompanyWithFields {
@@ -155,18 +155,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=company(Jive)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=company(Jive)", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=company(Jive)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=company(Jive)", asString, @"Wrong string contents");
     
     self.peopleOptions.location = @"Portland";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=location(Portland)&filter=company(Jive)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=location(Portland)&filter=company(Jive)", asString, @"Wrong string contents");
 }
 
 - (void)testOffice {
@@ -175,13 +175,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=office(PDX)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=office(PDX)", asString, @"Wrong string contents");
     
     self.peopleOptions.office = @"Jiverado$";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=office(Jiverado%24)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=office(Jiverado%24)", asString, @"Wrong string contents");
 }
 
 - (void)testOfficeWithFields {
@@ -191,18 +191,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=office(PDX)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=office(PDX)", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=office(PDX)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=office(PDX)", asString, @"Wrong string contents");
     
     self.peopleOptions.company = @"Jive";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=company(Jive)&filter=office(PDX)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=company(Jive)&filter=office(PDX)", asString, @"Wrong string contents");
 }
 
 - (void)testDateRange {
@@ -212,18 +212,18 @@
    
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
 
     [self.peopleOptions setHireDateBetween:[NSDate dateWithTimeIntervalSince1970:1001]
                                        and:[NSDate dateWithTimeIntervalSince1970:1000]];
     asString = [self.options toQueryString];
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
     
     [self.peopleOptions setHireDateBetween:nil
                                        and:[NSDate dateWithTimeIntervalSince1970:1000]];
     asString = [self.options toQueryString];
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
 }
 
 - (void)testDateRangeWithFields {
@@ -234,18 +234,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
     
     self.peopleOptions.office = @"PDX";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=office(PDX)&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&filter=office(PDX)&filter=hire-date(1970-01-01T00:00:00.000%2B0000,1970-01-01T00:16:40.000%2B0000)", asString, @"Wrong string contents");
 }
 
 - (void)testIDs {
@@ -254,13 +254,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"ids=1005", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"ids=1005", asString, @"Wrong string contents");
     
     [self.peopleOptions addID:@"54321"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"ids=1005,54321", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"ids=1005,54321", asString, @"Wrong string contents");
 }
 
 - (void)testIDsWithOtherOptions {
@@ -270,13 +270,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&ids=1005", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&ids=1005", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&ids=1005", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&ids=1005", asString, @"Wrong string contents");
 }
 
 - (void)testQuery {
@@ -285,13 +285,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"query=search%20term", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"query=search%20term", asString, @"Wrong string contents");
     
     self.peopleOptions.query = @"alternate search";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"query=alternate%20search", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"query=alternate%20search", asString, @"Wrong string contents");
 }
 
 - (void)testQueryWithFields {
@@ -301,18 +301,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&query=search%20term", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&query=search%20term", asString, @"Wrong string contents");
     
     [self.peopleOptions addTag:@"dm"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&query=search%20term", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&query=search%20term", asString, @"Wrong string contents");
     
     [self.peopleOptions addID:@"1005"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)&ids=1005&query=search%20term", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)&ids=1005&query=search%20term", asString, @"Wrong string contents");
 }
 
 @end

@@ -296,13 +296,13 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.person.type, @"person", @"Wrong type.");
+    XCTAssertEqualObjects(self.person.type, @"person", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [@{JiveTypedObjectAttributes.type:self.person.type} mutableCopy];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.person class], @"Person class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.person class], @"Person class not registered with JiveTypedObject.");
 }
 
 - (void)testToJSON {
@@ -317,9 +317,9 @@
     JiveResourceEntry *resource = [[JiveResourceEntry alloc] init];
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"person", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"person", @"Wrong type");
     
     personJive.username = @"Philip";
     address.value = @{@"postalCode": @"80215"};
@@ -348,52 +348,52 @@
     
     JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)10, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[@"id"], person.jiveId, @"Wrong id.");
-    STAssertEqualObjects(JSON[JivePersonAttributes.location], person.location, @"Wrong location");
-    STAssertEqualObjects(JSON[JivePersonAttributes.status], person.status, @"Wrong status update");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], person.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)10, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[@"id"], person.jiveId, @"Wrong id.");
+    XCTAssertEqualObjects(JSON[JivePersonAttributes.location], person.location, @"Wrong location");
+    XCTAssertEqualObjects(JSON[JivePersonAttributes.status], person.status, @"Wrong status update");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], person.type, @"Wrong type");
     
     NSDictionary *nameJSON = JSON[JivePersonAttributes.name];
     
-    STAssertTrue([[nameJSON class] isSubclassOfClass:[NSDictionary class]], @"Name not converted");
-    STAssertEquals([nameJSON count], (NSUInteger)1, @"Name dictionary had the wrong number of entries");
-    STAssertEqualObjects(nameJSON[@"familyName"], name.familyName, @"Wrong family name");
+    XCTAssertTrue([[nameJSON class] isSubclassOfClass:[NSDictionary class]], @"Name not converted");
+    XCTAssertEqual([nameJSON count], (NSUInteger)1, @"Name dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(nameJSON[@"familyName"], name.familyName, @"Wrong family name");
     
     NSArray *addressJSON = JSON[JivePersonAttributes.addresses];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[[addressJSON objectAtIndex:0] class] isSubclassOfClass:[NSDictionary class]], @"Address object not converted");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[[addressJSON objectAtIndex:0] class] isSubclassOfClass:[NSDictionary class]], @"Address object not converted");
     
     NSDictionary *jiveJSON = JSON[JivePersonAttributes.jive];
     
-    STAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([jiveJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(jiveJSON[JivePersonJiveAttributes.username], personJive.username, @"Wrong user name");
+    XCTAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([jiveJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(jiveJSON[JivePersonJiveAttributes.username], personJive.username, @"Wrong user name");
     
     NSArray *tagsJSON = JSON[JivePersonAttributes.tags];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Tag object not converted");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Tag object not converted");
     
     NSArray *emailsJSON = JSON[JivePersonAttributes.emails];
     NSDictionary *emailJSON = [emailsJSON objectAtIndex:0];
     
-    STAssertTrue([[emailsJSON class] isSubclassOfClass:[NSArray class]], @"Emails array not converted");
-    STAssertEquals([emailsJSON count], (NSUInteger)1, @"Wrong number of elements in the emails array");
-    STAssertTrue([[emailJSON class] isSubclassOfClass:[NSDictionary class]], @"Emails object not converted");
-    STAssertEqualObjects(emailJSON[@"value"], email.value, @"Wrong email");
+    XCTAssertTrue([[emailsJSON class] isSubclassOfClass:[NSArray class]], @"Emails array not converted");
+    XCTAssertEqual([emailsJSON count], (NSUInteger)1, @"Wrong number of elements in the emails array");
+    XCTAssertTrue([[emailJSON class] isSubclassOfClass:[NSDictionary class]], @"Emails object not converted");
+    XCTAssertEqualObjects(emailJSON[@"value"], email.value, @"Wrong email");
     
     NSArray *phoneNumbersJSON = JSON[JivePersonAttributes.phoneNumbers];
     NSDictionary *numberJSON = [phoneNumbersJSON objectAtIndex:0];
     
-    STAssertTrue([[phoneNumbersJSON class] isSubclassOfClass:[NSArray class]], @"Phone numbers array not converted");
-    STAssertEquals([phoneNumbersJSON count], (NSUInteger)1, @"Wrong number of elements in the phone numbers array");
-    STAssertTrue([[numberJSON class] isSubclassOfClass:[NSDictionary class]], @"Phone numbers object not converted");
-    STAssertEqualObjects(numberJSON[@"value"], phoneNumber.value, @"Wrong phone number");
+    XCTAssertTrue([[phoneNumbersJSON class] isSubclassOfClass:[NSArray class]], @"Phone numbers array not converted");
+    XCTAssertEqual([phoneNumbersJSON count], (NSUInteger)1, @"Wrong number of elements in the phone numbers array");
+    XCTAssertTrue([[numberJSON class] isSubclassOfClass:[NSDictionary class]], @"Phone numbers object not converted");
+    XCTAssertEqualObjects(numberJSON[@"value"], phoneNumber.value, @"Wrong phone number");
 }
 
 - (void)testToJSON_alternate {
@@ -412,29 +412,29 @@
     
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"person", @"Wrong type");
-    STAssertEqualObjects(JSON[JivePersonAttributes.location], person.location, @"Wrong location");
-    STAssertEqualObjects(JSON[JivePersonAttributes.status], person.status, @"Wrong status update");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"person", @"Wrong type");
+    XCTAssertEqualObjects(JSON[JivePersonAttributes.location], person.location, @"Wrong location");
+    XCTAssertEqualObjects(JSON[JivePersonAttributes.status], person.status, @"Wrong status update");
     
     NSDictionary *nameJSON = JSON[JivePersonAttributes.name];
     
-    STAssertTrue([[nameJSON class] isSubclassOfClass:[NSDictionary class]], @"Name not converted");
-    STAssertEquals([nameJSON count], (NSUInteger)1, @"Name dictionary had the wrong number of entries");
-    STAssertEqualObjects(nameJSON[@"familyName"], name.familyName, @"Wrong family name");
+    XCTAssertTrue([[nameJSON class] isSubclassOfClass:[NSDictionary class]], @"Name not converted");
+    XCTAssertEqual([nameJSON count], (NSUInteger)1, @"Name dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(nameJSON[@"familyName"], name.familyName, @"Wrong family name");
     
     NSDictionary *jiveJSON = JSON[JivePersonAttributes.jive];
     
-    STAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([jiveJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(jiveJSON[JivePersonJiveAttributes.username], personJive.username, @"Wrong user name");
+    XCTAssertTrue([[jiveJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([jiveJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(jiveJSON[JivePersonJiveAttributes.username], personJive.username, @"Wrong user name");
     
     NSArray *tagsJSON = JSON[JivePersonAttributes.tags];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Tag object not converted");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Tag object not converted");
 }
 
 - (void)testToJSON_address {
@@ -448,35 +448,35 @@
     
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     NSArray *addressJSON = JSON[JivePersonAttributes.addresses];
     NSDictionary *object1 = [addressJSON objectAtIndex:0];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Address object not converted");
-    STAssertEqualObjects(object1[@"value"], address1.value, @"Wrong address label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Address object not converted");
+    XCTAssertEqualObjects(object1[@"value"], address1.value, @"Wrong address label");
 
     [person setValue:[person.addresses arrayByAddingObject:address2] forKey:JivePersonAttributes.addresses];
     
     JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     addressJSON = JSON[JivePersonAttributes.addresses];
     object1 = [addressJSON objectAtIndex:0];
     
     NSDictionary *object2 = [addressJSON objectAtIndex:1];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Address 1 object not converted");
-    STAssertEqualObjects(object1[@"value"], address1.value, @"Wrong address 1 label");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Address 2 object not converted");
-    STAssertEqualObjects(object2[@"value"], address2.value, @"Wrong address 2 label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Address array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Address 1 object not converted");
+    XCTAssertEqualObjects(object1[@"value"], address1.value, @"Wrong address 1 label");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Address 2 object not converted");
+    XCTAssertEqualObjects(object2[@"value"], address2.value, @"Wrong address 2 label");
 }
 
 - (void)testToJSON_email {
@@ -490,35 +490,35 @@
     
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     NSArray *addressJSON = JSON[JivePersonAttributes.emails];
     NSDictionary *object1 = [addressJSON objectAtIndex:0];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Email array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the email array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Email object not converted");
-    STAssertEqualObjects(object1[@"value"], email1.value, @"Wrong email label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Email array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the email array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Email object not converted");
+    XCTAssertEqualObjects(object1[@"value"], email1.value, @"Wrong email label");
     
     [person setValue:[person.emails arrayByAddingObject:email2] forKey:JivePersonAttributes.emails];
     
     JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     addressJSON = JSON[JivePersonAttributes.emails];
     object1 = [addressJSON objectAtIndex:0];
     
     NSDictionary *object2 = [addressJSON objectAtIndex:1];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Email array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the email array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Email 1 object not converted");
-    STAssertEqualObjects(object1[@"value"], email1.value, @"Wrong email 1 label");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Email 2 object not converted");
-    STAssertEqualObjects(object2[@"value"], email2.value, @"Wrong email 2 label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Email array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the email array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Email 1 object not converted");
+    XCTAssertEqualObjects(object1[@"value"], email1.value, @"Wrong email 1 label");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Email 2 object not converted");
+    XCTAssertEqualObjects(object2[@"value"], email2.value, @"Wrong email 2 label");
 }
 
 - (void)testToJSON_phoneNumbers {
@@ -532,35 +532,35 @@
     
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     NSArray *addressJSON = JSON[JivePersonAttributes.phoneNumbers];
     NSDictionary *object1 = [addressJSON objectAtIndex:0];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Phone number array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the phone number array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Phone number object not converted");
-    STAssertEqualObjects(object1[@"value"], phoneNumber1.value, @"Wrong phone number label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Phone number array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the phone number array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Phone number object not converted");
+    XCTAssertEqualObjects(object1[@"value"], phoneNumber1.value, @"Wrong phone number label");
     
     [person setValue:[person.phoneNumbers arrayByAddingObject:phoneNumber2] forKey:JivePersonAttributes.phoneNumbers];
     
     JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     addressJSON = JSON[JivePersonAttributes.phoneNumbers];
     object1 = [addressJSON objectAtIndex:0];
     
     NSDictionary *object2 = [addressJSON objectAtIndex:1];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Phone number array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the phone number array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Phone number 1 object not converted");
-    STAssertEqualObjects(object1[@"value"], phoneNumber1.value, @"Wrong phone number 1 label");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Phone number 2 object not converted");
-    STAssertEqualObjects(object2[@"value"], phoneNumber2.value, @"Wrong phone number 2 label");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Phone number array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the phone number array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"Phone number 1 object not converted");
+    XCTAssertEqualObjects(object1[@"value"], phoneNumber1.value, @"Wrong phone number 1 label");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"Phone number 2 object not converted");
+    XCTAssertEqualObjects(object2[@"value"], phoneNumber2.value, @"Wrong phone number 2 label");
 }
 
 - (void)testToJSON_tags {
@@ -572,27 +572,27 @@
     
     NSDictionary *JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     NSArray *addressJSON = JSON[JivePersonAttributes.tags];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
-    STAssertEqualObjects([addressJSON objectAtIndex:0], tag1, @"Wrong tag value");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the tags array");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:0], tag1, @"Wrong tag value");
     
     [person setValue:[person.tags arrayByAddingObject:tag2] forKey:JivePersonAttributes.tags];
     
     JSON = [person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
     
     addressJSON = JSON[JivePersonAttributes.tags];
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the tags array");
-    STAssertEqualObjects([addressJSON objectAtIndex:0], tag1, @"Wrong tag 1 value");
-    STAssertEqualObjects([addressJSON objectAtIndex:1], tag2, @"Wrong tag 2 value");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"Tags array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the tags array");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:0], tag1, @"Wrong tag 1 value");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:1], tag2, @"Wrong tag 2 value");
 }
 
 - (void)testPersonParsing {
@@ -637,53 +637,53 @@
     NSDictionary *JSON = [basePerson persistentJSON];
     JivePerson *newPerson = [JivePerson objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newPerson class], [JivePerson class], @"Wrong item class");
-    STAssertEqualObjects(newPerson.displayName, basePerson.displayName, @"Wrong display name");
-    STAssertEqualObjects(newPerson.followerCount, basePerson.followerCount, @"Wrong follower count");
-    STAssertEqualObjects(newPerson.followingCount, basePerson.followingCount, @"Wrong following count");
-    STAssertEqualObjects(newPerson.jiveId, basePerson.jiveId, @"Wrong id");
-    STAssertEqualObjects(newPerson.jive.username, basePerson.jive.username, @"Wrong Jive Person");
-    STAssertEqualObjects(newPerson.location, basePerson.location, @"Wrong location");
-    STAssertEqualObjects(newPerson.name.familyName, basePerson.name.familyName, @"Wrong name");
-    STAssertEqualObjects(newPerson.published, basePerson.published, @"Wrong published date");
-    STAssertEqualObjects(newPerson.status, basePerson.status, @"Wrong status");
-    STAssertEqualObjects(newPerson.thumbnailId, basePerson.thumbnailId, nil);
-    STAssertEqualObjects(newPerson.thumbnailUrl, basePerson.thumbnailUrl, @"Wrong thumbnailUrl");
-    STAssertEqualObjects(newPerson.type, @"person", @"Wrong type");
-    STAssertEqualObjects(newPerson.updated, basePerson.updated, @"Wrong updated date");
-    STAssertEquals([newPerson.addresses count], [basePerson.addresses count], @"Wrong number of address objects");
+    XCTAssertEqual([newPerson class], [JivePerson class], @"Wrong item class");
+    XCTAssertEqualObjects(newPerson.displayName, basePerson.displayName, @"Wrong display name");
+    XCTAssertEqualObjects(newPerson.followerCount, basePerson.followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(newPerson.followingCount, basePerson.followingCount, @"Wrong following count");
+    XCTAssertEqualObjects(newPerson.jiveId, basePerson.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newPerson.jive.username, basePerson.jive.username, @"Wrong Jive Person");
+    XCTAssertEqualObjects(newPerson.location, basePerson.location, @"Wrong location");
+    XCTAssertEqualObjects(newPerson.name.familyName, basePerson.name.familyName, @"Wrong name");
+    XCTAssertEqualObjects(newPerson.published, basePerson.published, @"Wrong published date");
+    XCTAssertEqualObjects(newPerson.status, basePerson.status, @"Wrong status");
+    XCTAssertEqualObjects(newPerson.thumbnailId, basePerson.thumbnailId);
+    XCTAssertEqualObjects(newPerson.thumbnailUrl, basePerson.thumbnailUrl, @"Wrong thumbnailUrl");
+    XCTAssertEqualObjects(newPerson.type, @"person", @"Wrong type");
+    XCTAssertEqualObjects(newPerson.updated, basePerson.updated, @"Wrong updated date");
+    XCTAssertEqual([newPerson.addresses count], [basePerson.addresses count], @"Wrong number of address objects");
     if ([newPerson.addresses count] > 0) {
         id convertedAddress = [newPerson.addresses objectAtIndex:0];
-        STAssertEquals([convertedAddress class], [JiveAddress class], @"Wrong address object class");
+        XCTAssertEqual([convertedAddress class], [JiveAddress class], @"Wrong address object class");
         if ([[convertedAddress class] isSubclassOfClass:[JiveAddress class]])
-            STAssertEqualObjects([(JiveAddress *)convertedAddress value],
+            XCTAssertEqualObjects([(JiveAddress *)convertedAddress value],
                                  [(JiveAddress *)[basePerson.addresses objectAtIndex:0] value],
                                  @"Wrong Address object");
     }
-    STAssertEquals([newPerson.emails count], [basePerson.emails count], @"Wrong number of email objects");
+    XCTAssertEqual([newPerson.emails count], [basePerson.emails count], @"Wrong number of email objects");
     if ([newPerson.emails count] > 0) {
         id convertedEmail = [newPerson.emails objectAtIndex:0];
-        STAssertEquals([convertedEmail class], [JiveEmail class], @"Wrong email object class");
+        XCTAssertEqual([convertedEmail class], [JiveEmail class], @"Wrong email object class");
         if ([[convertedEmail class] isSubclassOfClass:[JiveEmail class]])
-            STAssertEqualObjects([(JiveEmail *)convertedEmail value],
+            XCTAssertEqualObjects([(JiveEmail *)convertedEmail value],
                                  [(JiveEmail *)[basePerson.emails objectAtIndex:0] value],
                                  @"Wrong email object");
     }
-    STAssertEquals([newPerson.phoneNumbers count], [basePerson.phoneNumbers count], @"Wrong number of phone number objects");
+    XCTAssertEqual([newPerson.phoneNumbers count], [basePerson.phoneNumbers count], @"Wrong number of phone number objects");
     if ([newPerson.phoneNumbers count] > 0) {
         id convertedPhoneNumber = [newPerson.phoneNumbers objectAtIndex:0];
-        STAssertEquals([convertedPhoneNumber class], [JivePhoneNumber class], @"Wrong phone number object class");
+        XCTAssertEqual([convertedPhoneNumber class], [JivePhoneNumber class], @"Wrong phone number object class");
         if ([[convertedPhoneNumber class] isSubclassOfClass:[JivePhoneNumber class]])
-            STAssertEqualObjects([(JivePhoneNumber *)convertedPhoneNumber value],
+            XCTAssertEqualObjects([(JivePhoneNumber *)convertedPhoneNumber value],
                                  [(JivePhoneNumber *)[basePerson.phoneNumbers objectAtIndex:0] value],
                                  @"Wrong phone number object");
     }
 //    STAssertEquals([newPerson.photos count], [basePerson.photos count], @"Wrong number of photo objects");
 //    STAssertEqualObjects([newPerson.photos objectAtIndex:0], [basePerson.photos objectAtIndex:0], @"Wrong photo object class");
-    STAssertEquals([newPerson.tags count], [basePerson.tags count], @"Wrong number of tag objects");
-    STAssertEqualObjects([newPerson.tags objectAtIndex:0], [basePerson.tags objectAtIndex:0], @"Wrong tag object class");
-    STAssertEquals([newPerson.resources count], [basePerson.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)newPerson.resources[resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertEqual([newPerson.tags count], [basePerson.tags count], @"Wrong number of tag objects");
+    XCTAssertEqualObjects([newPerson.tags objectAtIndex:0], [basePerson.tags objectAtIndex:0], @"Wrong tag object class");
+    XCTAssertEqual([newPerson.resources count], [basePerson.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)newPerson.resources[resourceKey] ref], resource.ref, @"Wrong resource object");
 }
 
 - (void)testPersonParsingAlternate {
@@ -734,59 +734,59 @@
     NSDictionary *JSON = [basePerson persistentJSON];
     JivePerson *newPerson = [JivePerson objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newPerson class], [JivePerson class], @"Wrong item class");
-    STAssertEqualObjects(newPerson.displayName, basePerson.displayName, @"Wrong display name");
-    STAssertEqualObjects(newPerson.followerCount, basePerson.followerCount, @"Wrong follower count");
-    STAssertEqualObjects(newPerson.followingCount, basePerson.followingCount, @"Wrong following count");
-    STAssertEqualObjects(newPerson.jiveId, basePerson.jiveId, @"Wrong id");
-    STAssertEqualObjects(newPerson.jive.username, basePerson.jive.username, @"Wrong Jive Person");
-    STAssertEqualObjects(newPerson.location, basePerson.location, @"Wrong location");
-    STAssertEqualObjects(newPerson.name.familyName, basePerson.name.familyName, @"Wrong name");
-    STAssertEqualObjects(newPerson.published, basePerson.published, @"Wrong published date");
-    STAssertEqualObjects(newPerson.status, basePerson.status, @"Wrong status");
-    STAssertEqualObjects(newPerson.thumbnailId, basePerson.thumbnailId, nil);
-    STAssertEqualObjects(newPerson.thumbnailUrl, basePerson.thumbnailUrl, @"Wrong thumbnailUrl");
-    STAssertEqualObjects(newPerson.type, @"person", @"Wrong type");
-    STAssertEqualObjects(newPerson.updated, basePerson.updated, @"Wrong updated date");
-    STAssertEquals([newPerson.addresses count], [basePerson.addresses count], @"Wrong number of address objects");
+    XCTAssertEqual([newPerson class], [JivePerson class], @"Wrong item class");
+    XCTAssertEqualObjects(newPerson.displayName, basePerson.displayName, @"Wrong display name");
+    XCTAssertEqualObjects(newPerson.followerCount, basePerson.followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(newPerson.followingCount, basePerson.followingCount, @"Wrong following count");
+    XCTAssertEqualObjects(newPerson.jiveId, basePerson.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newPerson.jive.username, basePerson.jive.username, @"Wrong Jive Person");
+    XCTAssertEqualObjects(newPerson.location, basePerson.location, @"Wrong location");
+    XCTAssertEqualObjects(newPerson.name.familyName, basePerson.name.familyName, @"Wrong name");
+    XCTAssertEqualObjects(newPerson.published, basePerson.published, @"Wrong published date");
+    XCTAssertEqualObjects(newPerson.status, basePerson.status, @"Wrong status");
+    XCTAssertEqualObjects(newPerson.thumbnailId, basePerson.thumbnailId);
+    XCTAssertEqualObjects(newPerson.thumbnailUrl, basePerson.thumbnailUrl, @"Wrong thumbnailUrl");
+    XCTAssertEqualObjects(newPerson.type, @"person", @"Wrong type");
+    XCTAssertEqualObjects(newPerson.updated, basePerson.updated, @"Wrong updated date");
+    XCTAssertEqual([newPerson.addresses count], [basePerson.addresses count], @"Wrong number of address objects");
     if ([newPerson.addresses count] > 0) {
         id convertedAddress = [newPerson.addresses objectAtIndex:0];
-        STAssertEquals([convertedAddress class], [JiveAddress class], @"Wrong address object class");
+        XCTAssertEqual([convertedAddress class], [JiveAddress class], @"Wrong address object class");
         if ([[convertedAddress class] isSubclassOfClass:[JiveAddress class]])
-            STAssertEqualObjects([(JiveAddress *)convertedAddress value],
+            XCTAssertEqualObjects([(JiveAddress *)convertedAddress value],
                                  [(JiveAddress *)[basePerson.addresses objectAtIndex:0] value],
                                  @"Wrong Address object");
     }
-    STAssertEquals([newPerson.emails count], [basePerson.emails count], @"Wrong number of email objects");
+    XCTAssertEqual([newPerson.emails count], [basePerson.emails count], @"Wrong number of email objects");
     if ([newPerson.emails count] > 0) {
         id convertedEmail = [newPerson.emails objectAtIndex:0];
-        STAssertEquals([convertedEmail class], [JiveEmail class], @"Wrong email object class");
+        XCTAssertEqual([convertedEmail class], [JiveEmail class], @"Wrong email object class");
         if ([[convertedEmail class] isSubclassOfClass:[JiveEmail class]])
-            STAssertEqualObjects([(JiveEmail *)convertedEmail value],
+            XCTAssertEqualObjects([(JiveEmail *)convertedEmail value],
                                  [(JiveEmail *)[basePerson.emails objectAtIndex:0] value],
                                  @"Wrong email object");
     }
-    STAssertEquals([newPerson.phoneNumbers count], [basePerson.phoneNumbers count], @"Wrong number of phone number objects");
+    XCTAssertEqual([newPerson.phoneNumbers count], [basePerson.phoneNumbers count], @"Wrong number of phone number objects");
     if ([newPerson.phoneNumbers count] > 0) {
         id convertedPhoneNumber = [newPerson.phoneNumbers objectAtIndex:0];
-        STAssertEquals([convertedPhoneNumber class], [JivePhoneNumber class], @"Wrong phone number object class");
+        XCTAssertEqual([convertedPhoneNumber class], [JivePhoneNumber class], @"Wrong phone number object class");
         if ([[convertedPhoneNumber class] isSubclassOfClass:[JivePhoneNumber class]])
-            STAssertEqualObjects([(JivePhoneNumber *)convertedPhoneNumber value],
+            XCTAssertEqualObjects([(JivePhoneNumber *)convertedPhoneNumber value],
                                  [(JivePhoneNumber *)[basePerson.phoneNumbers objectAtIndex:0] value],
                                  @"Wrong phone number object");
     }
 //    STAssertEquals([person.photos count], [basePerson.photos count], @"Wrong number of photo objects");
 //    STAssertEqualObjects([person.photos objectAtIndex:0], [basePerson.photos objectAtIndex:0], @"Wrong photo object class");
-    STAssertEquals([newPerson.tags count], [basePerson.tags count], @"Wrong number of tag objects");
-    STAssertEqualObjects([newPerson.tags objectAtIndex:0], [basePerson.tags objectAtIndex:0], @"Wrong tag object class");
-    STAssertEquals([newPerson.resources count], [basePerson.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)newPerson.resources[resourceKey] ref], resource.ref, @"Wrong resource object");
-    STAssertEquals([newPerson.jive.profile count], (NSUInteger)1, @"Wrong number of profile objects");
+    XCTAssertEqual([newPerson.tags count], [basePerson.tags count], @"Wrong number of tag objects");
+    XCTAssertEqualObjects([newPerson.tags objectAtIndex:0], [basePerson.tags objectAtIndex:0], @"Wrong tag object class");
+    XCTAssertEqual([newPerson.resources count], [basePerson.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)newPerson.resources[resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertEqual([newPerson.jive.profile count], (NSUInteger)1, @"Wrong number of profile objects");
     if ([newPerson.jive.profile count] > 0) {
         JiveProfileEntry *convertedProfile = [newPerson.jive.profile objectAtIndex:0];
-        STAssertEquals([convertedProfile class], [JiveProfileEntry class], @"Wrong profile object class");
+        XCTAssertEqual([convertedProfile class], [JiveProfileEntry class], @"Wrong profile object class");
         if ([[convertedProfile class] isSubclassOfClass:[JiveProfileEntry class]])
-            STAssertEqualObjects(convertedProfile.jive_label, profileValue, @"Wrong profile object");
+            XCTAssertEqualObjects(convertedProfile.jive_label, profileValue, @"Wrong profile object");
     }
 }
 
@@ -798,8 +798,8 @@
     [self checkObjectOperation:^NSOperation *(JiveObjectCompleteBlock completionBlock, JiveErrorBlock errorBlock) {
         return [self.person refreshOperationWithOptions:options
                                              onComplete:^(JivePerson *person) {
-                                                 STAssertEquals(person, self.person, @"Person object not updated");
-                                                 STAssertEqualObjects(self.person.jiveId, @"5316", @"Wrong jiveId");
+                                                 XCTAssertEqual(person, self.person, @"Person object not updated");
+                                                 XCTAssertEqualObjects(self.person.jiveId, @"5316", @"Wrong jiveId");
                                                  completionBlock(person);
                                              }
                                                 onError:errorBlock];
@@ -807,7 +807,7 @@
                   withResponse:@"person_response"
                          setup:^{
                              [self loadPerson:self.person fromJSONNamed:@"alt_person_response"];
-                             STAssertEqualObjects(self.person.jiveId, @"3550", @"PRECONDITION: Wrong jiveId");
+                             XCTAssertEqualObjects(self.person.jiveId, @"3550", @"PRECONDITION: Wrong jiveId");
                          }
                            URL:@"https://testing.jiveland.com/api/core/v3/people/3550?fields=id"
                  expectedClass:[JivePerson class]];
@@ -822,19 +822,19 @@
     [self createJiveAPIObjectWithResponse:@"alt_person_response"
                   andAuthDelegateURLCheck:@"https://testing.jiveland.com/api/core/v3/people/5316?fields=name,id"];
     
-    STAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
+    XCTAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person refreshWithOptions:options
                              onComplete:^(JivePerson *person) {
-                                 STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-                                 STAssertEqualObjects(self.person.jiveId, @"3550", @"Wrong jiveId");
+                                 XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+                                 XCTAssertEqualObjects(self.person.jiveId, @"3550", @"Wrong jiveId");
                                  
                                  // Check that delegates where actually called
                                  [mockAuthDelegate verify];
                                  [mockJiveURLResponseDelegate verify];
                                  finishedBlock();
                              } onError:^(NSError *error) {
-                                 STFail([error localizedDescription]);
+                                 XCTFail(@"%@", [error localizedDescription]);
                                  finishedBlock();
                              }];
     });
@@ -849,15 +849,15 @@
     [self createJiveAPIObjectWithResponse:@"task"
                   andAuthDelegateURLCheck:@"https://testing.jiveland.com/api/core/v3/people/5316?fields=name,id"];
     
-    STAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
+    XCTAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person refreshWithOptions:options
                              onComplete:^(JivePerson *person) {
-                                 STFail(@"The person object should not be updated with a task response");
+                                 XCTFail(@"The person object should not be updated with a task response");
                                  finishedBlock();
                              } onError:^(NSError *error) {
-                                 STAssertEqualObjects([error domain], JiveErrorDomain, nil);
-                                 STAssertEquals([error code], JiveErrorCodeInvalidJSON, nil);
+                                 XCTAssertEqualObjects([error domain], JiveErrorDomain);
+                                 XCTAssertEqual([error code], JiveErrorCodeInvalidJSON);
                                  finishedBlock();
                              }];
     });
@@ -876,11 +876,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
+        XCTAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
         [operation start];
     });
 }
@@ -898,7 +898,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -909,24 +909,24 @@
         NSDictionary *JSON = [self.person toJSONDictionary];
         NSData *body = [NSJSONSerialization dataWithJSONObject:JSON options:0 error:nil];
         AFURLConnectionOperation *operation = [self.person updateOperationOnComplete:^(JivePerson *person) {
-            STAssertEquals(person, self.person, @"Person object not updated");
-            STAssertEqualObjects(self.person.jiveId, @"5316", @"Wrong jiveId");
-            STAssertEqualObjects(self.person.location, @"home on the range", @"New object not created");
+            XCTAssertEqual(person, self.person, @"Person object not updated");
+            XCTAssertEqualObjects(self.person.jiveId, @"5316", @"Wrong jiveId");
+            XCTAssertEqualObjects(self.person.location, @"home on the range", @"New object not created");
             completionBlock(person);
         }
                                                                              onError:errorBlock];
 
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"person_response"
                          setup:^{
                              [self loadPerson:self.person fromJSONNamed:@"alt_person_response"];
                              self.person.location = @"alternate";
-                             STAssertEqualObjects(self.person.jiveId, @"3550", @"PRECONDITION: Wrong jiveId");
+                             XCTAssertEqualObjects(self.person.jiveId, @"3550", @"PRECONDITION: Wrong jiveId");
                          }
                            URL:@"https://testing.jiveland.com/api/core/v3/people/3550"
                  expectedClass:[JivePerson class]];
@@ -940,16 +940,16 @@
     
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person updateOnComplete:^(JivePerson *person) {
-            STAssertEquals(person, self.person, @"Person object not updated");
-            STAssertEqualObjects(self.person.jiveId, @"3550", @"Wrong jiveId");
-            STAssertEqualObjects(person.location, @"Portland", @"New object not created");
+            XCTAssertEqual(person, self.person, @"Person object not updated");
+            XCTAssertEqualObjects(self.person.jiveId, @"3550", @"Wrong jiveId");
+            XCTAssertEqualObjects(person.location, @"Portland", @"New object not created");
 
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -983,14 +983,14 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person blogWithOptions:options
                           onComplete:^(JiveBlog *blog) {
-                              STAssertEquals([blog class], [JiveBlog class], @"Wrong item class");
+                              XCTAssertEqual([blog class], [JiveBlog class], @"Wrong item class");
                               
                               // Check that delegates where actually called
                               [mockAuthDelegate verify];
                               [mockJiveURLResponseDelegate verify];
                               finishedBlock();
                           } onError:^(NSError *error) {
-                              STFail([error localizedDescription]);
+                              XCTFail(@"%@", [error localizedDescription]);
                               finishedBlock();
                           }];
     });
@@ -1004,9 +1004,9 @@
     [self checkObjectOperation:^NSOperation *(JiveObjectCompleteBlock completionBlock, JiveErrorBlock errorBlock) {
         return [self.person managerOperationWithOptions:options
                                              onComplete:^(JivePerson *person) {
-                                                 STAssertFalse(person == self.person, @"Failed to create a new JivePerson object");
-                                                 STAssertFalse(person.jiveId == self.person.jiveId, @"Failed to create the correct JiveObject");
-                                                 STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                                 XCTAssertFalse(person == self.person, @"Failed to create a new JivePerson object");
+                                                 XCTAssertFalse(person.jiveId == self.person.jiveId, @"Failed to create the correct JiveObject");
+                                                 XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                                  completionBlock(person);
                                              }
                                                 onError:errorBlock];
@@ -1028,17 +1028,17 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person managerWithOptions:options
                              onComplete:^(JivePerson *person) {
-                                 STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-                                 STAssertFalse(person == self.person, @"Failed to create a new JivePerson object");
-                                 STAssertFalse(person.jiveId == self.person.jiveId, @"Failed to create the correct JiveObject");
-                                 STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                 XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+                                 XCTAssertFalse(person == self.person, @"Failed to create a new JivePerson object");
+                                 XCTAssertFalse(person.jiveId == self.person.jiveId, @"Failed to create the correct JiveObject");
+                                 XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                  
                                  // Check that delegates where actually called
                                  [mockAuthDelegate verify];
                                  [mockJiveURLResponseDelegate verify];
                                  finishedBlock();
                              } onError:^(NSError *error) {
-                                 STFail([error localizedDescription]);
+                                 XCTFail(@"%@", [error localizedDescription]);
                                  finishedBlock();
                              }];
     });
@@ -1069,11 +1069,11 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person colleguesWithOptions:options
                                onComplete:^(NSArray *people) {
-                                   STAssertEquals([people count], (NSUInteger)9, @"Wrong number of items parsed");
-                                   STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+                                   XCTAssertEqual([people count], (NSUInteger)9, @"Wrong number of items parsed");
+                                   XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
                                    for (JivePerson *person in people) {
-                                       STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                                       STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                       XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                                       XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                    }
                                    
                                    // Check that delegates where actually called
@@ -1081,7 +1081,7 @@
                                    [mockJiveURLResponseDelegate verify];
                                    finishedBlock();
                                } onError:^(NSError *error) {
-                                   STFail([error localizedDescription]);
+                                   XCTFail(@"%@", [error localizedDescription]);
                                    finishedBlock();
                                }];
     });
@@ -1113,11 +1113,11 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person reportsWithOptions:options
                              onComplete:^(NSArray *people) {
-                                 STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-                                 STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+                                 XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+                                 XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
                                  for (JivePerson *person in people) {
-                                     STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                                     STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                     XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                                     XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                  }
                                  
                                  // Check that delegates where actually called
@@ -1125,7 +1125,7 @@
                                  [mockJiveURLResponseDelegate verify];
                                  finishedBlock();
                              } onError:^(NSError *error) {
-                                 STFail([error localizedDescription]);
+                                 XCTFail(@"%@", [error localizedDescription]);
                                  finishedBlock();
                              }];
     });
@@ -1159,11 +1159,11 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person followersWithOptions:options
                                onComplete:^(NSArray *people) {
-                                   STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-                                   STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+                                   XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+                                   XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
                                    for (JivePerson *person in people) {
-                                       STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                                       STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                       XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                                       XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                    }
                                    
                                    // Check that delegates where actually called
@@ -1171,7 +1171,7 @@
                                    [mockJiveURLResponseDelegate verify];
                                    finishedBlock();
                                } onError:^(NSError *error) {
-                                   STFail([error localizedDescription]);
+                                   XCTFail(@"%@", [error localizedDescription]);
                                    finishedBlock();
                                }];
     });
@@ -1192,11 +1192,11 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person followersWithOptions:options
                                onComplete:^(NSArray *people) {
-                                   STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-                                   STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+                                   XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+                                   XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
                                    for (JivePerson *person in people) {
-                                       STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                                       STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                       XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                                       XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                    }
                                    
                                    // Check that delegates where actually called
@@ -1204,7 +1204,7 @@
                                    [mockJiveURLResponseDelegate verify];
                                    finishedBlock();
                                } onError:^(NSError *error) {
-                                   STFail([error localizedDescription]);
+                                   XCTFail(@"%@", [error localizedDescription]);
                                    finishedBlock();
                                }];
     });
@@ -1236,11 +1236,11 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person followingWithOptions:options
                                onComplete:^(NSArray *people) {
-                                   STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-                                   STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+                                   XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+                                   XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
                                    for (JivePerson *person in people) {
-                                       STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                                       STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                                       XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                                       XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
                                    }
                                    
                                    // Check that delegates where actually called
@@ -1248,7 +1248,7 @@
                                    [mockJiveURLResponseDelegate verify];
                                    finishedBlock();
                                } onError:^(NSError *error) {
-                                   STFail([error localizedDescription]);
+                                   XCTFail(@"%@", [error localizedDescription]);
                                    finishedBlock();
                                }];
     });
@@ -1263,9 +1263,9 @@
              expectedClass:(Class)clazz {
     
     JiveArrayCompleteBlock completeBlock = ^(NSArray *collection) {
-        STAssertEquals([collection count], expectedCount, @"Wrong number of items parsed");
+        XCTAssertEqual([collection count], expectedCount, @"Wrong number of items parsed");
         for (id collectionObject in collection) {
-            STAssertTrue([collectionObject isKindOfClass:clazz], @"Item %@ is not of class %@",
+            XCTAssertTrue([collectionObject isKindOfClass:clazz], @"Item %@ is not of class %@",
                          collectionObject, clazz);
         }
         
@@ -1282,11 +1282,11 @@
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing operation object");
+        XCTAssertNotNil(operation, @"Missing operation object");
         [operation start];
     });
     
@@ -1295,18 +1295,18 @@
         setupBlock();
         self.person.jiveInstance.badInstanceURL = @"testing.jiveland.com";
         NSOperation* operation = createOperation(^(NSArray *streams) {
-            STAssertNil(self.person.jiveInstance.badInstanceURL,
+            XCTAssertNil(self.person.jiveInstance.badInstanceURL,
                         @"badInstanceURL was not cleared: %@",
                         self.person.jiveInstance.badInstanceURL);
             completeBlock(streams);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing clear bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing clear bad instance check operation object");
         [operation start];
     });
     
@@ -1315,11 +1315,11 @@
         [self createJiveAPIObjectWithErrorCode:error_code andAuthDelegateURLCheck:url];
         setupBlock();
         NSOperation *operation = createOperation(^(NSArray *streams) {
-            STFail(@"404 errors should be reported");
+            XCTFail(@"404 errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     error_code,
                                                                     @"Wrong error reported");
                                                      [mockAuthDelegate verify];
@@ -1327,7 +1327,7 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
@@ -1335,14 +1335,14 @@
         [self createJiveAPIObjectWithTermsAndConditionsFailureAndAuthDelegateURLCheck:url];
         setupBlock();
         NSOperation *operation = createOperation(^(NSArray *streams) {
-            STFail(@"Terms and Conditions errors should be reported");
+            XCTFail(@"Terms and Conditions errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     (NSInteger)0,
                                                                     @"Wrong error reported");
-                                                     STAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
+                                                     XCTAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
                                                                           @"/api/core/v3/people/@me/termsAndConditions",
                                                                           @"Wrong terms and conditions api");
                                                      [mockAuthDelegate verify];
@@ -1350,7 +1350,7 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
 
@@ -1368,16 +1368,16 @@
         setupBlock();
         self.person.jiveInstance.badInstanceURL = nil;
         NSOperation* operation = createOperation(^(NSArray *streams) {
-            STAssertNotNil(self.person.jiveInstance.badInstanceURL, @"badInstanceURL not updated.");
+            XCTAssertNotNil(self.person.jiveInstance.badInstanceURL, @"badInstanceURL not updated.");
             completeBlock(streams);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing bad instance check operation object");
         [operation start];
     });
 }
@@ -1405,8 +1405,8 @@
     [self checkListOperation:^NSOperation *(JiveArrayCompleteBlock completionBlock, JiveErrorBlock errorBlock) {
         return createOperation(^(NSArray *people) {
             for (JivePerson *person in people) {
-                STAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
-                STAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
+                XCTAssertFalse(person.jiveId == self.person.jiveId, @"Duplicate person found: %@", person);
+                XCTAssertEqualObjects(person.jiveInstance, self.person.jiveInstance, @"New person is missing the jiveInstance");
             }
             completionBlock(people);
         }, errorBlock);
@@ -1438,7 +1438,7 @@
                expectedClass:(Class)clazz {
     
     JiveObjectCompleteBlock completeBlock = ^(id object) {
-        STAssertEquals([object class], clazz, @"Wrong item class");
+        XCTAssertEqual([object class], clazz, @"Wrong item class");
         
         // Check that delegates where actually called
         [mockAuthDelegate verify];
@@ -1453,11 +1453,11 @@
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing operation object");
+        XCTAssertNotNil(operation, @"Missing operation object");
         [operation start];
     });
     
@@ -1466,18 +1466,18 @@
         setupBlock();
         self.person.jiveInstance.badInstanceURL = @"brewspace";
         NSOperation* operation = createOperation(^(id object) {
-            STAssertNil(self.person.jiveInstance.badInstanceURL,
+            XCTAssertNil(self.person.jiveInstance.badInstanceURL,
                         @"badInstanceURL was not cleared: %@",
                         self.person.jiveInstance.badInstanceURL);
             completeBlock(object);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing clear bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing clear bad instance check operation object");
         [operation start];
     });
     
@@ -1486,11 +1486,11 @@
         [self createJiveAPIObjectWithErrorCode:error_code andAuthDelegateURLCheck:url];
         setupBlock();
         NSOperation *operation = createOperation(^(id object) {
-            STFail(@"404 errors should be reported");
+            XCTFail(@"404 errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     error_code,
                                                                     @"Wrong error reported");
                                                      [mockAuthDelegate verify];
@@ -1498,7 +1498,7 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
@@ -1506,14 +1506,14 @@
         [self createJiveAPIObjectWithTermsAndConditionsFailureAndAuthDelegateURLCheck:url];
         setupBlock();
         NSOperation *operation = createOperation(^(id object) {
-            STFail(@"Terms and Conditions errors should be reported");
+            XCTFail(@"Terms and Conditions errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     (NSInteger)0,
                                                                     @"Wrong error reported");
-                                                     STAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
+                                                     XCTAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
                                                                           @"/api/core/v3/people/@me/termsAndConditions",
                                                                           @"Wrong terms and conditions api");
                                                      [mockAuthDelegate verify];
@@ -1521,7 +1521,7 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
@@ -1539,18 +1539,18 @@
         setupBlock();
         self.person.jiveInstance.badInstanceURL = nil;
         NSOperation* operation = createOperation(^(id object) {
-            STAssertNotNil(self.person.jiveInstance.badInstanceURL,
+            XCTAssertNotNil(self.person.jiveInstance.badInstanceURL,
                            @"badInstanceURL not updated: %@",
                            self.person.jiveInstance.badInstanceURL);
             completeBlock(object);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing bad instance check operation object");
         [operation start];
     });
 }
@@ -1595,15 +1595,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person followingInWithOptions:options
                                  onComplete:^(NSArray *streams) {
-                                     STAssertEquals([streams count], (NSUInteger)1, @"Wrong number of items parsed");
-                                     STAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
+                                     XCTAssertEqual([streams count], (NSUInteger)1, @"Wrong number of items parsed");
+                                     XCTAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
                                      
                                      // Check that delegates where actually called
                                      [mockAuthDelegate verify];
                                      [mockJiveURLResponseDelegate verify];
                                      finishedBlock();
                                  } onError:^(NSError *error) {
-                                     STFail([error localizedDescription]);
+                                     XCTFail(@"%@", [error localizedDescription]);
                                      finishedBlock();
                                  }];
     });
@@ -1636,15 +1636,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person streamsWithOptions:options
                              onComplete:^(NSArray *streams) {
-                                 STAssertEquals([streams count], (NSUInteger)5, @"Wrong number of items parsed");
-                                 STAssertEquals([[streams objectAtIndex:0] class], [JiveStream class], @"Wrong item class");
+                                 XCTAssertEqual([streams count], (NSUInteger)5, @"Wrong number of items parsed");
+                                 XCTAssertEqual([[streams objectAtIndex:0] class], [JiveStream class], @"Wrong item class");
                                  
                                  // Check that delegates where actually called
                                  [mockAuthDelegate verify];
                                  [mockJiveURLResponseDelegate verify];
                                  finishedBlock();
                              } onError:^(NSError *error) {
-                                 STFail([error localizedDescription]);
+                                 XCTFail(@"%@", [error localizedDescription]);
                                  finishedBlock();
                              }];
     });
@@ -1676,15 +1676,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person activitiesWithOptions:options
                                 onComplete:^(NSArray *activities) {
-                                    STAssertEquals([activities count], (NSUInteger)22, @"Wrong number of items parsed");
-                                    STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+                                    XCTAssertEqual([activities count], (NSUInteger)22, @"Wrong number of items parsed");
+                                    XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
                                     
                                     // Check that delegates where actually called
                                     [mockAuthDelegate verify];
                                     [mockJiveURLResponseDelegate verify];
                                     finishedBlock();
                                 } onError:^(NSError *error) {
-                                    STFail([error localizedDescription]);
+                                    XCTFail(@"%@", [error localizedDescription]);
                                     finishedBlock();
                                 }];
     });
@@ -1717,15 +1717,15 @@
         [self.person tasksWithOptions:options
                            onComplete:^(NSArray *tasks) {
                                // Called 3rd
-                               STAssertEquals([tasks count], (NSUInteger)1, @"Wrong number of items parsed");
-                               STAssertEquals([[tasks objectAtIndex:0] class], [JiveTask class], @"Wrong item class");
+                               XCTAssertEqual([tasks count], (NSUInteger)1, @"Wrong number of items parsed");
+                               XCTAssertEqual([[tasks objectAtIndex:0] class], [JiveTask class], @"Wrong item class");
                                
                                // Check that delegates where actually called
                                [mockAuthDelegate verify];
                                [mockJiveURLResponseDelegate verify];
                                finishedBlock();
                            } onError:^(NSError *error) {
-                               STFail([error localizedDescription]);
+                               XCTFail(@"%@", [error localizedDescription]);
                                finishedBlock();
                            }];
     });
@@ -1748,11 +1748,11 @@
                                                                     [mockJiveURLResponseDelegate verify];
                                                                     finishedBlock();
                                                                 } onError:^(NSError *error) {
-                                                                    STFail([error localizedDescription]);
+                                                                    XCTFail(@"%@", [error localizedDescription]);
                                                                     finishedBlock();
                                                                 }];
 
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         [operation start];
     });
 }
@@ -1774,7 +1774,7 @@
                      [mockJiveURLResponseDelegate verify];
                      finishedBlock();
                  } onError:^(NSError *error) {
-                     STFail([error localizedDescription]);
+                     XCTFail(@"%@", [error localizedDescription]);
                      finishedBlock();
                  }];
     });
@@ -1805,10 +1805,10 @@
                                                                            onComplete:completionBlock
                                                                               onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                 withResponse:@"followingIn_streams"
@@ -1831,15 +1831,15 @@
         [self.person updateFollowingIn:@[stream]
                            withOptions:options
                             onComplete:^(NSArray *streams) {
-                                STAssertEquals([streams count], (NSUInteger) 1, @"Wrong number of items parsed");
-                                STAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
+                                XCTAssertEqual([streams count], (NSUInteger) 1, @"Wrong number of items parsed");
+                                XCTAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
                                 
                                 // Check that delegates where actually called
                                 [mockAuthDelegate verify];
                                 [mockJiveURLResponseDelegate verify];
                                 finishedBlock();
                             } onError:^(NSError *error) {
-                                STFail([error localizedDescription]);
+                                XCTFail(@"%@", [error localizedDescription]);
                                 finishedBlock();
                             }];
     });
@@ -1854,23 +1854,23 @@
         
         testTask.subject = @"subject";
         testTask.dueDate = [NSDate date];
-        STAssertNil(testTask.jiveId, @"PRECONDITION: Task jiveId must be nil");
+        XCTAssertNil(testTask.jiveId, @"PRECONDITION: Task jiveId must be nil");
         
         NSData *body = [NSJSONSerialization dataWithJSONObject:[testTask toJSONDictionary] options:0 error:nil];
         
         AFURLConnectionOperation *operation = [self.person createTaskOperation:testTask
                                                                    withOptions:options
                                                                     onComplete:^(JiveTask *task) {
-                                                                        STAssertEquals(task, testTask, @"Task object not updated");
-                                                                        STAssertEqualObjects(task.jiveId, @"8991", @"Wrong jiveId");
+                                                                        XCTAssertEqual(task, testTask, @"Task object not updated");
+                                                                        XCTAssertEqualObjects(task.jiveId, @"8991", @"Wrong jiveId");
                                                                         completionBlock(task);
                                                                     }
                                                                        onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentType], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:JiveHTTPHeaderFields.contentLength] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"task"
@@ -1894,15 +1894,15 @@
         [self.person createTask:testTask
                     withOptions:options
                      onComplete:^(JiveTask *task) {
-                         STAssertEquals(task, testTask, @"Task object not updated");
-                         STAssertEqualObjects(task.jiveId, @"8991", @"Wrong jiveId");
+                         XCTAssertEqual(task, testTask, @"Task object not updated");
+                         XCTAssertEqualObjects(task.jiveId, @"8991", @"Wrong jiveId");
                          
                          // Check that delegates where actually called
                          [mockAuthDelegate verify];
                          [mockJiveURLResponseDelegate verify];
                          finishedBlock();
                      } onError:^(NSError *error) {
-                         STFail([error localizedDescription]);
+                         XCTFail(@"%@", [error localizedDescription]);
                          finishedBlock();
                      }];
     });
@@ -1917,7 +1917,7 @@
     [self createJiveAPIObjectWithResponse:@"alt_person_response"
                   andAuthDelegateURLCheck:@"https://testing.jiveland.com/api/core/v3/people/5316/tasks?fields=name,id"];
     
-    STAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
+    XCTAssertEqualObjects(self.person.jiveId, @"5316", @"PRECONDITION: Wrong jiveId");
     waitForTimeout(^(void (^finishedBlock)(void)) {
         JiveTask *testTask = [[JiveTask alloc] init];
         testTask.subject = @"Supercalifragalisticexpialidotious - is that spelled right?";
@@ -1925,11 +1925,11 @@
         [self.person createTask:testTask
                     withOptions:options
                      onComplete:^(JiveTask *task) {
-                         STFail(@"The task object should not be updated with a person response");
+                         XCTFail(@"The task object should not be updated with a person response");
                          finishedBlock();
                      } onError:^(NSError *error) {
-                         STAssertEqualObjects([error domain], JiveErrorDomain, nil);
-                         STAssertEquals([error code], JiveErrorCodeInvalidJSON, nil);
+                         XCTAssertEqualObjects([error domain], JiveErrorDomain);
+                         XCTAssertEqual([error code], JiveErrorCodeInvalidJSON);
                          finishedBlock();
                      }];
     });
@@ -1942,21 +1942,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [self.person termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
-            STAssertNotNil(termsAndConditions.text, @"Missing text");
-            STAssertNil(termsAndConditions.url, @"Unexpected URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
+            XCTAssertNotNil(termsAndConditions.text, @"Missing text");
+            XCTAssertNil(termsAndConditions.url, @"Unexpected URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -1968,21 +1968,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [self.person termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
-            STAssertNil(termsAndConditions.text, @"Unexpected text");
-            STAssertNotNil(termsAndConditions.url, @"Missing URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
+            XCTAssertNil(termsAndConditions.text, @"Unexpected text");
+            XCTAssertNotNil(termsAndConditions.url, @"Missing URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -1994,21 +1994,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [self.person termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
-            STAssertNil(termsAndConditions.text, @"Unexpected text");
-            STAssertNil(termsAndConditions.url, @"Unexpected URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
+            XCTAssertNil(termsAndConditions.text, @"Unexpected text");
+            XCTAssertNil(termsAndConditions.url, @"Unexpected URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -2021,14 +2021,14 @@
     // Make the call
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person termsAndConditions:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2041,13 +2041,13 @@
     // Make the call
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [self.person termsAndConditions:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
-            STAssertNil(termsAndConditions.text, @"Unexpected text");
-            STAssertNil(termsAndConditions.url, @"Unexpected URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
+            XCTAssertNil(termsAndConditions.text, @"Unexpected text");
+            XCTAssertNil(termsAndConditions.url, @"Unexpected URL");
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2066,11 +2066,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(JiveHTTPMethodTypes.POST, operation.request.HTTPMethod, @"Wrong http method used");
+        XCTAssertEqualObjects(JiveHTTPMethodTypes.POST, operation.request.HTTPMethod, @"Wrong http method used");
         [operation start];
     });
 }
@@ -2088,7 +2088,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });

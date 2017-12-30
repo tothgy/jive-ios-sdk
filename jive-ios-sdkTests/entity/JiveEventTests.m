@@ -32,14 +32,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.event.type, @"event", @"Wrong type.");
+    XCTAssertEqualObjects(self.event.type, @"event", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.event.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.event class], @"event class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.event class], @"event class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.event class], @"event class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.event class], @"event class not registered with JiveContent.");
 }
 
 @end

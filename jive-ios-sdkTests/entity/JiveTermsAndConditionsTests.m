@@ -26,11 +26,11 @@
     
     NSDictionary *JSON = [self.termsAndConditions persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.acceptanceRequired],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.acceptanceRequired],
                          self.termsAndConditions.acceptanceRequired, @"Wrong acceptanceRequired.");
-    STAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.text], self.termsAndConditions.text,
+    XCTAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.text], self.termsAndConditions.text,
                          @"Wrong text.");
 }
 
@@ -41,11 +41,11 @@
     
     NSDictionary *JSON = [self.termsAndConditions persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.acceptanceRequired],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.acceptanceRequired],
                          self.termsAndConditions.acceptanceRequired, @"Wrong acceptanceRequired.");
-    STAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.url],
+    XCTAssertEqualObjects(JSON[JiveTermsAndConditionsAttributes.url],
                          self.termsAndConditions.url.absoluteString, @"Wrong url.");
 }
 
@@ -57,10 +57,10 @@
     JiveTermsAndConditions *newTsAndCs = [JiveTermsAndConditions objectFromJSON:JSON
                                                                    withInstance:self.instance];
     
-    STAssertEquals([newTsAndCs class], [JiveTermsAndConditions class], @"Wrong item class");
-    STAssertEqualObjects(newTsAndCs.acceptanceRequired, self.termsAndConditions.acceptanceRequired,
+    XCTAssertEqual([newTsAndCs class], [JiveTermsAndConditions class], @"Wrong item class");
+    XCTAssertEqualObjects(newTsAndCs.acceptanceRequired, self.termsAndConditions.acceptanceRequired,
                          @"Wrong acceptanceRequired");
-    STAssertEqualObjects(newTsAndCs.text, self.termsAndConditions.text, @"Wrong text");
+    XCTAssertEqualObjects(newTsAndCs.text, self.termsAndConditions.text, @"Wrong text");
 }
 
 - (void)testJiveTermsAndConditionsParsingAlternate {
@@ -72,10 +72,10 @@
     JiveTermsAndConditions *newTsAndCs = [JiveTermsAndConditions objectFromJSON:JSON
                                                                    withInstance:self.instance];
     
-    STAssertEquals([newTsAndCs class], [JiveTermsAndConditions class], @"Wrong item class");
-    STAssertEqualObjects(newTsAndCs.acceptanceRequired, self.termsAndConditions.acceptanceRequired,
+    XCTAssertEqual([newTsAndCs class], [JiveTermsAndConditions class], @"Wrong item class");
+    XCTAssertEqualObjects(newTsAndCs.acceptanceRequired, self.termsAndConditions.acceptanceRequired,
                          @"Wrong acceptanceRequired");
-    STAssertEqualObjects(newTsAndCs.url, self.termsAndConditions.url, @"Wrong url");
+    XCTAssertEqualObjects(newTsAndCs.url, self.termsAndConditions.url, @"Wrong url");
 }
 
 @end

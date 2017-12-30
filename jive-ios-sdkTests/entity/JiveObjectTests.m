@@ -91,17 +91,17 @@
 - (void)testDeserialize_emptyJSON {
     NSDictionary *JSON = @{};
     
-    STAssertFalse([self.object deserialize:JSON fromInstance:self.instance], @"Reported valid deserialize with empty JSON");
-    STAssertFalse(self.object.extraFieldsDetected, @"Reported extra fields with empty JSON");
-    STAssertNil(self.object.refreshDate, @"Invalid refresh date entered for empty JSON");
+    XCTAssertFalse([self.object deserialize:JSON fromInstance:self.instance], @"Reported valid deserialize with empty JSON");
+    XCTAssertFalse(self.object.extraFieldsDetected, @"Reported extra fields with empty JSON");
+    XCTAssertNil(self.object.refreshDate, @"Invalid refresh date entered for empty JSON");
 }
 
 - (void)testDeserialize_invalidJSON {
     NSDictionary *JSON = @{@"dummy key":@"bad value"};
     
-    STAssertFalse([self.object deserialize:JSON fromInstance:self.instance], @"Reported valid deserialize with wrong JSON");
-    STAssertTrue(self.object.extraFieldsDetected, @"No extra fields reported with wrong JSON");
-    STAssertNil(self.object.refreshDate, @"Invalid refresh date entered for empty JSON");
+    XCTAssertFalse([self.object deserialize:JSON fromInstance:self.instance], @"Reported valid deserialize with wrong JSON");
+    XCTAssertTrue(self.object.extraFieldsDetected, @"No extra fields reported with wrong JSON");
+    XCTAssertNil(self.object.refreshDate, @"Invalid refresh date entered for empty JSON");
 }
 
 @end

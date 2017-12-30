@@ -33,15 +33,15 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.discussion.type, @"discussion", @"Wrong type.");
+    XCTAssertEqualObjects(self.discussion.type, @"discussion", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.discussion.type
                                                                             forKey:JiveTypedObjectAttributes.type];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.discussion class], @"Discussion class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.discussion class], @"Discussion class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.discussion class], @"Discussion class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.discussion class], @"Discussion class not registered with JiveContent.");
 }
 
 - (void)initializeDiscussion {
@@ -88,48 +88,48 @@
 - (void)testDiscussionToJSON {
     NSDictionary *JSON = [self.discussion toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"discussion", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"discussion", @"Wrong type");
     
     [self initializeDiscussion];
     
     JSON = [self.discussion toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.answer], self.discussion.answer, @"Wrong answer");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.resolved], self.discussion.resolved, @"Wrong resolved");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.answer], self.discussion.answer, @"Wrong answer");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.resolved], self.discussion.resolved, @"Wrong resolved");
     
     NSArray *attachmentsJSON = JSON[JiveDiscussionAttributes.attachments];
     NSDictionary *attachmentJSON = attachmentsJSON.lastObject;
     
-    STAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([attachmentsJSON count], (NSUInteger)1, @"Attachments array had the wrong number of entries");
-    STAssertTrue([[attachmentJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveAttachment not converted");
-    STAssertEquals([attachmentJSON count], (NSUInteger)2, @"Attachment dictionary had the wrong number of entries");
-    STAssertEqualObjects(attachmentJSON[JiveAttachmentAttributes.contentType],
+    XCTAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([attachmentsJSON count], (NSUInteger)1, @"Attachments array had the wrong number of entries");
+    XCTAssertTrue([[attachmentJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveAttachment not converted");
+    XCTAssertEqual([attachmentJSON count], (NSUInteger)2, @"Attachment dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(attachmentJSON[JiveAttachmentAttributes.contentType],
                          ((JiveAttachment *)self.discussion.attachments[0]).contentType, @"Wrong contentType");
     
     NSArray *helpfulJSON = JSON[JiveDiscussionAttributes.helpful];
     
-    STAssertTrue([[helpfulJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([helpfulJSON count], (NSUInteger)1, @"Helpful array had the wrong number of entries");
-    STAssertEqualObjects([helpfulJSON objectAtIndex:0], self.discussion.helpful[0], @"Wrong value");
+    XCTAssertTrue([[helpfulJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([helpfulJSON count], (NSUInteger)1, @"Helpful array had the wrong number of entries");
+    XCTAssertEqualObjects([helpfulJSON objectAtIndex:0], self.discussion.helpful[0], @"Wrong value");
     
     NSDictionary *onBehalfOfJSON = JSON[JiveDiscussionAttributes.onBehalfOf];
     
-    STAssertTrue([[onBehalfOfJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
-    STAssertEquals([onBehalfOfJSON count], (NSUInteger)1, @"onBehalfOf array had the wrong number of entries");
-    STAssertEqualObjects(onBehalfOfJSON[JiveGenericPersonAttributes.name],
+    XCTAssertTrue([[onBehalfOfJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
+    XCTAssertEqual([onBehalfOfJSON count], (NSUInteger)1, @"onBehalfOf array had the wrong number of entries");
+    XCTAssertEqualObjects(onBehalfOfJSON[JiveGenericPersonAttributes.name],
                          self.discussion.onBehalfOf.name, @"Wrong value");
     
     NSDictionary *viaJSON = JSON[JiveDiscussionAttributes.via];
     
-    STAssertTrue([[viaJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
-    STAssertEquals([viaJSON count], (NSUInteger)1, @"Via array had the wrong number of entries");
-    STAssertEqualObjects(viaJSON[JiveViaAttributes.displayName], self.discussion.via.displayName, @"Wrong value");
+    XCTAssertTrue([[viaJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
+    XCTAssertEqual([viaJSON count], (NSUInteger)1, @"Via array had the wrong number of entries");
+    XCTAssertEqualObjects(viaJSON[JiveViaAttributes.displayName], self.discussion.via.displayName, @"Wrong value");
 }
 
 - (void)testDiscussionToJSON_alternate {
@@ -137,40 +137,40 @@
     
     NSDictionary *JSON = [self.discussion toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.answer], self.discussion.answer, @"Wrong answer");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.resolved], self.discussion.resolved, @"Wrong resolved");
-    STAssertEquals([JSON[JiveDiscussionAttributes.question] boolValue],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.answer], self.discussion.answer, @"Wrong answer");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.resolved], self.discussion.resolved, @"Wrong resolved");
+    XCTAssertEqual([JSON[JiveDiscussionAttributes.question] boolValue],
                    [self.discussion isAQuestion], @"Wrong question value");
     
     NSArray *attachmentsJSON = JSON[JiveDiscussionAttributes.attachments];
     NSDictionary *attachmentJSON = attachmentsJSON.lastObject;
     
-    STAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([attachmentsJSON count], (NSUInteger)1, @"Attachments array had the wrong number of entries");
-    STAssertTrue([[attachmentJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveAttachment not converted");
-    STAssertEquals([attachmentJSON count], (NSUInteger)2, @"Attachment dictionary had the wrong number of entries");
-    STAssertEqualObjects(attachmentJSON[JiveAttachmentAttributes.contentType],
+    XCTAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([attachmentsJSON count], (NSUInteger)1, @"Attachments array had the wrong number of entries");
+    XCTAssertTrue([[attachmentJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveAttachment not converted");
+    XCTAssertEqual([attachmentJSON count], (NSUInteger)2, @"Attachment dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(attachmentJSON[JiveAttachmentAttributes.contentType],
                          ((JiveAttachment *)self.discussion.attachments[0]).contentType, @"Wrong contentType");
     
     NSArray *helpfulJSON = JSON[JiveDiscussionAttributes.helpful];
     
-    STAssertTrue([[helpfulJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([helpfulJSON count], (NSUInteger)1, @"Helpful array had the wrong number of entries");
-    STAssertEqualObjects([helpfulJSON objectAtIndex:0], self.discussion.helpful[0], @"Wrong value");
+    XCTAssertTrue([[helpfulJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([helpfulJSON count], (NSUInteger)1, @"Helpful array had the wrong number of entries");
+    XCTAssertEqualObjects([helpfulJSON objectAtIndex:0], self.discussion.helpful[0], @"Wrong value");
     
     NSDictionary *onBehalfOfJSON = JSON[JiveDiscussionAttributes.onBehalfOf];
     
-    STAssertTrue([[onBehalfOfJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
-    STAssertEquals([onBehalfOfJSON count], (NSUInteger)0, @"onBehalfOf array had the wrong number of entries");
+    XCTAssertTrue([[onBehalfOfJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
+    XCTAssertEqual([onBehalfOfJSON count], (NSUInteger)0, @"onBehalfOf array had the wrong number of entries");
     
     NSDictionary *viaJSON = JSON[JiveDiscussionAttributes.via];
     
-    STAssertTrue([[viaJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
-    STAssertEquals([viaJSON count], (NSUInteger)1, @"Via array had the wrong number of entries");
-    STAssertEqualObjects(viaJSON[JiveViaAttributes.displayName], self.discussion.via.displayName, @"Wrong value");
+    XCTAssertTrue([[viaJSON class] isSubclassOfClass:[NSDictionary class]], @"JiveGenericPerson not converted");
+    XCTAssertEqual([viaJSON count], (NSUInteger)1, @"Via array had the wrong number of entries");
+    XCTAssertEqualObjects(viaJSON[JiveViaAttributes.displayName], self.discussion.via.displayName, @"Wrong value");
 }
 
 - (void)testDiscussionToJSON_boolProperties {
@@ -178,28 +178,28 @@
     
     NSDictionary *JSON = [self.discussion persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.question], self.discussion.question, @"Wrong question");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.question], self.discussion.question, @"Wrong question");
     
     [self.discussion setValue:@YES forKeyPath:JiveDiscussionAttributes.restrictReplies];
     JSON = [self.discussion persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.question], self.discussion.question, @"Wrong question");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.restrictReplies],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.question], self.discussion.question, @"Wrong question");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.restrictReplies],
                          self.discussion.restrictReplies, @"Wrong restrictReplies");
     
     self.discussion.question = nil;
     JSON = [self.discussion persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveDiscussionAttributes.restrictReplies],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveDiscussionAttributes.restrictReplies],
                          self.discussion.restrictReplies, @"Wrong restrictReplies");
 }
 
@@ -214,17 +214,17 @@
     
     NSDictionary *JSON = [self.discussion toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
     
     NSArray *array = JSON[JiveDiscussionAttributes.attachments];
     id object1 = [array objectAtIndex:0];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveAttachmentAttributes.contentType],
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveAttachmentAttributes.contentType],
                          attachment1.contentType, @"Wrong value");
     
     [self.discussion setValue:[self.discussion.attachments arrayByAddingObject:attachment2]
@@ -232,22 +232,22 @@
     
     JSON = [self.discussion toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.discussion.type, @"Wrong type");
     
     array = JSON[JiveDiscussionAttributes.attachments];
     object1 = [array objectAtIndex:0];
     
     id object2 = [array objectAtIndex:1];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveAttachmentAttributes.contentType],
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"users array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveAttachmentAttributes.contentType],
                          attachment1.contentType, @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:JiveAttachmentAttributes.contentType],
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:JiveAttachmentAttributes.contentType],
                          attachment2.contentType, @"Wrong value 2");
 }
 
@@ -258,25 +258,25 @@
     id JSON = [self.discussion persistentJSON];
     JiveDiscussion *newContent = [JiveDiscussion objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.discussion class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(newContent.answer, self.discussion.answer, @"Wrong answer");
-    STAssertEqualObjects(newContent.onBehalfOf.name, self.discussion.onBehalfOf.name, @"Wrong onBehalfOf");
-    STAssertEqualObjects(newContent.question, self.discussion.question, @"Wrong question");
-    STAssertEqualObjects(newContent.resolved, self.discussion.resolved, @"Wrong resolved");
-    STAssertEqualObjects(newContent.restrictReplies, self.discussion.restrictReplies, @"Wrong restrictReplies");
-    STAssertEqualObjects(newContent.via.displayName, self.discussion.via.displayName, @"Wrong via");
-    STAssertEquals([newContent.helpful count], [self.discussion.helpful count], @"Wrong helpful count");
-    STAssertEqualObjects(newContent.helpful[0], self.discussion.helpful[0], @"Wrong helpful");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.discussion class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.answer, self.discussion.answer, @"Wrong answer");
+    XCTAssertEqualObjects(newContent.onBehalfOf.name, self.discussion.onBehalfOf.name, @"Wrong onBehalfOf");
+    XCTAssertEqualObjects(newContent.question, self.discussion.question, @"Wrong question");
+    XCTAssertEqualObjects(newContent.resolved, self.discussion.resolved, @"Wrong resolved");
+    XCTAssertEqualObjects(newContent.restrictReplies, self.discussion.restrictReplies, @"Wrong restrictReplies");
+    XCTAssertEqualObjects(newContent.via.displayName, self.discussion.via.displayName, @"Wrong via");
+    XCTAssertEqual([newContent.helpful count], [self.discussion.helpful count], @"Wrong helpful count");
+    XCTAssertEqualObjects(newContent.helpful[0], self.discussion.helpful[0], @"Wrong helpful");
     
-    STAssertEquals([newContent.attachments count], [self.discussion.attachments count], @"Wrong number of user objects");
+    XCTAssertEqual([newContent.attachments count], [self.discussion.attachments count], @"Wrong number of user objects");
     if ([newContent.attachments count] > 0) {
         JiveAttachment *convertedAttachment = newContent.attachments[0];
-        STAssertEquals([convertedAttachment class], [JiveAttachment class], @"Wrong attachment class");
+        XCTAssertEqual([convertedAttachment class], [JiveAttachment class], @"Wrong attachment class");
         if ([[convertedAttachment class] isSubclassOfClass:[JiveAttachment class]]) {
-            STAssertEqualObjects(convertedAttachment.contentType,
+            XCTAssertEqualObjects(convertedAttachment.contentType,
                                  ((JiveAttachment *)self.discussion.attachments[0]).contentType, @"Wrong attachment");
-            STAssertEqualObjects(convertedAttachment.size,
+            XCTAssertEqualObjects(convertedAttachment.size,
                                  ((JiveAttachment *)self.discussion.attachments[0]).size, @"Wrong attachment");
         }
     }
@@ -288,26 +288,26 @@
     id JSON = [self.discussion persistentJSON];
     JiveDiscussion *newContent = [JiveDiscussion objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.discussion class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.discussion.type, @"Wrong type");
-    STAssertEqualObjects(newContent.answer, self.discussion.answer, @"Wrong answer");
-    STAssertEqualObjects(newContent.onBehalfOf.person.displayName,
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.discussion class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.discussion.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.answer, self.discussion.answer, @"Wrong answer");
+    XCTAssertEqualObjects(newContent.onBehalfOf.person.displayName,
                          self.discussion.onBehalfOf.person.displayName, @"Wrong onBehalfOf");
-    STAssertEqualObjects(newContent.question, self.discussion.question, @"Wrong question");
-    STAssertEqualObjects(newContent.resolved, self.discussion.resolved, @"Wrong resolved");
-    STAssertEqualObjects(newContent.restrictReplies, self.discussion.restrictReplies, @"Wrong restrictReplies");
-    STAssertEqualObjects(newContent.via.displayName, self.discussion.via.displayName, @"Wrong via");
-    STAssertEquals([newContent.helpful count], [self.discussion.helpful count], @"Wrong helpful count");
-    STAssertEqualObjects(newContent.helpful[0], self.discussion.helpful[0], @"Wrong helpful");
+    XCTAssertEqualObjects(newContent.question, self.discussion.question, @"Wrong question");
+    XCTAssertEqualObjects(newContent.resolved, self.discussion.resolved, @"Wrong resolved");
+    XCTAssertEqualObjects(newContent.restrictReplies, self.discussion.restrictReplies, @"Wrong restrictReplies");
+    XCTAssertEqualObjects(newContent.via.displayName, self.discussion.via.displayName, @"Wrong via");
+    XCTAssertEqual([newContent.helpful count], [self.discussion.helpful count], @"Wrong helpful count");
+    XCTAssertEqualObjects(newContent.helpful[0], self.discussion.helpful[0], @"Wrong helpful");
     
-    STAssertEquals([newContent.attachments count], [self.discussion.attachments count], @"Wrong number of user objects");
+    XCTAssertEqual([newContent.attachments count], [self.discussion.attachments count], @"Wrong number of user objects");
     if ([newContent.attachments count] > 0) {
         JiveAttachment *convertedAttachment = newContent.attachments[0];
-        STAssertEquals([convertedAttachment class], [JiveAttachment class], @"Wrong attachment class");
+        XCTAssertEqual([convertedAttachment class], [JiveAttachment class], @"Wrong attachment class");
         if ([[convertedAttachment class] isSubclassOfClass:[JiveAttachment class]]) {
-            STAssertEqualObjects(convertedAttachment.contentType,
+            XCTAssertEqualObjects(convertedAttachment.contentType,
                                  ((JiveAttachment *)self.discussion.attachments[0]).contentType, @"Wrong attachment");
-            STAssertEqualObjects(convertedAttachment.size,
+            XCTAssertEqualObjects(convertedAttachment.size,
                                  ((JiveAttachment *)self.discussion.attachments[0]).size, @"Wrong attachment");
         }
     }
@@ -329,9 +329,9 @@
     
     JiveDiscussion *discussion = [JiveDiscussion objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects([discussion class], [JiveDiscussion class], nil);
-    STAssertEqualObjects(discussion.answer, answer, nil);
-    STAssertEqualObjects(discussion.helpful, (@[helpful1, helpful2]), nil);
+    XCTAssertEqualObjects([discussion class], [JiveDiscussion class]);
+    XCTAssertEqualObjects(discussion.answer, answer);
+    XCTAssertEqualObjects(discussion.helpful, (@[helpful1, helpful2]));
 }
 
 @end

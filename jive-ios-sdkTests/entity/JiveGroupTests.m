@@ -32,14 +32,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.group.type, @"group", @"Wrong type.");
+    XCTAssertEqualObjects(self.group.type, @"group", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.group.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.group class], @"Group class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.group class], @"Group class not registered with JivePlace.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.group class], @"Group class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.group class], @"Group class not registered with JivePlace.");
 }
 
 - (void)testTaskToJSON {
@@ -47,9 +47,9 @@
     NSString *tag = @"wordy";
     NSDictionary *JSON = [self.group toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"group", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"group", @"Wrong type");
     
     creator.location = @"location";
     [self.group setValue:creator forKey:@"creator"];
@@ -59,23 +59,23 @@
     
     JSON = [self.group toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.group.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"groupType"], self.group.groupType, @"Wrong groupType");
-    STAssertEqualObjects([JSON objectForKey:@"memberCount"], self.group.memberCount, @"Wrong memberCount");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.group.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"groupType"], self.group.groupType, @"Wrong groupType");
+    XCTAssertEqualObjects([JSON objectForKey:@"memberCount"], self.group.memberCount, @"Wrong memberCount");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
     
     NSDictionary *creatorJSON = [JSON objectForKey:@"creator"];
     
-    STAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
+    XCTAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
 }
 
 - (void)testTaskToJSON_alternate {
@@ -90,23 +90,23 @@
     
     NSDictionary *JSON = [self.group toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.group.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"groupType"], self.group.groupType, @"Wrong groupType");
-    STAssertEqualObjects([JSON objectForKey:@"memberCount"], self.group.memberCount, @"Wrong memberCount");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.group.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"groupType"], self.group.groupType, @"Wrong groupType");
+    XCTAssertEqualObjects([JSON objectForKey:@"memberCount"], self.group.memberCount, @"Wrong memberCount");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
     
     NSDictionary *creatorJSON = [JSON objectForKey:@"creator"];
     
-    STAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
+    XCTAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
 }
 
 - (void)testPostParsing {
@@ -122,13 +122,13 @@
     id JSON = [self.group toJSONDictionary];
     JiveGroup *newPlace = [JiveGroup objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[self.group class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.type, self.group.type, @"Wrong type");
-    STAssertEqualObjects(newPlace.groupType, self.group.groupType, @"Wrong groupType");
-    STAssertEqualObjects(newPlace.memberCount, self.group.memberCount, @"Wrong memberCount");
-    STAssertEquals([newPlace.tags count], [self.group.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEqualObjects(newPlace.creator.location, creator.location, @"Wrong creator location");
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[self.group class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.type, self.group.type, @"Wrong type");
+    XCTAssertEqualObjects(newPlace.groupType, self.group.groupType, @"Wrong groupType");
+    XCTAssertEqualObjects(newPlace.memberCount, self.group.memberCount, @"Wrong memberCount");
+    XCTAssertEqual([newPlace.tags count], [self.group.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqualObjects(newPlace.creator.location, creator.location, @"Wrong creator location");
 }
 
 - (void)testPostParsingAlternate {
@@ -144,13 +144,13 @@
     id JSON = [self.group toJSONDictionary];
     JiveGroup *newPlace = [JiveGroup objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[self.group class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.type, self.group.type, @"Wrong type");
-    STAssertEqualObjects(newPlace.groupType, self.group.groupType, @"Wrong groupType");
-    STAssertEqualObjects(newPlace.memberCount, self.group.memberCount, @"Wrong memberCount");
-    STAssertEquals([newPlace.tags count], [self.group.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEqualObjects(newPlace.creator.location, creator.location, @"Wrong creator location");
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[self.group class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.type, self.group.type, @"Wrong type");
+    XCTAssertEqualObjects(newPlace.groupType, self.group.groupType, @"Wrong groupType");
+    XCTAssertEqualObjects(newPlace.memberCount, self.group.memberCount, @"Wrong memberCount");
+    XCTAssertEqual([newPlace.tags count], [self.group.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqualObjects(newPlace.creator.location, creator.location, @"Wrong creator location");
 }
 
 @end

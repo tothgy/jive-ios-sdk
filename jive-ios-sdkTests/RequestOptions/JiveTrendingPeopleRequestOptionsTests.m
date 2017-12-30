@@ -42,13 +42,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=place(http://dummy)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=place(http://dummy)", asString, @"Wrong string contents");
     
     self.trendingOptions.url = [NSURL URLWithString:@"http://alternate/url"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=place(http://alternate/url)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=place(http://alternate/url)", asString, @"Wrong string contents");
 }
 
 - (void)testPlaceURLWithField {
@@ -60,8 +60,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=place(http://dummy)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=place(http://dummy)", asString, @"Wrong string contents");
 }
 
 @end

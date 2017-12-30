@@ -54,10 +54,10 @@ static NSString *alternateType = @"alternate";
                                                                             forKey:JiveTypedObjectAttributes.type];
     Class testClass = [self.typedObject class];
     
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Out of bounds");
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Out of bounds");
     
     [typeSpecifier setValue:@"Not random" forKey:JiveTypedObjectAttributes.type];
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], testClass,
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], testClass,
                          @"Different out of bounds");
 }
 
@@ -66,17 +66,17 @@ static NSString *alternateType = @"alternate";
     Class testClass = [self.typedObject class];
     Class alternateClass = [DummyTypedObject class];
     
-    STAssertEqualObjects([testClass entityClass:typeSpecifier],
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier],
                          testClass, @"Out of bounds");
     
-    STAssertNoThrow([testClass registerClass:alternateClass forType:testType],
+    XCTAssertNoThrow([testClass registerClass:alternateClass forType:testType],
                     @"registerClass:forType: should not thow");
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], alternateClass,
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], alternateClass,
                          @"Type not registered");
     
-    STAssertNoThrow([testClass registerClass:nil forType:testType],
+    XCTAssertNoThrow([testClass registerClass:nil forType:testType],
                     @"Clearing the type should not throw");
-    STAssertEqualObjects([testClass entityClass:typeSpecifier],
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier],
                          testClass, @"Type not cleared");
 }
 
@@ -85,16 +85,16 @@ static NSString *alternateType = @"alternate";
     Class testClass = [self.typedObject class];
     Class alternateClass = [DummyTypedObject class];
     
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Out of bounds");
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Out of bounds");
     
-    STAssertNoThrow([testClass registerClass:alternateClass forType:alternateType],
+    XCTAssertNoThrow([testClass registerClass:alternateClass forType:alternateType],
                     @"registerClass:forType: should not thow");
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], alternateClass,
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], alternateClass,
                          @"Type not registered");
     
-    STAssertNoThrow([testClass registerClass:nil forType:alternateType],
+    XCTAssertNoThrow([testClass registerClass:nil forType:alternateType],
                     @"Clearing the type should not throw");
-    STAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Type not cleared");
+    XCTAssertEqualObjects([testClass entityClass:typeSpecifier], testClass, @"Type not cleared");
 }
 
 - (void)testSelfReferenceParsedBeforeAnythingElse {
@@ -113,7 +113,7 @@ static NSString *alternateType = @"alternate";
     NSDictionary *firstJSON = @{JiveTypedObjectAttributesHidden.resources:firstResourceJSON};
     
     [[self.object class] objectFromJSON:firstJSON withInstance:self.instance];
-    STAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
+    XCTAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
     
     self.instance.badInstanceURL = nil;
     
@@ -122,7 +122,7 @@ static NSString *alternateType = @"alternate";
     NSDictionary *secondJSON = @{JiveTypedObjectAttributesHidden.resources:secondResourceJSON};
     
     [[self.object class] objectFromJSON:secondJSON withInstance:self.instance];
-    STAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
+    XCTAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
 }
 
 - (void)testTypedObjectPersistentJSON {
@@ -131,26 +131,26 @@ static NSString *alternateType = @"alternate";
                                                                                  atServer:self.serverURL];
     const NSUInteger initialCount = JSON.count;
     
-    STAssertTrue([JSON isKindOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertTrue([JSON isKindOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
     
     [self.typedObject setValue:@{JiveTypedObjectResourceTags.selfResourceTag:selfResource}
                         forKey:JiveTypedObjectAttributesHidden.resources];
     
     JSON = [self.typedObject persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], initialCount + 1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], initialCount + 1, @"Initial dictionary had the wrong number of entries");
     
     NSDictionary *resourcesJSON = [JSON objectForKey:JiveTypedObjectAttributesHidden.resources];
     
-    STAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
+    XCTAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
     
     NSDictionary *selfResourceJSON = [resourcesJSON objectForKey:JiveTypedObjectResourceTags.selfResourceTag];
     
-    STAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
-    STAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
+    XCTAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
                          selfResource.ref.absoluteString, @"Wrong resource");
 }
 
@@ -163,10 +163,10 @@ static NSString *alternateType = @"alternate";
     NSDictionary *JSON = [self.typedObject persistentJSON];
     JiveTypedObject *newContent = [JiveTypedObject objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertNotNil(newContent, @"Content object not created");
-    STAssertTrue([[newContent class] isSubclassOfClass:[JiveTypedObject class]], @"Wrong item class");
-    STAssertEquals([newContent.resources count], [self.typedObject.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)newContent.resources[JiveTypedObjectResourceTags.selfResourceTag] ref].absoluteString,
+    XCTAssertNotNil(newContent, @"Content object not created");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[JiveTypedObject class]], @"Wrong item class");
+    XCTAssertEqual([newContent.resources count], [self.typedObject.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)newContent.resources[JiveTypedObjectResourceTags.selfResourceTag] ref].absoluteString,
                          selfResource.ref.absoluteString, @"Wrong resource object");
 }
 

@@ -62,25 +62,25 @@
 - (void)testStructuredOutcomeContentToJSON {
     NSDictionary *JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     [self initializeStructuredOutcomeContent];
     
     JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *outcomeTypeNamesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
 }
 
 - (void)testStructuredOutcomeContentToJSON_alternate {
@@ -88,16 +88,16 @@
     
     NSDictionary *JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *outcomeTypeNamesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
 }
 
 - (void)testToJSON_outcomeTypeNames {
@@ -108,32 +108,32 @@
     
     NSDictionary *JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *array = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertEqualObjects(array[0], firstType, @"Wrong value");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertEqualObjects(array[0], firstType, @"Wrong value");
     
     self.structuredOutcome.outcomeTypeNames = @[firstType, secondType];
     
     JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     array = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertEqualObjects(array[0], firstType, @"Wrong value 1");
-    STAssertEqualObjects(array[1], secondType, @"Wrong value 2");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertEqualObjects(array[0], firstType, @"Wrong value 1");
+    XCTAssertEqualObjects(array[1], secondType, @"Wrong value 2");
 }
 
 - (void)testToJSON_outcomeTypes {
@@ -147,27 +147,27 @@
     
     NSDictionary *JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *array = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypes];
     NSDictionary *object1 = [array objectAtIndex:0];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveObjectConstants.id], firstOutcome.jiveId, @"Wrong value");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveObjectConstants.id], firstOutcome.jiveId, @"Wrong value");
     
     [self.structuredOutcome setValue:@[firstOutcome, secondOutcome]
                               forKey:JiveStructuredOutcomeContentAttributes.outcomeTypes];
     
     JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     array = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypes];
@@ -175,12 +175,12 @@
     
     NSDictionary *object2 = [array objectAtIndex:1];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveObjectConstants.id], firstOutcome.jiveId, @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:JiveObjectConstants.id], secondOutcome.jiveId, @"Wrong value 2");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"attachments array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveObjectConstants.id], firstOutcome.jiveId, @"Wrong value 1");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:JiveObjectConstants.id], secondOutcome.jiveId, @"Wrong value 2");
 }
 
 - (void)testToJSON_outcomeCounts {
@@ -194,73 +194,73 @@
     
     NSDictionary *JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSDictionary *outcomeCountsJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeCounts];
     
-    STAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"attachments array not converted");
-    STAssertEquals([outcomeCountsJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertEqualObjects(outcomeCountsJSON[firstType], firstCount, @"Wrong value");
+    XCTAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"attachments array not converted");
+    XCTAssertEqual([outcomeCountsJSON count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertEqualObjects(outcomeCountsJSON[firstType], firstCount, @"Wrong value");
     
     [self.structuredOutcome setValue:@{firstType:firstCount, secondType:secondCount}
                               forKey:JiveStructuredOutcomeContentAttributes.outcomeCounts];
     
     JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     outcomeCountsJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeCounts];
     
-    STAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"attachments array not converted");
-    STAssertEquals([outcomeCountsJSON count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertEqualObjects(outcomeCountsJSON[firstType], firstCount, @"Wrong value 1");
-    STAssertEqualObjects(outcomeCountsJSON[secondType], secondCount, @"Wrong value 2");
+    XCTAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"attachments array not converted");
+    XCTAssertEqual([outcomeCountsJSON count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertEqualObjects(outcomeCountsJSON[firstType], firstCount, @"Wrong value 1");
+    XCTAssertEqualObjects(outcomeCountsJSON[secondType], secondCount, @"Wrong value 2");
 }
 
 - (void)testStructuredOutcomeContentPersistentJSON {
     NSDictionary *JSON = [self.structuredOutcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     [self initializeStructuredOutcomeContent];
     
     JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *outcomeTypeNamesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
     
     NSArray *outcomeTypesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypes];
     NSDictionary *outcomeJSON = [outcomeTypesJSON objectAtIndex:0];
     
-    STAssertTrue([[outcomeTypesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([outcomeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeJSON[@"id"], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
-    STAssertEqualObjects(outcomeJSON[JiveOutcomeTypeAttributes.name],
+    XCTAssertTrue([[outcomeTypesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([outcomeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeJSON[@"id"], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertEqualObjects(outcomeJSON[JiveOutcomeTypeAttributes.name],
                          ((JiveOutcomeType *)self.structuredOutcome.outcomeTypes[0]).name, @"Wrong value");
     
     NSDictionary *outcomeCountsJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeCounts];
     
-    STAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeCountsJSON[self.structuredOutcome.outcomeTypeNames[0]],
+    XCTAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeCountsJSON[self.structuredOutcome.outcomeTypeNames[0]],
                          self.structuredOutcome.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]], @"Wrong value");
 }
 
@@ -269,32 +269,32 @@
     
     NSDictionary *JSON = [self.structuredOutcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type],
                          self.structuredOutcome.type, @"Wrong type");
     
     NSArray *outcomeTypeNamesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypeNames];
     
-    STAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertTrue([[outcomeTypeNamesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypeNamesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeTypeNamesJSON[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
     
     NSArray *outcomeTypesJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeTypes];
     NSDictionary *outcomeJSON = [outcomeTypesJSON objectAtIndex:0];
     
-    STAssertTrue([[outcomeTypesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([outcomeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeJSON[@"id"], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
-    STAssertEqualObjects(outcomeJSON[JiveOutcomeTypeAttributes.name],
+    XCTAssertTrue([[outcomeTypesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([outcomeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeJSON[@"id"], self.structuredOutcome.outcomeTypeNames[0], @"Wrong value");
+    XCTAssertEqualObjects(outcomeJSON[JiveOutcomeTypeAttributes.name],
                          ((JiveOutcomeType *)self.structuredOutcome.outcomeTypes[0]).name, @"Wrong value");
     
     NSDictionary *outcomeCountsJSON = [JSON objectForKey:JiveStructuredOutcomeContentAttributes.outcomeCounts];
     
-    STAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects(outcomeCountsJSON[self.structuredOutcome.outcomeTypeNames[0]],
+    XCTAssertTrue([[outcomeCountsJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([outcomeTypesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(outcomeCountsJSON[self.structuredOutcome.outcomeTypeNames[0]],
                          self.structuredOutcome.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]], @"Wrong value");
 }
 
@@ -305,19 +305,19 @@
     JiveStructuredOutcomeContent *newContent = [MockJiveStructuredOutcomeContent objectFromJSON:JSON
                                                                                    withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.structuredOutcome class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.structuredOutcome.type, @"Wrong type");
-    STAssertEquals(newContent.outcomeCounts.count, self.structuredOutcome.outcomeCounts.count, @"Wrong outcomeCounts count");
-    STAssertEqualObjects(newContent.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.structuredOutcome class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.structuredOutcome.type, @"Wrong type");
+    XCTAssertEqual(newContent.outcomeCounts.count, self.structuredOutcome.outcomeCounts.count, @"Wrong outcomeCounts count");
+    XCTAssertEqualObjects(newContent.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]],
                          self.structuredOutcome.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]], @"Wrong outcome count");
-    STAssertEquals(newContent.outcomeTypeNames.count, self.structuredOutcome.outcomeTypeNames.count, @"Wrong outcomeTypeNames count");
-    STAssertEqualObjects(newContent.outcomeTypeNames[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome name");
-    STAssertEquals(newContent.outcomeTypes.count, self.structuredOutcome.outcomeTypes.count, @"Wrong outcomeTypes count");
+    XCTAssertEqual(newContent.outcomeTypeNames.count, self.structuredOutcome.outcomeTypeNames.count, @"Wrong outcomeTypeNames count");
+    XCTAssertEqualObjects(newContent.outcomeTypeNames[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome name");
+    XCTAssertEqual(newContent.outcomeTypes.count, self.structuredOutcome.outcomeTypes.count, @"Wrong outcomeTypes count");
     if ([newContent.outcomeTypes count] > 0) {
         id convertedObject = newContent.outcomeTypes[0];
-        STAssertEquals([convertedObject class], [JiveOutcomeType class], @"Wrong outcomeType object class");
+        XCTAssertEqual([convertedObject class], [JiveOutcomeType class], @"Wrong outcomeType object class");
         if ([[convertedObject class] isSubclassOfClass:[JiveOutcomeType class]])
-            STAssertEqualObjects([(JiveOutcomeType *)convertedObject jiveId], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome type");
+            XCTAssertEqualObjects([(JiveOutcomeType *)convertedObject jiveId], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome type");
     }
 }
 
@@ -328,19 +328,19 @@
     JiveStructuredOutcomeContent *newContent = [MockJiveStructuredOutcomeContent objectFromJSON:JSON
                                                                                    withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.structuredOutcome class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.structuredOutcome.type, @"Wrong type");
-    STAssertEquals(newContent.outcomeCounts.count, self.structuredOutcome.outcomeCounts.count, @"Wrong outcomeCounts count");
-    STAssertEqualObjects(newContent.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.structuredOutcome class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.structuredOutcome.type, @"Wrong type");
+    XCTAssertEqual(newContent.outcomeCounts.count, self.structuredOutcome.outcomeCounts.count, @"Wrong outcomeCounts count");
+    XCTAssertEqualObjects(newContent.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]],
                          self.structuredOutcome.outcomeCounts[self.structuredOutcome.outcomeTypeNames[0]], @"Wrong outcome count");
-    STAssertEquals(newContent.outcomeTypeNames.count, self.structuredOutcome.outcomeTypeNames.count, @"Wrong outcomeTypeNames count");
-    STAssertEqualObjects(newContent.outcomeTypeNames[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome name");
-    STAssertEquals(newContent.outcomeTypes.count, self.structuredOutcome.outcomeTypes.count, @"Wrong outcomeTypes count");
+    XCTAssertEqual(newContent.outcomeTypeNames.count, self.structuredOutcome.outcomeTypeNames.count, @"Wrong outcomeTypeNames count");
+    XCTAssertEqualObjects(newContent.outcomeTypeNames[0], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome name");
+    XCTAssertEqual(newContent.outcomeTypes.count, self.structuredOutcome.outcomeTypes.count, @"Wrong outcomeTypes count");
     if ([newContent.outcomeTypes count] > 0) {
         id convertedObject = newContent.outcomeTypes[0];
-        STAssertEquals([convertedObject class], [JiveOutcomeType class], @"Wrong outcomeType object class");
+        XCTAssertEqual([convertedObject class], [JiveOutcomeType class], @"Wrong outcomeType object class");
         if ([[convertedObject class] isSubclassOfClass:[JiveOutcomeType class]])
-            STAssertEqualObjects([(JiveOutcomeType *)convertedObject jiveId], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome type");
+            XCTAssertEqualObjects([(JiveOutcomeType *)convertedObject jiveId], self.structuredOutcome.outcomeTypeNames[0], @"Wrong outcome type");
     }
 }
 

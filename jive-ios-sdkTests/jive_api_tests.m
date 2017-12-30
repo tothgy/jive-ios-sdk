@@ -117,11 +117,11 @@
                                                                                                   password:@"foo"];
     mockAuthDelegate = [OCMockObject mockForProtocol:@protocol(JiveAuthorizationDelegate)];
     [[[mockAuthDelegate expect] andReturn:authCredentials] credentialsForJiveInstance:[OCMArg checkWithBlock:^BOOL(id value) {
-        STAssertEqualObjects([value absoluteString], mockAuthURLCheck, assertMessage);
+        XCTAssertEqualObjects([value absoluteString], mockAuthURLCheck, @"%@", assertMessage);
         return YES;
     }]];
     [[[mockAuthDelegate expect] andReturn:authCredentials] mobileAnalyticsHeaderForJiveInstance:[OCMArg checkWithBlock:^BOOL(id value) {
-        STAssertEqualObjects([value absoluteString], mockAuthURLCheck, assertMessage);
+        XCTAssertEqualObjects([value absoluteString], mockAuthURLCheck, @"%@", assertMessage);
         return YES;
     }]];
     
@@ -220,10 +220,10 @@
     
     NSURL* configuredJiveInstance = [jive jiveInstanceURL];
     
-    STAssertNotNil(configuredJiveInstance, @"jiveInstance URL should never be nil");
-    STAssertEqualObjects([configuredJiveInstance absoluteString], originalJiveInstance,
+    XCTAssertNotNil(configuredJiveInstance, @"jiveInstance URL should never be nil");
+    XCTAssertEqualObjects([configuredJiveInstance absoluteString], originalJiveInstance,
                          @"Configured URL does not match original URL");
-    STAssertNil(jive.platformVersion, @"Platform version should not exist");
+    XCTAssertNil(jive.platformVersion, @"Platform version should not exist");
 }
 
 - (void) testInbox {
@@ -234,11 +234,11 @@
                         onComplete:^(NSArray *inboxEntries, NSDate *earliestDate,
                                      NSDate *latestDate, NSNumber *unreadCount) {
                             NSUInteger expectedCount = 94;
-                            STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                            STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
-                            STAssertEqualObjects(earliestDate.description, @"2013-09-10 15:04:49 +0000", @"Wrong earliest date.");
-                            STAssertEqualObjects(latestDate.description, @"2013-11-27 19:18:27 +0000", @"Wrong latest date.");
-                            STAssertEqualObjects(unreadCount, @47, @"Wrong number of unread items");
+                            XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                            XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                            XCTAssertEqualObjects(earliestDate.description, @"2013-09-10 15:04:49 +0000", @"Wrong earliest date.");
+                            XCTAssertEqualObjects(latestDate.description, @"2013-11-27 19:18:27 +0000", @"Wrong latest date.");
+                            XCTAssertEqualObjects(unreadCount, @47, @"Wrong number of unread items");
                             
                             // Check that delegates where actually called
                             [mockAuthDelegate verify];
@@ -261,12 +261,12 @@
                         onComplete:^(NSArray *inboxEntries, NSDate *earliestDate,
                                      NSDate *latestDate, NSNumber *unreadCount) {
                             NSUInteger expectedCount = 94;
-                            STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                            STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
-                            STAssertEqualObjects(earliestDate.description, @"2013-09-10 15:04:49 +0000", @"Wrong earliest date.");
-                            STAssertEqualObjects(latestDate.description, @"2013-11-27 19:18:27 +0000", @"Wrong latest date.");
-                            STAssertEqualObjects(unreadCount, @47, @"Wrong number of unread items");
-                            STAssertNil(jive.badInstanceURL, @"badInstanceURL was not cleared: %@", jive.badInstanceURL);
+                            XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                            XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                            XCTAssertEqualObjects(earliestDate.description, @"2013-09-10 15:04:49 +0000", @"Wrong earliest date.");
+                            XCTAssertEqualObjects(latestDate.description, @"2013-11-27 19:18:27 +0000", @"Wrong latest date.");
+                            XCTAssertEqualObjects(unreadCount, @47, @"Wrong number of unread items");
+                            XCTAssertNil(jive.badInstanceURL, @"badInstanceURL was not cleared: %@", jive.badInstanceURL);
                             
                             // Check that delegates where actually called
                             [mockAuthDelegate verify];
@@ -285,8 +285,8 @@
         [jive acclaims:nil
             onComplete:^(NSArray *inboxEntries) {
                 NSUInteger expectedCount = 4;
-                STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
                 // Check that delegates where actually called
                 [mockAuthDelegate verify];
                 [mockJiveURLResponseDelegate verify];
@@ -305,8 +305,8 @@
         NSOperation *operation = [jive acclaimInboxOperation:nil
                                                   onComplete:^(NSArray *inboxEntries) {
                                                       NSUInteger expectedCount = 4;
-                                                      STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                                                      STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                                                      XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                                                      XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
                                                       // Check that delegates where actually called
                                                       [mockAuthDelegate verify];
                                                       [mockJiveURLResponseDelegate verify];
@@ -330,11 +330,11 @@
                                                                        NSDate *latestDate,
                                                                        NSNumber *unreadCount) {
                                                               NSUInteger expectedCount = 28;
-                                                              STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                                                              STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
-                                                              STAssertEqualObjects(earliestDate.description, @"2010-10-23 03:26:37 +0000", @"Wrong earliest date.");
-                                                              STAssertEqualObjects(latestDate.description, @"2008-10-24 19:06:10 +0000", @"Wrong latest date.");
-                                                              STAssertEqualObjects(unreadCount, @0, @"Wrong number of unread items");
+                                                              XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                                                              XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                                                              XCTAssertEqualObjects(earliestDate.description, @"2010-10-23 03:26:37 +0000", @"Wrong earliest date.");
+                                                              XCTAssertEqualObjects(latestDate.description, @"2008-10-24 19:06:10 +0000", @"Wrong latest date.");
+                                                              XCTAssertEqualObjects(unreadCount, @0, @"Wrong number of unread items");
                                                               
                                                               // Check that delegates where actually called
                                                               [mockAuthDelegate verify];
@@ -365,12 +365,12 @@
                                                                        NSDate *latestDate,
                                                                        NSNumber *unreadCount) {
                                                               NSUInteger expectedCount = 28;
-                                                              STAssertNotNil(inboxEntries, @"InboxEntries where nil!");
-                                                              STAssertEquals(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
-                                                              STAssertEqualObjects(earliestDate.description, @"2010-10-23 03:26:37 +0000", @"Wrong earliest date.");
-                                                              STAssertEqualObjects(latestDate.description, @"2008-10-24 19:06:10 +0000", @"Wrong latest date.");
-                                                              STAssertEqualObjects(unreadCount, @0, @"Wrong number of unread items");
-                                                              STAssertEqualObjects(jive.badInstanceURL, reportedInstanceURL, @"badInstanceURL not updated.");
+                                                              XCTAssertNotNil(inboxEntries, @"InboxEntries where nil!");
+                                                              XCTAssertEqual(inboxEntries.count, expectedCount, @"Incorrect number of inbox entries where returned");
+                                                              XCTAssertEqualObjects(earliestDate.description, @"2010-10-23 03:26:37 +0000", @"Wrong earliest date.");
+                                                              XCTAssertEqualObjects(latestDate.description, @"2008-10-24 19:06:10 +0000", @"Wrong latest date.");
+                                                              XCTAssertEqualObjects(unreadCount, @0, @"Wrong number of unread items");
+                                                              XCTAssertEqualObjects(jive.badInstanceURL, reportedInstanceURL, @"badInstanceURL not updated.");
                                                               
                                                               // Check that delegates where actually called
                                                               [mockAuthDelegate verify];
@@ -403,7 +403,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -423,7 +423,7 @@
                         asRead:YES
                     onComplete:finishedBlock
                        onError:^(NSError *error) {
-                           STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                           XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                        }];
     });
     
@@ -448,7 +448,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -468,7 +468,7 @@
                         asRead:YES
                     onComplete:finishedBlock
                        onError:^(NSError *error) {
-                           STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                           XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                        }];
     });
     
@@ -493,7 +493,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -513,7 +513,7 @@
                         asRead:NO
                     onComplete:finishedBlock
                        onError:^(NSError *error) {
-                           STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                           XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                        }];
     });
     
@@ -538,7 +538,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -563,11 +563,11 @@
                         finishedBlock();
                     }
                        onError:^(NSError *error) {
-                           STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                           XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                        }];
     });
     
-    STAssertTrue(completeBlockCalled, nil);
+    XCTAssertTrue(completeBlockCalled);
     
     [mockJiveURLResponseDelegate2 verify];
 }
@@ -590,7 +590,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -613,11 +613,11 @@
                         finishedBlock();
                     }
                        onError:^(NSError *error) {
-                           STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                           XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                        }];
     });
     
-    STAssertTrue(completeBlockCalled, nil);
+    XCTAssertTrue(completeBlockCalled);
     
     [mockJiveURLResponseDelegate2 verify];
 }
@@ -640,7 +640,7 @@
                             returnedInboxEntries = inboxEntries;
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
+                            XCTFail(@"Unexpected error: %@ %@", [error localizedDescription], [error userInfo]);
                         }];
     });
     
@@ -663,7 +663,7 @@
         [jive markInboxEntries:markingInboxEntries
                         asRead:NO
                     onComplete:^{
-                        STFail(@"Unexpected onComplete");
+                        XCTFail(@"Unexpected onComplete");
                     }
                        onError:^(NSError *error) {
                            errorBlockCalled = YES;
@@ -672,8 +672,8 @@
                        }];
     });
     
-    STAssertTrue(errorBlockCalled, nil);
-    STAssertNotNil(errorBlockError, nil);
+    XCTAssertTrue(errorBlockCalled);
+    XCTAssertNotNil(errorBlockError);
     
     [mockJiveURLResponseDelegate2 verify];
 }
@@ -685,18 +685,18 @@
                                                          onJSON:nil
                                                         onError:nil];
     
-    STAssertNil(operation, @"Passing nil for the request and the error handler should produce a nil operation");
+    XCTAssertNil(operation, @"Passing nil for the request and the error handler should produce a nil operation");
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         operation = [jive operationWithRequest:nil onJSON:^(id JSON) {
-            STFail(@"The operation should not call this");
+            XCTFail(@"The operation should not call this");
             finishedBlock();
         } onError:^(NSError *error) {
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
-        STAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
+        XCTAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
+        XCTAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
         [operation start];
     });
     
@@ -705,11 +705,11 @@
     
     [[[requestMock expect] andReturn:[NSURL URLWithString:@"http://dummy.com"]] URL];
     
-    STAssertNoThrow(realOperation = [jive operationWithRequest:requestMock onJSON:^(id JSON) {
+    XCTAssertNoThrow(realOperation = [jive operationWithRequest:requestMock onJSON:^(id JSON) {
     } onError:^(NSError *error) {
-    }], nil);
-    STAssertEqualObjects(realOperation.request, requestMock, nil);
-    STAssertNoThrow([requestMock verify], nil);
+    }]);
+    XCTAssertEqualObjects(realOperation.request, requestMock);
+    XCTAssertNoThrow([requestMock verify]);
 }
 
 - (void)test_dateLimitedListOperationForClassRequestOnCompleteOnError {
@@ -721,18 +721,18 @@
                                                                  onComplete:nil
                                                                     onError:nil];
     
-    STAssertNil(operation, @"Passing nil for the request and the error handler should produce a nil operation");
+    XCTAssertNil(operation, @"Passing nil for the request and the error handler should produce a nil operation");
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         operation = [jive dateLimitedListOperationForClass:sampleClass request:nil onComplete:^(NSArray *objects, NSDate *earliestDate, NSDate *latestDate, NSNumber *unreadCount) {
-            STFail(@"The operation should not call this");
+            XCTFail(@"The operation should not call this");
             finishedBlock();
         } onError:^(NSError *error) {
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
-        STAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
+        XCTAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
+        XCTAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
         [operation start];
     });
     
@@ -741,11 +741,11 @@
     
     [[[requestMock expect] andReturn:[NSURL URLWithString:@"http://dummy.com"]] URL];
     
-    STAssertNoThrow(realOperation = [jive dateLimitedListOperationForClass:sampleClass request:requestMock onComplete:^(NSArray *objects, NSDate *earliestDate, NSDate *latestDate, NSNumber *unreadCount) {
+    XCTAssertNoThrow(realOperation = [jive dateLimitedListOperationForClass:sampleClass request:requestMock onComplete:^(NSArray *objects, NSDate *earliestDate, NSDate *latestDate, NSNumber *unreadCount) {
     } onError:^(NSError *error) {
-    }], nil);
-    STAssertEqualObjects(realOperation.request, requestMock, nil);
-    STAssertNoThrow([requestMock verify], nil);
+    }]);
+    XCTAssertEqualObjects(realOperation.request, requestMock);
+    XCTAssertNoThrow([requestMock verify]);
 }
 
 - (void)test_uploadImageDataOperationMimeTypeFileNameOnCompleteOnError {
@@ -760,7 +760,7 @@
     
     [[[[afHTTPClient stub] classMethod] andReturn:afHTTPClient] alloc];
     (void)[(AFHTTPClient *)[[afHTTPClient stub] andReturn:afHTTPClient] initWithBaseURL:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects([obj absoluteString], [expectedURL absoluteString], nil);
+        XCTAssertEqualObjects([obj absoluteString], [expectedURL absoluteString]);
         return YES;
     }]];
     [[[afHTTPClient expect] andReturn:nil] multipartFormRequestWithMethod:[OCMArg any]
@@ -768,13 +768,13 @@
                                                                parameters:[OCMArg any]
                                                 constructingBodyWithBlock:[OCMArg any]];
     
-    STAssertNil(operation = [jive uploadImageDataOperation:data
+    XCTAssertNil(operation = [jive uploadImageDataOperation:data
                                                   mimeType:mimeType
                                                   fileName:fileName
                                                 onComplete:nil
                                                    onError:nil],
                 @"Passing nil for the error handler should produce a nil operation");
-    STAssertNoThrow([afHTTPClient verify], nil);
+    XCTAssertNoThrow([afHTTPClient verify]);
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [[[afHTTPClient expect] andReturn:nil] multipartFormRequestWithMethod:[OCMArg any]
@@ -782,15 +782,15 @@
                                                                    parameters:[OCMArg any]
                                                     constructingBodyWithBlock:[OCMArg any]];
         operation = [jive uploadImageDataOperation:data mimeType:mimeType fileName:fileName onComplete:^(JiveImage *image) {
-            STFail(@"The operation should not call this");
+            XCTFail(@"The operation should not call this");
             finishedBlock();
         } onError:^(NSError *error) {
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
-        STAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
-        STAssertNoThrow([afHTTPClient verify], nil);
+        XCTAssertNotNil(operation, @"Passing an error handle with a nil request should produce an operation object");
+        XCTAssertTrue([operation conformsToProtocol:@protocol(JiveRetryingOperation)], @"Doesn't conform to the JiveRetryingOperation protocol");
+        XCTAssertNoThrow([afHTTPClient verify]);
         [operation start];
     });
     
@@ -802,26 +802,26 @@
                                                                        parameters:[OCMArg any]
                                                         constructingBodyWithBlock:[OCMArg any]];
     [[requestMock stub] setValue:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, @"Basic Zm9vOmJhcg==", nil);
+        XCTAssertEqualObjects(obj, @"Basic Zm9vOmJhcg==");
         return YES;
     }] forHTTPHeaderField:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, @"Authorization", nil);
+        XCTAssertEqualObjects(obj, @"Authorization");
         return YES;
     }]];
     [[requestMock stub] addValue:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertNotNil(obj, nil);
+        XCTAssertNotNil(obj);
         return YES;
     }] forHTTPHeaderField:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertNotNil(obj, nil);
+        XCTAssertNotNil(obj);
         return YES;
     }]];
     
-    STAssertNoThrow(realOperation = [jive uploadImageDataOperation:data mimeType:mimeType fileName:fileName onComplete:^(JiveImage *image) {
+    XCTAssertNoThrow(realOperation = [jive uploadImageDataOperation:data mimeType:mimeType fileName:fileName onComplete:^(JiveImage *image) {
     } onError:^(NSError *error) {
-    }], nil);
-    STAssertEqualObjects(realOperation.request, requestMock, nil);
-    STAssertNoThrow([requestMock verify], nil);
-    STAssertNoThrow([afHTTPClient verify], nil);
+    }]);
+    XCTAssertEqualObjects(realOperation.request, requestMock);
+    XCTAssertNoThrow([requestMock verify]);
+    XCTAssertNoThrow([afHTTPClient verify]);
 }
 
 - (void)testMarkInboxEntryAsFollowed {
@@ -845,19 +845,19 @@
     
     JiveErrorBlock errorBlock = ^(NSError *error) {
         ++errorBlockPassed;
-        STAssertEquals(error, checkError, @"Error did not match check error");
+        XCTAssertEqual(error, checkError, @"Error did not match check error");
     };
     
     [[mockJive expect] createAssociations:[OCMArg checkWithBlock:^BOOL(id obj) {
         JiveAssociationTargetList *targetList = obj;
         NSArray *targetArray = [targetList toJSONArray];
-        STAssertEquals([targetArray count], (NSUInteger)2, @"Unexpected target list size");
-        STAssertEqualObjects(targetArray[0], [urls[0] absoluteString], @"Should have the same urls as were passed in");
-        STAssertEqualObjects(targetArray[1], [urls[1] absoluteString], @"Should have the same urls as were passed in");
+        XCTAssertEqual([targetArray count], (NSUInteger)2, @"Unexpected target list size");
+        XCTAssertEqualObjects(targetArray[0], [urls[0] absoluteString], @"Should have the same urls as were passed in");
+        XCTAssertEqualObjects(targetArray[1], [urls[1] absoluteString], @"Should have the same urls as were passed in");
         
         return YES;
     }] forStream:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, stream, @"Unexpected inbox stream passed in");
+        XCTAssertEqual(obj, stream, @"Unexpected inbox stream passed in");
         return YES;
     }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
         dispatch_block_t block = obj;
@@ -871,9 +871,9 @@
     
     [mockJive markInboxEntryUpdates:urls inInboxStream:stream asFollowed:YES onComplete:completeBlock onError:errorBlock];
     
-    STAssertEquals(completeBlockPassed, (NSInteger)1, @"Did not handle the complete block the expected number of times");
-    STAssertEquals(errorBlockPassed, (NSInteger)1, @"Did not handle the error block the expected number of times");
-    STAssertNoThrow([mockJive verify], @"Did not call createAssociations as expected");
+    XCTAssertEqual(completeBlockPassed, (NSInteger)1, @"Did not handle the complete block the expected number of times");
+    XCTAssertEqual(errorBlockPassed, (NSInteger)1, @"Did not handle the error block the expected number of times");
+    XCTAssertNoThrow([mockJive verify], @"Did not call createAssociations as expected");
 }
 
 - (void)testMarkInboxEntryAsUnfollowed_complete {
@@ -904,10 +904,10 @@
         }] start];
         
         [[[mockJive expect] andReturn:operation] deleteAssociationURLOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, url2, @"Unexpected url");
+            XCTAssertEqualObjects(obj, url2, @"Unexpected url");
             return YES;
         }] fromStream:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEquals(obj, stream, @"Unexpected inbox stream");
+            XCTAssertEqual(obj, stream, @"Unexpected inbox stream");
             return YES;
         }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
             blockPassedIn1 = obj;
@@ -915,27 +915,27 @@
         }] onError:[OCMArg any]];
         
         [[[mockJive expect] andReturn:operation] deleteAssociationURLOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, url1, @"Unexpected url");
+            XCTAssertEqualObjects(obj, url1, @"Unexpected url");
             return YES;
         }] fromStream:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEquals(obj, stream, @"Unexpected inbox stream");
+            XCTAssertEqual(obj, stream, @"Unexpected inbox stream");
             return YES;
         }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
             blockPassedIn2 = obj;
             return YES;
         }] onError:[OCMArg any]];
         
-        STAssertNoThrow([mockJive markInboxEntryUpdates:urls
+        XCTAssertNoThrow([mockJive markInboxEntryUpdates:urls
                                           inInboxStream:stream
                                              asFollowed:NO
                                              onComplete:finishedBlock
                                                 onError:^(NSError *error) {
-            STAssertTrue(NO, @"Should not call error block");
+            XCTAssertTrue(NO, @"Should not call error block");
         }], @"Unexpected method called");
     });
     
-    STAssertNoThrow([mockJive verify], @"Did not call deleteAssociations as expected");
-    STAssertNoThrow([operation verify], @"Did not call expected operation methods");
+    XCTAssertNoThrow([mockJive verify], @"Did not call deleteAssociations as expected");
+    XCTAssertNoThrow([operation verify], @"Did not call expected operation methods");
 }
 
 - (void)testMarkInboxEntryAsUnfollowed_error {
@@ -968,10 +968,10 @@
         }] start];
         
         [[[mockJive expect] andReturn:operation] deleteAssociationURLOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, url2, @"Unexpected url");
+            XCTAssertEqualObjects(obj, url2, @"Unexpected url");
             return YES;
         }] fromStream:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEquals(obj, stream, @"Unexpected inbox stream");
+            XCTAssertEqual(obj, stream, @"Unexpected inbox stream");
             return YES;
         }] onComplete:[OCMArg any]
            onError:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -983,30 +983,30 @@
         }]];
         
         [[[mockJive expect] andReturn:operation] deleteAssociationURLOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, url1, @"Unexpected url");
+            XCTAssertEqualObjects(obj, url1, @"Unexpected url");
             return YES;
         }] fromStream:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEquals(obj, stream, @"Unexpected inbox stream");
+            XCTAssertEqual(obj, stream, @"Unexpected inbox stream");
             return YES;
         }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
             blockPassedIn2 = obj;
             return YES;
         }] onError:[OCMArg any]];
         
-        STAssertNoThrow([mockJive markInboxEntryUpdates:urls
+        XCTAssertNoThrow([mockJive markInboxEntryUpdates:urls
                                           inInboxStream:stream
                                              asFollowed:NO
                                              onComplete:^{
-                                                 STAssertTrue(NO, @"Should not call complete");
+                                                 XCTAssertTrue(NO, @"Should not call complete");
                                              }
                                                 onError:^(NSError *error) {
-                                                    STAssertEqualObjects([error userInfo][NSUnderlyingErrorKey], checkError, @"Did not use the expected error");
+                                                    XCTAssertEqualObjects([error userInfo][NSUnderlyingErrorKey], checkError, @"Did not use the expected error");
                                                     finishedBlock();
                                                 }], @"Unexpected method called");
     });
     
-    STAssertNoThrow([mockJive verify], @"Did not call deleteAssociations as expected");
-    STAssertNoThrow([operation verify], @"Did not call expected operation methods");
+    XCTAssertNoThrow([mockJive verify], @"Did not call deleteAssociations as expected");
+    XCTAssertNoThrow([operation verify], @"Did not call expected operation methods");
 }
 
 - (void)checkObjectOperation:(NSOperation *(^)(JiveObjectCompleteBlock completionBlock,
@@ -1036,12 +1036,12 @@
             finishedBlock();
         },
                                                                                           ^(NSError *error) {
-                                                                                              STFail([error localizedDescription]);
+                                                                                              XCTFail(@"%@", [error localizedDescription]);
                                                                                               finishedBlock();
                                                                                           });
         
-        STAssertNotNil(operation, @"Missing operation object");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"X-JIVE-TC-SUPPORT"],
+        XCTAssertNotNil(operation, @"Missing operation object");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"X-JIVE-TC-SUPPORT"],
                              @"true",
                              @"Wrong terms and conditions flag");
         [operation start];
@@ -1052,16 +1052,16 @@
         [self createJiveAPIObjectWithResponse:response andAuthDelegate:mockAuthDelegate];
         jive.badInstanceURL = @"brewspace";
         NSOperation* operation = createOperation(^(id object) {
-            STAssertNil(jive.badInstanceURL, @"badInstanceURL was not cleared: %@", jive.badInstanceURL);
+            XCTAssertNil(jive.badInstanceURL, @"badInstanceURL was not cleared: %@", jive.badInstanceURL);
             completeBlock(object);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing clear bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing clear bad instance check operation object");
         [operation start];
     });
     
@@ -1069,11 +1069,11 @@
         NSInteger error_code = 404;
         [self createJiveAPIObjectWithErrorCode:error_code andAuthDelegateURLCheck:url];
         NSOperation *operation = createOperation(^(id object) {
-            STFail(@"404 errors should be reported");
+            XCTFail(@"404 errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     error_code,
                                                                     @"Wrong error reported");
                                                      [mockAuthDelegate verify];
@@ -1081,21 +1081,21 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [self createJiveAPIObjectWithTermsAndConditionsFailureAndAuthDelegateURLCheck:url];
         NSOperation *operation = createOperation(^(id object) {
-            STFail(@"Terms and Conditions errors should be reported");
+            XCTFail(@"Terms and Conditions errors should be reported");
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+                                                     XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                                                                     (NSInteger)0,
                                                                     @"Wrong error reported");
-                                                     STAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
+                                                     XCTAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
                                                                           @"/api/core/v3/people/@me/termsAndConditions",
                                                                           @"Wrong terms and conditions api");
                                                      [mockAuthDelegate verify];
@@ -1103,7 +1103,7 @@
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
@@ -1117,18 +1117,18 @@
         self.testURL = [NSURL URLWithString:proxyInstanceURL];
         createMockAuthDelegate(instanceURLString);
         [self createJiveAPIObjectWithResponse:response andAuthDelegate:mockAuthDelegate];
-        STAssertNil(jive.badInstanceURL, @"PRECONDITION: badInstanceURL should be nil to start.");
+        XCTAssertNil(jive.badInstanceURL, @"PRECONDITION: badInstanceURL should be nil to start.");
         NSOperation* operation = createOperation(^(id object) {
-            STAssertNotNil(jive.badInstanceURL, @"badInstanceURL not updated: %@", jive.badInstanceURL);
+            XCTAssertNotNil(jive.badInstanceURL, @"badInstanceURL not updated: %@", jive.badInstanceURL);
             completeBlock(object);
             finishedBlock();
         },
                                                  ^(NSError *error) {
-                                                     STFail([error localizedDescription]);
+                                                     XCTFail(@"%@", [error localizedDescription]);
                                                      finishedBlock();
                                                  });
         
-        STAssertNotNil(operation, @"Missing bad instance check operation object");
+        XCTAssertNotNil(operation, @"Missing bad instance check operation object");
         [operation start];
     });
 }
@@ -1143,7 +1143,7 @@
                            URL:url
                  expectedClass:clazz
                       complete:^(id object) {
-                          STAssertTrue([[object class] isSubclassOfClass:clazz], @"Wrong item class");
+                          XCTAssertTrue([[object class] isSubclassOfClass:clazz], @"Wrong item class");
                           
                           // Check that delegates where actually called
                           [mockAuthDelegate verify];
@@ -1161,10 +1161,10 @@
                            URL:url
                  expectedClass:clazz
                       complete:^(id object) {
-                          STAssertEquals([object class], clazz, @"Wrong item class");
+                          XCTAssertEqual([object class], clazz, @"Wrong item class");
                           
                           JivePerson *person = (JivePerson *)object;
-                          STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                          XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
                           
                           // Check that delegates where actually called
                           [mockAuthDelegate verify];
@@ -1196,15 +1196,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive me:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1237,12 +1237,12 @@
             completeBlock(streams);
             finishedBlock();
         }, ^(NSError *error) {
-            STFail(@"%@: %@", failureMessage, [error localizedDescription]);
+            XCTFail(@"%@: %@", failureMessage, [error localizedDescription]);
             finishedBlock();
         });
         
-        STAssertNotNil(operation, @"%@: Missing operation object", failureMessage);
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"X-JIVE-TC-SUPPORT"],
+        XCTAssertNotNil(operation, @"%@: Missing operation object", failureMessage);
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"X-JIVE-TC-SUPPORT"],
                              @"true",
                              @"%@: Wrong terms and conditions flag", failureMessage);
         [operation start];
@@ -1253,16 +1253,16 @@
         [self createJiveAPIObjectWithResponse:response andAuthDelegate:mockAuthDelegate];
         jive.badInstanceURL = @"brewspace";
         NSOperation* operation = createOperation(^(NSArray *streams) {
-            STAssertNil(jive.badInstanceURL, @"%@, badInstanceURL was not cleared: %@",
+            XCTAssertNil(jive.badInstanceURL, @"%@, badInstanceURL was not cleared: %@",
                         failureMessage, jive.badInstanceURL);
             completeBlock(streams);
             finishedBlock();
         }, ^(NSError *error) {
-            STFail(@"%@: %@", failureMessage, [error localizedDescription]);
+            XCTFail(@"%@: %@", failureMessage, [error localizedDescription]);
             finishedBlock();
         });
         
-        STAssertNotNil(operation, @"%@: Missing clear bad instance check operation object",
+        XCTAssertNotNil(operation, @"%@: Missing clear bad instance check operation object",
                        failureMessage);
         [operation start];
     });
@@ -1271,10 +1271,10 @@
         NSInteger error_code = 404;
         [self createJiveAPIObjectWithErrorCode:error_code andAuthDelegateURLCheck:url];
         NSOperation *operation = createOperation(^(NSArray *streams) {
-            STFail(@"%@: 404 errors should be reported", failureMessage);
+            XCTFail(@"%@: 404 errors should be reported", failureMessage);
             finishedBlock();
         }, ^(NSError *error) {
-            STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+            XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                            error_code,
                            @"%@: Wrong error reported", failureMessage);
             [mockAuthDelegate verify];
@@ -1282,20 +1282,20 @@
             finishedBlock();
         });
         
-        STAssertNotNil(operation, @"Missing error operation object");
+        XCTAssertNotNil(operation, @"Missing error operation object");
         [operation start];
     });
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [self createJiveAPIObjectWithTermsAndConditionsFailureAndAuthDelegateURLCheck:url];
         NSOperation *operation = createOperation(^(NSArray *streams) {
-            STFail(@"%@: Terms and Conditions errors should be reported", failureMessage);
+            XCTFail(@"%@: Terms and Conditions errors should be reported", failureMessage);
             finishedBlock();
         }, ^(NSError *error) {
-            STAssertEquals([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
+            XCTAssertEqual([error.userInfo[JiveErrorKeyHTTPStatusCode] integerValue],
                            (NSInteger)0,
                            @"%@: Wrong error reported", failureMessage);
-            STAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
+            XCTAssertEqualObjects(error.userInfo[JiveErrorKeyTermsAndConditionsAPI],
                                  @"/api/core/v3/people/@me/termsAndConditions",
                                  @"%@: Wrong terms and conditions api", failureMessage);
             [mockAuthDelegate verify];
@@ -1303,7 +1303,7 @@
             finishedBlock();
         });
         
-        STAssertNotNil(operation, @"%@: Missing error operation object", failureMessage);
+        XCTAssertNotNil(operation, @"%@: Missing error operation object", failureMessage);
         [operation start];
     });
     
@@ -1317,18 +1317,18 @@
         self.testURL = [NSURL URLWithString:proxyInstanceURL];
         createMockAuthDelegate(instanceURLString);
         [self createJiveAPIObjectWithResponse:response andAuthDelegate:mockAuthDelegate];
-        STAssertNil(jive.badInstanceURL,
+        XCTAssertNil(jive.badInstanceURL,
                     @"PRECONDITION: %@: badInstanceURL should be nil to start.", failureMessage);
         NSOperation* operation = createOperation(^(NSArray *streams) {
-            STAssertNotNil(jive.badInstanceURL, @"%@: badInstanceURL not updated.", failureMessage);
+            XCTAssertNotNil(jive.badInstanceURL, @"%@: badInstanceURL not updated.", failureMessage);
             completeBlock(streams);
             finishedBlock();
         }, ^(NSError *error) {
-            STFail(@"%@: %@", failureMessage, [error localizedDescription]);
+            XCTFail(@"%@: %@", failureMessage, [error localizedDescription]);
             finishedBlock();
         });
         
-        STAssertNotNil(operation, @"%@: Missing bad instance check operation object", failureMessage);
+        XCTAssertNotNil(operation, @"%@: Missing bad instance check operation object", failureMessage);
         [operation start];
     });
 }
@@ -1346,10 +1346,10 @@
                expectedCount:expectedCount
                expectedClass:clazz
                     complete:^(NSArray *collection) {
-                        STAssertEquals([collection count], expectedCount,
+                        XCTAssertEqual([collection count], expectedCount,
                                        @"%@: Wrong number of items parsed", failureMessage);
                         for (id collectionObject in collection) {
-                            STAssertTrue([collectionObject isKindOfClass:clazz],
+                            XCTAssertTrue([collectionObject isKindOfClass:clazz],
                                          @"%@: Item %@ is not of class %@", failureMessage,
                                          collectionObject, clazz);
                         }
@@ -1374,11 +1374,11 @@
                expectedCount:expectedCount
                expectedClass:clazz
                     complete:^(NSArray *collection) {
-                        STAssertEquals([collection count], expectedCount, @"Wrong number of items parsed");
+                        XCTAssertEqual([collection count], expectedCount, @"Wrong number of items parsed");
                         for (JivePerson *person in collection) {
-                            STAssertTrue([person isKindOfClass:clazz], @"Item %@ is not of class %@",
+                            XCTAssertTrue([person isKindOfClass:clazz], @"Item %@ is not of class %@",
                                          person, clazz);
-                            STAssertEqualObjects(person.jiveInstance,
+                            XCTAssertEqualObjects(person.jiveInstance,
                                                  jive,
                                                  @"The person.jiveInstance was not initialized correctly");
                         }
@@ -1427,10 +1427,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive collegues:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)9, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)9, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1438,7 +1438,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1475,10 +1475,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive followers:source onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1486,7 +1486,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1511,10 +1511,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"alt_person_response"];
         [jive followers:source onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1522,7 +1522,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1568,10 +1568,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive followers:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1579,7 +1579,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1609,10 +1609,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive followers:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1620,7 +1620,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1663,10 +1663,10 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive searchPeople:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)13, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)13, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1674,7 +1674,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1717,15 +1717,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive searchPlaces:options onComplete:^(NSArray *places) {
             // Called 3rd
-            STAssertEquals([places count], (NSUInteger)10, @"Wrong number of items parsed");
-            STAssertTrue([[places objectAtIndex:0] isKindOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqual([places count], (NSUInteger)10, @"Wrong number of items parsed");
+            XCTAssertTrue([[places objectAtIndex:0] isKindOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1768,15 +1768,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive searchContents:options onComplete:^(NSArray *contents) {
             // Called 3rd
-            STAssertEquals([contents count], (NSUInteger)7, @"Wrong number of items parsed");
-            STAssertTrue([[contents objectAtIndex:0] isKindOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([contents count], (NSUInteger)7, @"Wrong number of items parsed");
+            XCTAssertTrue([[contents objectAtIndex:0] isKindOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1818,10 +1818,10 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive people:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -1829,7 +1829,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1870,15 +1870,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive person:source withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1901,8 +1901,8 @@
         NSOperation* operation = [jive filterableFieldsOperation:^(NSArray *fields) {
             // Called 3rd
             CFStringRef referenceString = CFStringCreateWithCString(nil, "a", kCFStringEncodingMacRoman); // Make a real CFStringRef not a CFConstStringRef
-            STAssertEquals([fields count], (NSUInteger)6, @"Wrong number of items parsed");
-            STAssertEquals([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
+            XCTAssertEqual([fields count], (NSUInteger)6, @"Wrong number of items parsed");
+            XCTAssertEqual([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
             CFRelease(referenceString);
             
             // Check that delegates where actually called
@@ -1910,7 +1910,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         [operation start];
@@ -1934,8 +1934,8 @@
         [jive filterableFields:^(NSArray *fields) {
             // Called 3rd
             CFStringRef referenceString = CFStringCreateWithCString(nil, "a", kCFStringEncodingMacRoman); // Make a real CFStringRef not a CFConstStringRef
-            STAssertEquals([fields count], (NSUInteger)6, @"Wrong number of items parsed");
-            STAssertEquals([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
+            XCTAssertEqual([fields count], (NSUInteger)6, @"Wrong number of items parsed");
+            XCTAssertEqual([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
             CFRelease(referenceString);
             
             // Check that delegates where actually called
@@ -1943,7 +1943,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -1966,8 +1966,8 @@
         NSOperation* operation = [jive supportedFieldsOperation:^(NSArray *fields) {
             // Called 3rd
             CFStringRef referenceString = CFStringCreateWithCString(nil, "a", kCFStringEncodingMacRoman); // Make a real CFStringRef not a CFConstStringRef
-            STAssertEquals([fields count], (NSUInteger)18, @"Wrong number of items parsed");
-            STAssertEquals([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
+            XCTAssertEqual([fields count], (NSUInteger)18, @"Wrong number of items parsed");
+            XCTAssertEqual([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
             CFRelease(referenceString);
             
             // Check that delegates where actually called
@@ -1975,7 +1975,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         [operation start];
@@ -1999,8 +1999,8 @@
         [jive supportedFields:^(NSArray *fields) {
             // Called 3rd
             CFStringRef referenceString = CFStringCreateWithCString(nil, "a", kCFStringEncodingMacRoman); // Make a real CFStringRef not a CFConstStringRef
-            STAssertEquals([fields count], (NSUInteger)18, @"Wrong number of items parsed");
-            STAssertEquals([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
+            XCTAssertEqual([fields count], (NSUInteger)18, @"Wrong number of items parsed");
+            XCTAssertEqual([[fields objectAtIndex:0] class], [(__bridge NSString *)referenceString class], @"Wrong item class");
             CFRelease(referenceString);
             
             // Check that delegates where actually called
@@ -2008,7 +2008,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2047,15 +2047,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive personByEmail:@"test_email" withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2094,15 +2094,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive personByUserName:@"UserName" withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2144,17 +2144,17 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive recommendedPeople:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)1, @"Wrong number of items parsed");
+            XCTAssertEqual([people count], (NSUInteger)1, @"Wrong number of items parsed");
             JivePerson *person = [people objectAtIndex:0];
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2187,15 +2187,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive resources:^(NSArray *resources) {
             // Called 3rd
-            STAssertEquals([resources count], (NSUInteger)19, @"Wrong number of items parsed");
-            STAssertEquals([[resources objectAtIndex:0] class], [JiveResource class], @"Wrong item class");
+            XCTAssertEqual([resources count], (NSUInteger)19, @"Wrong number of items parsed");
+            XCTAssertEqual([[resources objectAtIndex:0] class], [JiveResource class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2238,10 +2238,10 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive trending:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -2249,7 +2249,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2292,15 +2292,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive activities:source withOptions:options onComplete:^(NSArray *activities) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)22, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)22, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2342,14 +2342,14 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive blog:source withOptions:options onComplete:^(JiveBlog *blog) {
             // Called 3rd
-            STAssertEquals([blog class], [JiveBlog class], @"Wrong item class");
+            XCTAssertEqual([blog class], [JiveBlog class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2390,15 +2390,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive manager:source withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2443,10 +2443,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive reports:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -2454,7 +2454,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2499,10 +2499,10 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive following:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -2510,7 +2510,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2551,15 +2551,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive person:@"2918" reports:@"5630" withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2599,15 +2599,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive contents:options onComplete:^(NSArray *contents) {
             // Called 3rd
-            STAssertEquals([contents count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([contents count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2649,15 +2649,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive popularContents:options onComplete:^(NSArray *contents) {
             // Called 3rd
-            STAssertEquals([contents count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([contents count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2698,15 +2698,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive recommendedContents:options onComplete:^(NSArray *contents) {
             // Called 3rd
-            STAssertEquals([contents count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([contents count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2747,15 +2747,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive trendingContents:options onComplete:^(NSArray *contents) {
             // Called 3rd
-            STAssertEquals([contents count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([contents count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertTrue([[[contents objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2797,14 +2797,14 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_alternate"];
         [jive content:source withOptions:options onComplete:^(JiveContent *content) {
             // Called 3rd
-            STAssertEquals([content class], [JiveUpdate class], @"Wrong item class");
+            XCTAssertEqual([content class], [JiveUpdate class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2848,15 +2848,15 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_alternate"];
         [jive commentsForContent:source withOptions:options onComplete:^(NSArray *comments) {
             // Called 3rd
-            STAssertEquals([comments count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertTrue([[[comments objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([comments count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertTrue([[[comments objectAtIndex:0] class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2902,10 +2902,10 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_alternate"];
         [jive contentLikedBy:source withOptions:options onComplete:^(NSArray *people) {
             // Called 3rd
-            STAssertEquals([people count], (NSUInteger)20, @"Wrong number of items parsed");
-            STAssertEquals([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqual([people count], (NSUInteger)20, @"Wrong number of items parsed");
+            XCTAssertEqual([[people objectAtIndex:0] class], [JivePerson class], @"Wrong item class");
             for (JivePerson *person in people) {
-                STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+                XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             }
             
             // Check that delegates where actually called
@@ -2913,7 +2913,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -2953,15 +2953,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive recommendedPlaces:options onComplete:^(NSArray *places) {
             // Called 3rd
-            STAssertEquals([places count], (NSUInteger)7, @"Wrong number of items parsed");
-            STAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqual([places count], (NSUInteger)7, @"Wrong number of items parsed");
+            XCTAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3001,15 +3001,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive trendingPlaces:options onComplete:^(NSArray *places) {
             // Called 3rd
-            STAssertEquals([places count], (NSUInteger)7, @"Wrong number of items parsed");
-            STAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqual([places count], (NSUInteger)7, @"Wrong number of items parsed");
+            XCTAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3049,15 +3049,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive places:options onComplete:^(NSArray *places) {
             // Called 3rd
-            STAssertEquals([places count], (NSUInteger)25, @"Wrong number of items parsed");
-            STAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqual([places count], (NSUInteger)25, @"Wrong number of items parsed");
+            XCTAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3100,15 +3100,15 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive placePlaces:source withOptions:options onComplete:^(NSArray *places) {
             // Called 3rd
-            STAssertEquals([places count], (NSUInteger)7, @"Wrong number of items parsed");
-            STAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqual([places count], (NSUInteger)7, @"Wrong number of items parsed");
+            XCTAssertTrue([[[places objectAtIndex:0] class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3150,14 +3150,14 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive place:source withOptions:options onComplete:^(JivePlace *place) {
             // Called 3rd
-            STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3185,14 +3185,14 @@
                withOptions:options
                 onComplete:^(JivePlace *place) {
                     // Called 3rd
-                    STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+                    XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
                     
                     // Check that delegates where actually called
                     [mockAuthDelegate verify];
                     [mockJiveURLResponseDelegate verify];
                     finishedBlock();
                 } onError:^(NSError *error) {
-                    STFail([error localizedDescription]);
+                    XCTFail(@"%@", [error localizedDescription]);
                     finishedBlock();
                 }];
     });
@@ -3219,14 +3219,14 @@
                withOptions:options
                 onComplete:^(JivePlace *place) {
                     // Called 3rd
-                    STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+                    XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
                     
                     // Check that delegates where actually called
                     [mockAuthDelegate verify];
                     [mockJiveURLResponseDelegate verify];
                     finishedBlock();
                 } onError:^(NSError *error) {
-                    STFail([error localizedDescription]);
+                    XCTFail(@"%@", [error localizedDescription]);
                     finishedBlock();
                 }];
     });
@@ -3303,15 +3303,15 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive placeActivities:source withOptions:options onComplete:^(NSArray *activities) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)3, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)3, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3355,11 +3355,11 @@
         [jive memberWithMember:testMember
                        options:nil
                     onComplete:(^(JiveMember *member) {
-            STAssertNotNil(member, nil);
+            XCTAssertNotNil(member);
             finishedBlock();
         })
                        onError:(^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         })];
     });
@@ -3386,11 +3386,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
+        XCTAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
         [operation start];
     });
 }
@@ -3417,7 +3417,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3542,15 +3542,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive followingIn:source withOptions:options onComplete:^(NSArray *streams) {
             // Called 3rd
-            STAssertEquals([streams count], (NSUInteger)1, @"Wrong number of items parsed");
-            STAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertEqual([streams count], (NSUInteger)1, @"Wrong number of items parsed");
+            XCTAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3592,14 +3592,14 @@
         JiveStream *source = [self entityForClass:[JiveStream class] fromJSONNamed:@"stream_alternate"];
         [jive stream:source withOptions:options onComplete:^(JiveStream *stream) {
             // Called 3rd
-            STAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3642,15 +3642,15 @@
         JiveStream *source = [self entityForClass:[JiveStream class] fromJSONNamed:@"stream_alternate"];
         [jive streamActivities:source withOptions:options onComplete:^(NSArray *activities) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)13, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)13, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3690,15 +3690,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive streamConnectionsActivities:options onComplete:^(NSArray *activities) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)13, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)13, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3725,11 +3725,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
+        XCTAssertEqualObjects(JiveHTTPMethodTypes.DELETE, operation.request.HTTPMethod, @"Wrong http method used");
         [operation start];
     });
 }
@@ -3756,7 +3756,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3800,15 +3800,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive streams:source withOptions:options onComplete:^(NSArray *streams) {
             // Called 3rd
-            STAssertEquals([streams count], (NSUInteger)5, @"Wrong number of items parsed");
-            STAssertEquals([[streams objectAtIndex:0] class], [JiveStream class], @"Wrong item class");
+            XCTAssertEqual([streams count], (NSUInteger)5, @"Wrong number of items parsed");
+            XCTAssertEqual([[streams objectAtIndex:0] class], [JiveStream class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3851,15 +3851,15 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive tasks:source withOptions:options onComplete:^(NSArray *tasks) {
             // Called 3rd
-            STAssertEquals([tasks count], (NSUInteger)1, @"Wrong number of items parsed");
-            STAssertEquals([[tasks objectAtIndex:0] class], [JiveTask class], @"Wrong item class");
+            XCTAssertEqual([tasks count], (NSUInteger)1, @"Wrong number of items parsed");
+            XCTAssertEqual([[tasks objectAtIndex:0] class], [JiveTask class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3903,15 +3903,15 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive placeFollowingIn:source withOptions:options onComplete:^(NSArray *streams) {
             // Called 3rd
-            STAssertEquals([streams count], (NSUInteger)1, @"Wrong number of items parsed");
-            STAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertEqual([streams count], (NSUInteger)1, @"Wrong number of items parsed");
+            XCTAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -3993,15 +3993,15 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_alternate"];
         [jive contentFollowingIn:source withOptions:options onComplete:^(NSArray *streams) {
             // Called 3rd
-            STAssertEquals([streams count], (NSUInteger)1, @"Wrong number of items parsed");
-            STAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertEqual([streams count], (NSUInteger)1, @"Wrong number of items parsed");
+            XCTAssertTrue([[streams objectAtIndex:0] isKindOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4034,9 +4034,9 @@
                                      withOptions:options
                                       onComplete:^(NSArray *associations) {
                                           if (associations.count >= 3) {
-                                              STAssertTrue([associations[0] isKindOfClass:[JivePerson class]], @"Wrong first item class");
-                                              STAssertTrue([associations[1] isKindOfClass:[JiveGroup class]], @"Wrong second item class");
-                                              STAssertTrue([associations[2] isKindOfClass:[JiveBlog class]], @"Wrong third item class");
+                                              XCTAssertTrue([associations[0] isKindOfClass:[JivePerson class]], @"Wrong first item class");
+                                              XCTAssertTrue([associations[1] isKindOfClass:[JiveGroup class]], @"Wrong second item class");
+                                              XCTAssertTrue([associations[2] isKindOfClass:[JiveBlog class]], @"Wrong third item class");
                                           }
                                           completionBlock(associations);
                                       }
@@ -4069,15 +4069,15 @@
         JiveStream *source = [self entityForClass:[JiveStream class] fromJSONNamed:@"stream_alternate"];
         [jive streamAssociations:source withOptions:options onComplete:^(NSArray *associations) {
             // Called 3rd
-            STAssertEquals([associations count], (NSUInteger)23, @"Wrong number of items parsed");
-            STAssertTrue([[associations objectAtIndex:0] isKindOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqual([associations count], (NSUInteger)23, @"Wrong number of items parsed");
+            XCTAssertTrue([[associations objectAtIndex:0] isKindOfClass:[JiveContent class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4105,21 +4105,21 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive updateStreamOperation:source withOptions:options onComplete:^(JiveStream *stream) {
             // Called 3rd
-            STAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -4147,14 +4147,14 @@
         source.receiveEmails = nil;
         [jive updateStream:source withOptions:options onComplete:^(JiveStream *stream) {
             // Called 3rd
-            STAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4181,22 +4181,22 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive updateMemberOperation:source withOptions:options onComplete:^(JiveMember *member) {
             // Called 3rd
-            STAssertTrue([[member class] isSubclassOfClass:[JiveMember class]], @"Wrong item class");
-            STAssertEqualObjects(@"member", member.state, @"New object not created");
+            XCTAssertTrue([[member class] isSubclassOfClass:[JiveMember class]], @"Wrong item class");
+            XCTAssertEqualObjects(@"member", member.state, @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -4223,15 +4223,15 @@
         source.state = @"banned";
         [jive updateMember:source withOptions:options onComplete:^(JiveMember *member) {
             // Called 3rd
-            STAssertTrue([[member class] isSubclassOfClass:[JiveMember class]], @"Wrong item class");
-            STAssertEqualObjects(@"member", member.state, @"New object not created");
+            XCTAssertTrue([[member class] isSubclassOfClass:[JiveMember class]], @"Wrong item class");
+            XCTAssertEqualObjects(@"member", member.state, @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4258,11 +4258,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4289,7 +4289,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4316,11 +4316,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4347,7 +4347,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4374,11 +4374,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4405,7 +4405,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4432,11 +4432,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4463,7 +4463,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4490,11 +4490,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4521,7 +4521,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4548,22 +4548,22 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive updateContentOperation:source withOptions:options onComplete:^(JiveContent *content) {
             // Called 3rd
-            STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-            STAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
+            XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -4590,15 +4590,15 @@
         source.subject = @"alternate";
         [jive updateContent:source withOptions:options onComplete:^(JiveContent *content) {
             // Called 3rd
-            STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-            STAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
+            XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+            XCTAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4625,22 +4625,22 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive updatePlaceOperation:source withOptions:options onComplete:^(JivePlace *place) {
             // Called 3rd
-            STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
-            STAssertEqualObjects(place.displayName, @"bob", @"New object not created");
+            XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqualObjects(place.displayName, @"bob", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -4667,15 +4667,15 @@
         source.displayName = @"alternate";
         [jive updatePlace:source withOptions:options onComplete:^(JivePlace *place) {
             // Called 3rd
-            STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
-            STAssertEqualObjects(place.displayName, @"bob", @"New object not created");
+            XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqualObjects(place.displayName, @"bob", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4690,10 +4690,10 @@
                                                                onComplete:completionBlock
                                                                   onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                         withResponse:@"person_response"
@@ -4719,15 +4719,15 @@
         source.location = @"alternate";
         [jive updatePerson:source onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertTrue([[person class] isSubclassOfClass:[JivePerson class]], @"Wrong item class");
-            STAssertEqualObjects(person.location, @"home on the range", @"New object not created");
+            XCTAssertTrue([[person class] isSubclassOfClass:[JivePerson class]], @"Wrong item class");
+            XCTAssertEqualObjects(person.location, @"home on the range", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4755,11 +4755,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         [operation start];
     });
 }
@@ -4787,7 +4787,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4811,15 +4811,15 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         NSOperation* operation = [jive activitiesOperationWithOptions:options onComplete:^(NSArray *activities, NSDate *earliestDate, NSDate *latestDate) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)22, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)22, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         [operation start];
@@ -4845,15 +4845,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive activitiesWithOptions:options onComplete:^(NSArray *activities, NSDate *earliestDate, NSDate *latestDate) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)22, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)22, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4891,15 +4891,15 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive actions:options onComplete:^(NSArray *activities) {
             // Called 3rd
-            STAssertEquals([activities count], (NSUInteger)22, @"Wrong number of items parsed");
-            STAssertEquals([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
+            XCTAssertEqual([activities count], (NSUInteger)22, @"Wrong number of items parsed");
+            XCTAssertEqual([[activities objectAtIndex:0] class], [JiveActivity class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -4957,15 +4957,15 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"message_alternate"];
         [jive messagesForContent:source withOptions:options onComplete:^(NSArray *messages) {
             // Called 3rd
-            STAssertEquals([messages count], (NSUInteger)2, @"Wrong number of items parsed");
-            STAssertEquals([[messages objectAtIndex:0] class], [JiveMessage class], @"Wrong item class");
+            XCTAssertEqual([messages count], (NSUInteger)2, @"Wrong number of items parsed");
+            XCTAssertEqual([[messages objectAtIndex:0] class], [JiveMessage class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5008,15 +5008,15 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive invites:source withOptions:options onComplete:^(NSArray *invites) {
             // Called 3rd
-            STAssertEquals([invites count], (NSUInteger)2, @"Wrong number of items parsed");
-            STAssertEquals([[invites objectAtIndex:0] class], [JiveInvite class], @"Wrong item class");
+            XCTAssertEqual([invites count], (NSUInteger)2, @"Wrong number of items parsed");
+            XCTAssertEqual([[invites objectAtIndex:0] class], [JiveInvite class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5030,7 +5030,7 @@
         return [jive inviteOperation:source
                          withOptions:options
                           onComplete:^(JiveInvite *invite) {
-                              STAssertEqualObjects(invite.invitee.displayName, @"Jennifer Klafin", @"Wrong invite returned.");
+                              XCTAssertEqualObjects(invite.invitee.displayName, @"Jennifer Klafin", @"Wrong invite returned.");
                               completionBlock(invite);
                           }
                              onError:errorBlock];
@@ -5061,15 +5061,15 @@
         JiveInvite *source = [self entityForClass:[JiveInvite class] fromJSONNamed:@"invite_alternate"];
         [jive invite:source withOptions:options onComplete:^(JiveInvite *invite) {
             // Called 3rd
-            STAssertTrue([[invite class] isSubclassOfClass:[JiveInvite class]], @"Wrong item class");
-            STAssertEqualObjects(invite.invitee.displayName, @"Stewart Wachs", @"Wrong invite returned.");
+            XCTAssertTrue([[invite class] isSubclassOfClass:[JiveInvite class]], @"Wrong item class");
+            XCTAssertEqualObjects(invite.invitee.displayName, @"Stewart Wachs", @"Wrong invite returned.");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5096,11 +5096,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -5127,7 +5127,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5145,15 +5145,15 @@
                                                                 withState:JiveInviteRevoked
                                                                andOptions:options
                                                                onComplete:^(JiveInvite *invite) {
-                                                                   STAssertEqualObjects(invite.invitee.displayName, @"Jennifer Klafin", @"Wrong invite returned.");
+                                                                   XCTAssertEqualObjects(invite.invitee.displayName, @"Jennifer Klafin", @"Wrong invite returned.");
                                                                    completionBlock(invite);
                                                                }
                                                                   onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"invite_alternate"
@@ -5182,15 +5182,15 @@
         JiveInvite *source = [self entityForClass:[JiveInvite class] fromJSONNamed:@"invite_alternate"];
         [jive updateInvite:source withState:JiveInviteFulfilled andOptions:options onComplete:^(JiveInvite *invite) {
             // Called 3rd
-            STAssertTrue([[invite class] isSubclassOfClass:[JiveInvite class]], @"Wrong item class");
-            STAssertEqualObjects(invite.invitee.displayName, @"Stewart Wachs", @"Wrong invite returned.");
+            XCTAssertTrue([[invite class] isSubclassOfClass:[JiveInvite class]], @"Wrong item class");
+            XCTAssertEqualObjects(invite.invitee.displayName, @"Stewart Wachs", @"Wrong invite returned.");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5206,15 +5206,15 @@
         AFURLConnectionOperation *operation = [jive createContentOperation:source
                                                                withOptions:options
                                                                 onComplete:^(JiveContent *content) {
-                                                                    STAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
+                                                                    XCTAssertEqualObjects(content.subject, @"Battle Week is upon us... LET'S GO ZAGS!!!", @"New object not created");
                                                                     completionBlock(content);
                                                                 }
                                                                    onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"content_by_id"
@@ -5243,15 +5243,15 @@
         JiveContent *source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_by_id"];
         [jive createContent:source withOptions:options onComplete:^(JiveContent *content) {
             // Called 3rd
-            STAssertEquals([content class], [JiveDiscussion class], @"Wrong item class");
-            STAssertEqualObjects(content.subject, @"Wigwam dates", @"New object not created");
+            XCTAssertEqual([content class], [JiveDiscussion class], @"Wrong item class");
+            XCTAssertEqualObjects(content.subject, @"Wigwam dates", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5280,15 +5280,15 @@
                                                                      withTargets:targets
                                                                       andOptions:options
                                                                       onComplete:^(JiveContent *content) {
-                                                                          STAssertEqualObjects(content.subject, @"Heyo&#8211; can I get the email you prefer to use for Dropbox? I'll invite you to the Jive iPad share....", @"New object not created");
+                                                                          XCTAssertEqualObjects(content.subject, @"Heyo&#8211; can I get the email you prefer to use for Dropbox? I'll invite you to the Jive iPad share....", @"New object not created");
                                                                           completionBlock(content);
                                                                       }
                                                                          onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"direct_message_alternate"
@@ -5320,15 +5320,15 @@
         [targets addPerson:person];
         [jive createDirectMessage:source withTargets:targets andOptions:options onComplete:^(JiveContent *content) {
             // Called 3rd
-            STAssertEquals([content class], [JiveDirectMessage class], @"Wrong item class");
-            STAssertEqualObjects(content.subject, @"Hey guys,&nbsp; You should both have received two invites to join Jive's Apple iOS dev accounts. The...", @"New object not created");
+            XCTAssertEqual([content class], [JiveDirectMessage class], @"Wrong item class");
+            XCTAssertEqualObjects(content.subject, @"Hey guys,&nbsp; You should both have received two invites to join Jive's Apple iOS dev accounts. The...", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5358,12 +5358,12 @@
                                                                  andOptions:options
                                                                  onComplete:completionBlock
                                                                     onError:errorBlock];
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"],
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"],
                              @"application/json; charset=UTF-8",
                              @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue],
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue],
                        (NSInteger)body.length,
                        @"Wrong content length");
         return operation;
@@ -5399,15 +5399,15 @@
         [targets addPerson:person];
         [jive createInviteTo:source withMessage:@"Message to send" targets:targets andOptions:options onComplete:^(NSArray *invites) {
             // Called 3rd
-            STAssertEquals([invites count], (NSUInteger)2, @"Wrong number of items parsed");
-            STAssertEquals([[invites objectAtIndex:0] class], [JiveInvite class], @"Wrong item class");
+            XCTAssertEqual([invites count], (NSUInteger)2, @"Wrong number of items parsed");
+            XCTAssertEqual([[invites objectAtIndex:0] class], [JiveInvite class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5435,15 +5435,15 @@
         AFURLConnectionOperation *operation = [jive createPersonOperation:source
                                                               withOptions:options
                                                                onComplete:^(JivePerson *person) {
-                                                                   STAssertEqualObjects(person.location, @"home on the range", @"New object not created");
+                                                                   XCTAssertEqualObjects(person.location, @"home on the range", @"New object not created");
                                                                    completionBlock(person);
                                                                }
                                                                   onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                         withResponse:@"person_response"
@@ -5471,16 +5471,16 @@
         JivePerson *source = [self entityForClass:[JivePerson class] fromJSONNamed:@"person_response"];
         [jive createPerson:source withOptions:options onComplete:^(JivePerson *person) {
             // Called 3rd
-            STAssertEquals([person class], [JivePerson class], @"Wrong item class");
-            STAssertEqualObjects(person.location, @"Portland", @"New object not created");
-            STAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
+            XCTAssertEqual([person class], [JivePerson class], @"Wrong item class");
+            XCTAssertEqualObjects(person.location, @"Portland", @"New object not created");
+            XCTAssertEqualObjects(person.jiveInstance, jive, @"The person.jiveInstance was not initialized correctly");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5502,15 +5502,15 @@
                                                               forPerson:source
                                                             withOptions:options
                                                              onComplete:^(JiveContent *task) {
-                                                                 STAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
+                                                                 XCTAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
                                                                  completionBlock(task);
                                                              }
                                                                 onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"task"
@@ -5542,15 +5542,15 @@
         testTask.dueDate = [NSDate dateWithTimeIntervalSince1970:0];
         [jive createTask:testTask forPerson:source withOptions:options onComplete:^(JiveTask *task) {
             // Called 3rd
-            STAssertEquals([task class], [JiveTask class], @"Wrong item class");
-            STAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
+            XCTAssertEqual([task class], [JiveTask class], @"Wrong item class");
+            XCTAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5572,15 +5572,15 @@
                                                                forPlace:source
                                                             withOptions:options
                                                              onComplete:^(JiveContent *task) {
-                                                                 STAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
+                                                                 XCTAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
                                                                  completionBlock(task);
                                                              }
                                                                 onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"task"
@@ -5612,15 +5612,15 @@
         testTask.dueDate = [NSDate dateWithTimeIntervalSince1970:0];
         [jive createTask:testTask forPlace:source withOptions:options onComplete:^(JiveTask *task) {
             // Called 3rd
-            STAssertEquals([task class], [JiveTask class], @"Wrong item class");
-            STAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
+            XCTAssertEqual([task class], [JiveTask class], @"Wrong item class");
+            XCTAssertEqualObjects(task.subject, @"Sample task for iOS SDK reference", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5641,15 +5641,15 @@
         AFURLConnectionOperation *operation = [jive createPlaceOperation:source
                                                              withOptions:options
                                                               onComplete:^(JivePlace *place) {
-                                                                  STAssertEqualObjects(place.displayName, @"bob", @"New object not created");
+                                                                  XCTAssertEqualObjects(place.displayName, @"bob", @"New object not created");
                                                                   completionBlock(place);
                                                               }
                                                                  onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"place"
@@ -5678,15 +5678,15 @@
         JivePlace *source = [self entityForClass:[JivePlace class] fromJSONNamed:@"place"];
         [jive createPlace:source withOptions:options onComplete:^(JivePlace *place) {
             // Called 3rd
-            STAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
-            STAssertEqualObjects(place.displayName, @"1523001374", @"New object not created");
+            XCTAssertTrue([[place class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+            XCTAssertEqualObjects(place.displayName, @"1523001374", @"New object not created");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5708,17 +5708,17 @@
         AFURLConnectionOperation *operation = [jive createCommentOperation:source
                                                                withOptions:options
                                                                 onComplete:^(JiveContent *comment) {
-                                                                    STAssertEqualObjects(comment.content.text,
+                                                                    XCTAssertEqualObjects(comment.content.text,
                                                                                          @"<body><!-- [DocumentBodyStart:ddeb4d22-8d54-4f74-908a-a26732ff43e9] --><div class=\"jive-rendered-content\"><div><p><a class=\"jive-link-email-small\" href=\"mailto:heath.borders@real email.com\">heath.borders@real email.com</a><span> is my personal dropbox account. Is it common for people to use personal accounts? I could create an account with my jive email if that is more common.</span></p></div></div><!-- [DocumentBodyEnd:ddeb4d22-8d54-4f74-908a-a26732ff43e9] --></body>",
                                                                                          @"New object not created");
                                                                     completionBlock(comment);
                                                                 }
                                                                    onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"comment"
@@ -5747,8 +5747,8 @@
         JiveComment *source = [self entityForClass:[JiveComment class] fromJSONNamed:@"comment"];
         [jive createComment:source withOptions:options onComplete:^(JiveContent *comment) {
             // Called 3rd
-            STAssertTrue([[comment class] isSubclassOfClass:[JiveComment class]], @"Wrong item class");
-            STAssertEqualObjects(comment.content.text,
+            XCTAssertTrue([[comment class] isSubclassOfClass:[JiveComment class]], @"Wrong item class");
+            XCTAssertEqualObjects(comment.content.text,
                                  @"<body><!-- [DocumentBodyStart:7f270921-308d-45cf-a09f-f2c9396b33c7] --><div class=\"jive-rendered-content\"><span>I don't have a Dropbox account.</span></div><!-- [DocumentBodyEnd:7f270921-308d-45cf-a09f-f2c9396b33c7] --></body>",
                                  @"New object not created");
             
@@ -5757,7 +5757,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5771,10 +5771,10 @@
         return [jive createOutcomeOperation:source
                                  forContent:content
                                  onComplete:^(JiveOutcome *outcome) {
-                                     STAssertEqualObjects(outcome.jiveId, @"22871", @"JiveId wrong in outcome.");
-                                     STAssertEqualObjects(outcome.outcomeType.jiveId, @"4", @"outcomeType JiveId is wrong in outcome.");
+                                     XCTAssertEqualObjects(outcome.jiveId, @"22871", @"JiveId wrong in outcome.");
+                                     XCTAssertEqualObjects(outcome.outcomeType.jiveId, @"4", @"outcomeType JiveId is wrong in outcome.");
                                      
-                                     STAssertTrue([[outcome.user class] isSubclassOfClass:[JivePerson class]], @"User is not a JivePerson");
+                                     XCTAssertTrue([[outcome.user class] isSubclassOfClass:[JivePerson class]], @"User is not a JivePerson");
                                      completionBlock(outcome);
                                  }
                                     onError:errorBlock];
@@ -5802,19 +5802,19 @@
         JiveContent *content = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_alternate"];
         
         [jive createOutcome:source forContent:content onComplete:^(JiveOutcome *outcome) {
-            STAssertTrue([[source class] isSubclassOfClass:[JiveOutcome class]], @"Wrong item class");
+            XCTAssertTrue([[source class] isSubclassOfClass:[JiveOutcome class]], @"Wrong item class");
             
-            STAssertTrue([outcome.jiveId isEqualToString:@"22871"], @"JiveId wrong in outcome.");
-            STAssertTrue([outcome.outcomeType.jiveId isEqualToString:@"4"], @"outcomeType JiveId is wrong in outcome.");
+            XCTAssertTrue([outcome.jiveId isEqualToString:@"22871"], @"JiveId wrong in outcome.");
+            XCTAssertTrue([outcome.outcomeType.jiveId isEqualToString:@"4"], @"outcomeType JiveId is wrong in outcome.");
             
-            STAssertTrue([[outcome.user class] isSubclassOfClass:[JivePerson class]], @"User is not a JivePerson");
+            XCTAssertTrue([[outcome.user class] isSubclassOfClass:[JivePerson class]], @"User is not a JivePerson");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5836,17 +5836,17 @@
         AFURLConnectionOperation *operation = [jive createMessageOperation:source
                                                                withOptions:options
                                                                 onComplete:^(JiveContent *comment) {
-                                                                    STAssertEqualObjects(comment.content.text,
+                                                                    XCTAssertEqualObjects(comment.content.text,
                                                                                          @"<body><!-- [DocumentBodyStart:1e47eba0-4637-4440-a7e6-f297b991c758] --><div class=\"jive-rendered-content\"><p>Do you know what's driving 4/15?</p></div><!-- [DocumentBodyEnd:1e47eba0-4637-4440-a7e6-f297b991c758] --></body>",
                                                                                          @"New object not created");
                                                                     completionBlock(comment);
                                                                 }
                                                                    onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"message"
@@ -5875,8 +5875,8 @@
         JiveMessage *source = [self entityForClass:[JiveMessage class] fromJSONNamed:@"message"];
         [jive createMessage:source withOptions:options onComplete:^(JiveContent *comment) {
             // Called 3rd
-            STAssertTrue([[comment class] isSubclassOfClass:[JiveMessage class]], @"Wrong item class");
-            STAssertEqualObjects(comment.content.text,
+            XCTAssertTrue([[comment class] isSubclassOfClass:[JiveMessage class]], @"Wrong item class");
+            XCTAssertEqualObjects(comment.content.text,
                                  @"<body><!-- [DocumentBodyStart:752ff804-8586-4ec5-8142-d928e17a1ff7] --><div class=\"jive-rendered-content\"><p>I asked their business sponsor and he said there are several large projects going on and they each have assigned dates, so they need to fit in this window for outages, resources, overall coordination. I asked if it could move and was basically given the same answer. Didn't get the sense that it was impossible, but just very difficult and with the pending renewal want to be sure we're all in sync internally. </p></div><!-- [DocumentBodyEnd:752ff804-8586-4ec5-8142-d928e17a1ff7] --></body>",
                                  @"New object not created");
             
@@ -5885,7 +5885,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5907,15 +5907,15 @@
                                                                 forPerson:person
                                                               withOptions:options
                                                                onComplete:^(JiveStream *stream) {
-                                                                   STAssertEqualObjects(stream.name, @"Test stream", @"Wrong stream name");
+                                                                   XCTAssertEqualObjects(stream.name, @"Test stream", @"Wrong stream name");
                                                                    completionBlock(stream);
                                                                }
                                                                   onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"stream_alternate"
@@ -5946,15 +5946,15 @@
         source.name = @"Wrong Way";
         [jive createStream:source forPerson:person withOptions:options onComplete:^(JiveStream *stream) {
             // Called 3rd
-            STAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
-            STAssertEqualObjects(stream.name, @"The Team", @"Wrong stream name");
+            XCTAssertTrue([[stream class] isSubclassOfClass:[JiveStream class]], @"Wrong item class");
+            XCTAssertEqualObjects(stream.name, @"The Team", @"Wrong stream name");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -5982,11 +5982,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -6014,7 +6014,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6045,14 +6045,14 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -6084,14 +6084,14 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -6121,7 +6121,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6136,20 +6136,20 @@
 - (void) testVersionOperationForInstance {
     [self createJiveAPIObjectWithResponse:@"version"];
     
-    STAssertEqualObjects(jive.baseURI, @"api/core/v3", @"PRECONDITION: Wrong base uri");
+    XCTAssertEqualObjects(jive.baseURI, @"api/core/v3", @"PRECONDITION: Wrong base uri");
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive versionOperationForInstance:self.testURL
                                                                      onComplete:(^(JivePlatformVersion *version) {
-            STAssertEqualObjects(version.major, @7, @"Wrong version found");
-            STAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
-            STAssertNil(version.instanceURL, @"There should not be a server URL");
-            STAssertEqualObjects(jive.baseURI, @"api/core/v3", @"The base URI should not have changed");
-            STAssertEqualObjects(jive.platformVersion, version, @"The Jive object was not updated to include the version");
+            XCTAssertEqualObjects(version.major, @7, @"Wrong version found");
+            XCTAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
+            XCTAssertNil(version.instanceURL, @"There should not be a server URL");
+            XCTAssertEqualObjects(jive.baseURI, @"api/core/v3", @"The base URI should not have changed");
+            XCTAssertEqualObjects(jive.platformVersion, version, @"The Jive object was not updated to include the version");
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         })
                                                                         onError:(^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         })];
         
@@ -6160,20 +6160,20 @@
 - (void) testVersionForInstance {
     [self createJiveAPIObjectWithResponse:@"version_alternate"];
     
-    STAssertEqualObjects(jive.baseURI, @"api/core/v3", @"PRECONDITION: Wrong base uri");
+    XCTAssertEqualObjects(jive.baseURI, @"api/core/v3", @"PRECONDITION: Wrong base uri");
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [jive versionForInstance:self.testURL
                       onComplete:(^(JivePlatformVersion *version) {
-            STAssertEqualObjects(version.major, @6, @"Wrong version found");
-            STAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
-            STAssertEqualObjects(version.instanceURL, jive.jiveInstanceURL, @"Wrong server URL");
-            STAssertEqualObjects(jive.baseURI, @"core/api/v3", @"The base URI was not updated");
-            STAssertEqualObjects(jive.platformVersion, version, @"The Jive object was not updated to include the version");
+            XCTAssertEqualObjects(version.major, @6, @"Wrong version found");
+            XCTAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
+            XCTAssertEqualObjects(version.instanceURL, jive.jiveInstanceURL, @"Wrong server URL");
+            XCTAssertEqualObjects(jive.baseURI, @"core/api/v3", @"The base URI was not updated");
+            XCTAssertEqualObjects(jive.platformVersion, version, @"The Jive object was not updated to include the version");
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         })
                          onError:(^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         })];
     });
@@ -6188,20 +6188,20 @@
             BOOL found = NO;
             for (JiveCoreVersion *coreURI in version.coreURI) {
                 if ([coreURI.version isEqualToNumber:@3]) {
-                    STFail(@"v3 API found");
+                    XCTFail(@"v3 API found");
                     found = YES;
                 }
             }
             if (!found) {
-                STFail(@"Valid response returned without v3 API");
+                XCTFail(@"Valid response returned without v3 API");
             }
             
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         })
                                                                         onError:(^(NSError *error) {
-            STAssertEquals(error.code, JiveErrorCodeUnsupportedJivePlatformVersion, @"Wrong error code reported");
-            STAssertNotNil(error.userInfo[JiveErrorKeyJivePlatformVersion], @"Missing JivePlatformVersion");
+            XCTAssertEqual(error.code, JiveErrorCodeUnsupportedJivePlatformVersion, @"Wrong error code reported");
+            XCTAssertNotNil(error.userInfo[JiveErrorKeyJivePlatformVersion], @"Missing JivePlatformVersion");
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         })];
@@ -6218,14 +6218,14 @@
                       onComplete:(^(JivePlatformVersion *version) {
             NSURL *serverURL = [NSURL URLWithString:@"https://proxy.com/"];
             
-            STAssertEqualObjects(version.major, @7, @"Wrong version found");
-            STAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
-            STAssertEqualObjects(version.instanceURL, serverURL, @"Wrong server URL");
+            XCTAssertEqualObjects(version.major, @7, @"Wrong version found");
+            XCTAssertEqualObjects(((JiveCoreVersion *)version.coreURI[0]).version, @2, @"Wrong core uri version found");
+            XCTAssertEqualObjects(version.instanceURL, serverURL, @"Wrong server URL");
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         })
                          onError:(^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         })];
     });
@@ -6242,13 +6242,13 @@
     [platformVersion setValue:newJiveInstance forKey:JivePlatformVersionAttributes.instanceURL];
     
     jive.jiveInstanceURL = newJiveInstance;
-    STAssertNil(jive.platformVersion, @"Platform version should not exist");
-    STAssertEqualObjects(jive.jiveInstanceURL, newJiveInstance, @"instance url not updated");
+    XCTAssertNil(jive.platformVersion, @"Platform version should not exist");
+    XCTAssertEqualObjects(jive.jiveInstanceURL, newJiveInstance, @"instance url not updated");
     
     [jive setValue:platformVersion forKey:@"platformVersion"];
     jive.jiveInstanceURL = originalJiveInstance;
-    STAssertEqualObjects(jive.platformVersion, platformVersion, @"Changing the instance url should not have changed the platform version");
-    STAssertEqualObjects(jive.jiveInstanceURL, originalJiveInstance, @"instance url not updated");
+    XCTAssertEqualObjects(jive.platformVersion, platformVersion, @"Changing the instance url should not have changed the platform version");
+    XCTAssertEqualObjects(jive.jiveInstanceURL, originalJiveInstance, @"instance url not updated");
 }
 
 - (void) testCreateDocumentWithAttachmentsOperation {
@@ -6275,29 +6275,29 @@
     }]];
     
     [self createJiveAPIObjectWithResponse:@"document_alternate" andAuthDelegate:mockAuthDelegate];
-    
+
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive createDocumentOperation:source
                                                             withAttachments:attachments
                                                                     options:options
                                                                  onComplete:^(JiveContent *content) {
                                                                      // Called 3rd
-                                                                     STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                                                     STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                                     XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                                                     XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
                                                                      
                                                                      // Check that delegates where actually called
                                                                      [mockAuthDelegate verify];
                                                                      [mockJiveURLResponseDelegate verify];
                                                                      finishedBlock();
                                                                  } onError:^(NSError *error) {
-                                                                     STFail([error localizedDescription]);
+                                                                     XCTFail(@"%@", [error localizedDescription]);
                                                                      finishedBlock();
                                                                  }];
         
-        STAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment], nil);
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment]);
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -6333,15 +6333,15 @@
                      options:options
                   onComplete:^(JiveContent *content) {
                       // Called 3rd
-                      STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                      STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                      XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                      XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
                       
                       // Check that delegates where actually called
                       [mockAuthDelegate verify];
                       [mockJiveURLResponseDelegate verify];
                       finishedBlock();
                   } onError:^(NSError *error) {
-                      STFail([error localizedDescription]);
+                      XCTFail(@"%@", [error localizedDescription]);
                       finishedBlock();
                   }];
     });
@@ -6378,22 +6378,22 @@
                                                                 options:options
                                                              onComplete:^(JiveContent *content) {
                                                                  // Called 3rd
-                                                                 STAssertEquals([content class], [JivePost class], @"Wrong item class");
-                                                                 STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                                 XCTAssertEqual([content class], [JivePost class], @"Wrong item class");
+                                                                 XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
                                                                  
                                                                  // Check that delegates where actually called
                                                                  [mockAuthDelegate verify];
                                                                  [mockJiveURLResponseDelegate verify];
                                                                  finishedBlock();
                                                              } onError:^(NSError *error) {
-                                                                 STFail([error localizedDescription]);
+                                                                 XCTFail(@"%@", [error localizedDescription]);
                                                                  finishedBlock();
                                                              }];
         
-        STAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment], nil);
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment]);
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -6429,15 +6429,15 @@
                  options:options
               onComplete:^(JiveContent *content) {
                   // Called 3rd
-                  STAssertEquals([content class], [JivePost class], @"Wrong item class");
-                  STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                  XCTAssertEqual([content class], [JivePost class], @"Wrong item class");
+                  XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
                   
                   // Check that delegates where actually called
                   [mockAuthDelegate verify];
                   [mockJiveURLResponseDelegate verify];
                   finishedBlock();
               } onError:^(NSError *error) {
-                  STFail([error localizedDescription]);
+                  XCTFail(@"%@", [error localizedDescription]);
                   finishedBlock();
               }];
     });
@@ -6460,7 +6460,7 @@
         NSOperation* operation = [jive propertyWithNameOperation:JivePropertyNames.instanceURL
                                                       onComplete:^(JiveProperty *property) {
                                                           // Called 3rd
-                                                          STAssertEquals([property class], [JiveProperty class], @"Wrong item class");
+                                                          XCTAssertEqual([property class], [JiveProperty class], @"Wrong item class");
                                                           
                                                           // Check that delegates where actually called
                                                           [mockAuthDelegate verify];
@@ -6468,7 +6468,7 @@
                                                           finishedBlock();
                                                       }
                                                          onError:^(NSError *error) {
-                                                             STFail([error localizedDescription]);
+                                                             XCTFail(@"%@", [error localizedDescription]);
                                                              finishedBlock();
                                                          }];
         [operation start];
@@ -6491,14 +6491,14 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [jive propertyWithName:@"instance.title" onComplete:^(JiveProperty *property) {
             // Called 3rd
-            STAssertEquals([property class], [JiveProperty class], @"Wrong item class");
+            XCTAssertEqual([property class], [JiveProperty class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6510,15 +6510,15 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         NSOperation* operation = [jive publicPropertyWithNameOperation:@"feature.mobile.nativeapp.allowed" onComplete:^(JiveProperty *property) {
             // Called 3rd
-            STAssertEquals([property class], [JiveProperty class], @"Wrong item class");
+            XCTAssertEqual([property class], [JiveProperty class], @"Wrong item class");
             
-            STAssertTrue([property valueAsBOOL], @"Public property value not as expected");
+            XCTAssertTrue([property valueAsBOOL], @"Public property value not as expected");
             
             // Check that delegate was actually called
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         [operation start];
@@ -6531,15 +6531,15 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [jive publicPropertyWithName:@"feature.mobile.nativeapp.allowed" onComplete:^(JiveProperty *property) {
             // Called 3rd
-            STAssertEquals([property class], [JiveProperty class], @"Wrong item class");
+            XCTAssertEqual([property class], [JiveProperty class], @"Wrong item class");
             
-            STAssertTrue([property valueAsBOOL], @"Public property value not as expected");
+            XCTAssertTrue([property valueAsBOOL], @"Public property value not as expected");
             
             // Check that delegate was actually called
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6551,18 +6551,18 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [jive publicPropertiesListWithOnComplete:^(NSArray *properties) {
             
-            STAssertEquals([properties count], (NSUInteger)1, @"Expected one public property");
+            XCTAssertEqual([properties count], (NSUInteger)1, @"Expected one public property");
             
             // Called 3rd
-            STAssertEquals([[properties objectAtIndex:0] class], [JiveProperty class], @"Wrong item class");
+            XCTAssertEqual([[properties objectAtIndex:0] class], [JiveProperty class], @"Wrong item class");
             
-            STAssertTrue([[properties objectAtIndex:0] valueAsBOOL], @"Public property value not as expected");
+            XCTAssertTrue([[properties objectAtIndex:0] valueAsBOOL], @"Public property value not as expected");
             
             // Check that delegate was actually called
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6574,18 +6574,18 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         [[jive publicPropertiesListOperationWithOnComplete:^(NSArray *properties) {
             
-            STAssertEquals([properties count], (NSUInteger)1, @"Expected one public property");
+            XCTAssertEqual([properties count], (NSUInteger)1, @"Expected one public property");
             
             // Called 3rd
-            STAssertEquals([[properties objectAtIndex:0] class], [JiveProperty class], @"Wrong item class");
+            XCTAssertEqual([[properties objectAtIndex:0] class], [JiveProperty class], @"Wrong item class");
             
-            STAssertTrue([[properties objectAtIndex:0] valueAsBOOL], @"Public property value not as expected");
+            XCTAssertTrue([[properties objectAtIndex:0] valueAsBOOL], @"Public property value not as expected");
             
             // Check that delegate was actually called
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }] start];
     });
@@ -6619,15 +6619,15 @@
                                                              withTargets:targets
                                                               andOptions:options
                                                               onComplete:^(JiveShare *content) {
-                                                                  STAssertEqualObjects(content.subject, @"Testing share creation.", @"New object not created");
+                                                                  XCTAssertEqualObjects(content.subject, @"Testing share creation.", @"New object not created");
                                                                   completionBlock(content);
                                                               }
                                                                  onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"share"
@@ -6664,8 +6664,8 @@
               withTargets:targets
                andOptions:options
                onComplete:^(JiveContent *content) {
-                   STAssertEquals([content class], [JiveShare class], @"Wrong item class");
-                   STAssertEqualObjects(content.subject,
+                   XCTAssertEqual([content class], [JiveShare class], @"Wrong item class");
+                   XCTAssertEqualObjects(content.subject,
                                         @"Folks, Be sure to link to a blog on your hack, even if it's just a placeholder. Likes on blogs is...",
                                         @"New object not created");
                    
@@ -6674,7 +6674,7 @@
                    [mockJiveURLResponseDelegate verify];
                    finishedBlock();
                } onError:^(NSError *error) {
-                   STFail([error localizedDescription]);
+                   XCTFail(@"%@", [error localizedDescription]);
                    finishedBlock();
                }];
     });
@@ -6697,17 +6697,17 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         NSOperation *operation = [jive objectsOperationOnComplete:^(NSDictionary *objects) {
             NSUInteger expectedNumberOfObjects = 72;
-            STAssertEquals([objects count], expectedNumberOfObjects, @"Wrong number of objects, should be %@", @(expectedNumberOfObjects));
-            STAssertEqualObjects(objects[@"person"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/person", nil);
-            STAssertEqualObjects(objects[@"user"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/user", nil);
-            STAssertEqualObjects(objects[@"profileImage"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/profileImage", nil);
+            XCTAssertEqual([objects count], expectedNumberOfObjects, @"Wrong number of objects, should be %@", @(expectedNumberOfObjects));
+            XCTAssertEqualObjects(objects[@"person"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/person");
+            XCTAssertEqualObjects(objects[@"user"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/user");
+            XCTAssertEqualObjects(objects[@"profileImage"], @"https://testing.jiveland.com/api/core/v3/metadata/objects/profileImage");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         [operation start];
@@ -6718,11 +6718,11 @@
     Jive *instance = [[Jive alloc] init];
     JiveMetadata *initialMetadata = instance.instanceMetadata;
     
-    STAssertNotNil(initialMetadata, @"The metadata object should be created");
+    XCTAssertNotNil(initialMetadata, @"The metadata object should be created");
     
-    STAssertEquals(instance.instanceMetadata, initialMetadata, @"Second call should return the same object.");
+    XCTAssertEqual(instance.instanceMetadata, initialMetadata, @"Second call should return the same object.");
     
-    STAssertEquals(initialMetadata.instance, instance, @"The metadata object should have a reference to the Jive object that created it.");
+    XCTAssertEqual(initialMetadata.instance, instance, @"The metadata object should have a reference to the Jive object that created it.");
 }
 
 - (void) testToggleCorrectAnswerOperation_markCorrect {
@@ -6740,8 +6740,8 @@
         return same;
     }]];
     
-    STAssertTrue(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
-    STAssertFalse(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
+    XCTAssertTrue(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
+    XCTAssertFalse(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
     [self createJiveAPIObjectWithResponse:@"clear_correct_answer_message" andAuthDelegate:mockAuthDelegate];
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
@@ -6751,12 +6751,12 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertNil(operation.request.HTTPBody, @"No http body needed");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertNil(operation.request.HTTPBody, @"No http body needed");
         [operation start];
     });
 }
@@ -6776,8 +6776,8 @@
         return same;
     }]];
     
-    STAssertFalse(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
-    STAssertTrue(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
+    XCTAssertFalse(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
+    XCTAssertTrue(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
     [self createJiveAPIObjectWithResponse:@"make_correct_answer_message" andAuthDelegate:mockAuthDelegate];
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
@@ -6787,12 +6787,12 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
-        STAssertNil(operation.request.HTTPBody, @"No http body needed");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertNil(operation.request.HTTPBody, @"No http body needed");
         [operation start];
     });
 }
@@ -6812,24 +6812,24 @@
         return same;
     }]];
     
-    STAssertFalse(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
-    STAssertFalse(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
+    XCTAssertFalse(source.canMarkAsCorrectAnswer, @"PRECONDITION: Wrong make correct answer status");
+    XCTAssertFalse(source.canClearMarkAsCorrectAnswer, @"PRECONDITION: Wrong clear correct answer status");
     [self createJiveAPIObjectWithResponse:@"clear_correct_answer_message" andAuthDelegate:mockAuthDelegate];
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive toggleCorrectAnswerOperation:source onComplete:^ {
-            STFail(@"An unauthorized user should not be able to change the correct answer status.");
+            XCTFail(@"An unauthorized user should not be able to change the correct answer status.");
             finishedBlock();
         } onError:^(NSError *error) {
-            STAssertEqualObjects(error.domain, JiveErrorDomain, @"Wrong error domain");
-            STAssertEquals(error.code, JiveErrorCodeUnauthorizedActivityObjectType, @"Wrong error code");
-            STAssertEqualObjects(error.userInfo[JiveErrorKeyUnauthorizedActivityObjectType],
+            XCTAssertEqualObjects(error.domain, JiveErrorDomain, @"Wrong error domain");
+            XCTAssertEqual(error.code, JiveErrorCodeUnauthorizedActivityObjectType, @"Wrong error code");
+            XCTAssertEqualObjects(error.userInfo[JiveErrorKeyUnauthorizedActivityObjectType],
                                  JiveErrorMessageUnauthorizedUserMarkCorrectAnswer,
                                  @"Wrong error message");
             finishedBlock();
         }];
         
-        STAssertNil(operation, @"An unauthorized user should not result in a valid operation");
+        XCTAssertNil(operation, @"An unauthorized user should not result in a valid operation");
     });
 }
 
@@ -6858,7 +6858,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6870,21 +6870,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
-            STAssertNotNil(termsAndConditions.text, @"Missing text");
-            STAssertNil(termsAndConditions.url, @"Unexpected URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
+            XCTAssertNotNil(termsAndConditions.text, @"Missing text");
+            XCTAssertNil(termsAndConditions.url, @"Unexpected URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -6895,21 +6895,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
-            STAssertNil(termsAndConditions.text, @"Unexpected text");
-            STAssertNotNil(termsAndConditions.url, @"Missing URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertTrue(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance should be required");
+            XCTAssertNil(termsAndConditions.text, @"Unexpected text");
+            XCTAssertNotNil(termsAndConditions.url, @"Missing URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -6920,21 +6920,21 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive termsAndConditionsOperation:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
-            STAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
-            STAssertNil(termsAndConditions.text, @"Unexpected text");
-            STAssertNil(termsAndConditions.url, @"Unexpected URL");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertFalse(termsAndConditions.acceptanceRequired.boolValue, @"Acceptance is not required");
+            XCTAssertNil(termsAndConditions.text, @"Unexpected text");
+            XCTAssertNil(termsAndConditions.url, @"Unexpected URL");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNotNil(operation, @"Missing operation");
+        XCTAssertNotNil(operation, @"Missing operation");
         [operation start];
     });
 }
@@ -6946,14 +6946,14 @@
     // Make the call
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive termsAndConditions:^(JiveTermsAndConditions *termsAndConditions) {
-            STAssertEquals([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
+            XCTAssertEqual([termsAndConditions class], [JiveTermsAndConditions class], @"Wrong item class");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -6970,11 +6970,11 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(JiveHTTPMethodTypes.POST, operation.request.HTTPMethod, @"Wrong http method used");
+        XCTAssertEqualObjects(JiveHTTPMethodTypes.POST, operation.request.HTTPMethod, @"Wrong http method used");
         [operation start];
     });
 }
@@ -6990,7 +6990,7 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -7019,9 +7019,9 @@
                                                                     withOptions:options
                                                                      onComplete:^(JiveContent *content) {
                                                                          // Called 3rd
-                                                                         STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                                                                         STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
-                                                                         STAssertEquals(content, source, @"Content object not updated");
+                                                                         XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                                                                         XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                                                         XCTAssertEqual(content, source, @"Content object not updated");
                                                                          
                                                                          // Check that delegates where actually called
                                                                          [mockAuthDelegate verify];
@@ -7029,7 +7029,7 @@
                                                                          finishedBlock();
                                                                      }
                                                                         onError:^(NSError *error) {
-                                                                            STFail([error localizedDescription]);
+                                                                            XCTFail(@"%@", [error localizedDescription]);
                                                                             finishedBlock();
                                                                         }];
         
@@ -7062,9 +7062,9 @@
                      withOptions:options
                       onComplete:^(JiveContent *content) {
                           // Called 3rd
-                          STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                          STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
-                          STAssertEquals(content, source, @"Content object not updated");
+                          XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                          XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                          XCTAssertEqual(content, source, @"Content object not updated");
                           
                           // Check that delegates where actually called
                           [mockAuthDelegate verify];
@@ -7072,7 +7072,7 @@
                           finishedBlock();
                       }
                          onError:^(NSError *error) {
-                             STFail([error localizedDescription]);
+                             XCTFail(@"%@", [error localizedDescription]);
                              finishedBlock();
                          }];
     });
@@ -7101,9 +7101,9 @@
                                                                        withOptions:options
                                                                         onComplete:^(JiveContent *content) {
                                                                             // Called 3rd
-                                                                            STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                                                                            STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
-                                                                            STAssertEquals(content, source, @"Content object not updated");
+                                                                            XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                                                                            XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                                                            XCTAssertEqual(content, source, @"Content object not updated");
                                                                             
                                                                             // Check that delegates where actually called
                                                                             [mockAuthDelegate verify];
@@ -7111,11 +7111,11 @@
                                                                             finishedBlock();
                                                                         }
                                                                            onError:^(NSError *error) {
-                                                                               STFail([error localizedDescription]);
+                                                                               XCTFail(@"%@", [error localizedDescription]);
                                                                                finishedBlock();
                                                                            }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
         [operation start];
     });
 }
@@ -7145,9 +7145,9 @@
                         withOptions:options
                          onComplete:^(JiveContent *content) {
                              // Called 3rd
-                             STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                             STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
-                             STAssertEquals(content, source, @"Content object not updated");
+                             XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                             XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                             XCTAssertEqual(content, source, @"Content object not updated");
                              
                              // Check that delegates where actually called
                              [mockAuthDelegate verify];
@@ -7155,7 +7155,7 @@
                              finishedBlock();
                          }
                             onError:^(NSError *error) {
-                                STFail([error localizedDescription]);
+                                XCTFail(@"%@", [error localizedDescription]);
                                 finishedBlock();
                             }];
     });
@@ -7185,9 +7185,9 @@
                                                                          withOptions:options
                                                                           onComplete:^(JiveContent *content) {
                                                                               // Called 3rd
-                                                                              STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                                                                              STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
-                                                                              STAssertEquals(content, source, @"Content object not updated");
+                                                                              XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                                                                              XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                                                              XCTAssertEqual(content, source, @"Content object not updated");
                                                                               
                                                                               // Check that delegates where actually called
                                                                               [mockAuthDelegate verify];
@@ -7195,14 +7195,14 @@
                                                                               finishedBlock();
                                                                           }
                                                                              onError:^(NSError *error) {
-                                                                                 STFail([error localizedDescription]);
+                                                                                 XCTFail(@"%@", [error localizedDescription]);
                                                                                  finishedBlock();
                                                                              }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         [operation start];
     });
 }
@@ -7232,9 +7232,9 @@
                           withOptions:options
                            onComplete:^(JiveContent *content) {
                                // Called 3rd
-                               STAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
-                               STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
-                               STAssertEquals(content, source, @"Content object not updated");
+                               XCTAssertTrue([[content class] isSubclassOfClass:[JiveContent class]], @"Wrong item class");
+                               XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                               XCTAssertEqual(content, source, @"Content object not updated");
                                
                                // Check that delegates where actually called
                                [mockAuthDelegate verify];
@@ -7242,7 +7242,7 @@
                                finishedBlock();
                            }
                               onError:^(NSError *error) {
-                                  STFail([error localizedDescription]);
+                                  XCTFail(@"%@", [error localizedDescription]);
                                   finishedBlock();
                               }];
     });
@@ -7273,11 +7273,11 @@
                                                                     finishedBlock();
                                                                 }
                                                                    onError:^(NSError *error) {
-                                                                       STFail([error localizedDescription]);
+                                                                       XCTFail(@"%@", [error localizedDescription]);
                                                                        finishedBlock();
                                                                    }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.DELETE, @"Wrong http method used");
         [operation start];
     });
 }
@@ -7308,7 +7308,7 @@
                      finishedBlock();
                  }
                     onError:^(NSError *error) {
-                        STFail([error localizedDescription]);
+                        XCTFail(@"%@", [error localizedDescription]);
                         finishedBlock();
                     }];
     });
@@ -7345,9 +7345,9 @@
                                                                               options:options
                                                                            onComplete:^(JiveContent *content) {
                                                                                // Called 3rd
-                                                                               STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                                                               STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
-                                                                               STAssertEquals(content, source, @"Content object not updated");
+                                                                               XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                                                               XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                                               XCTAssertEqual(content, source, @"Content object not updated");
                                                                                
                                                                                // Check that delegates where actually called
                                                                                [mockAuthDelegate verify];
@@ -7355,13 +7355,13 @@
                                                                                finishedBlock();
                                                                            }
                                                                               onError:^(NSError *error) {
-                                                                                  STFail([error localizedDescription]);
+                                                                                  XCTFail(@"%@", [error localizedDescription]);
                                                                                   finishedBlock();
                                                                               }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -7399,16 +7399,16 @@
                                options:options
                             onComplete:^(JiveContent *content) {
                                 // Called 3rd
-                                STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
-                                STAssertEquals(content, source, @"Content object not updated");
+                                XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                XCTAssertEqual(content, source, @"Content object not updated");
                                 
                                 // Check that delegates where actually called
                                 [mockAuthDelegate verify];
                                 [mockJiveURLResponseDelegate verify];
                                 finishedBlock();
                             } onError:^(NSError *error) {
-                                STFail([error localizedDescription]);
+                                XCTFail(@"%@", [error localizedDescription]);
                                 finishedBlock();
                             }];
     });
@@ -7445,9 +7445,9 @@
                                                                           options:options
                                                                        onComplete:^(JiveContent *content) {
                                                                            // Called 3rd
-                                                                           STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                                                           STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
-                                                                           STAssertEquals(content, source, @"Content object not updated");
+                                                                           XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                                                           XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                                           XCTAssertEqual(content, source, @"Content object not updated");
                                                                            
                                                                            // Check that delegates where actually called
                                                                            [mockAuthDelegate verify];
@@ -7455,13 +7455,13 @@
                                                                            finishedBlock();
                                                                        }
                                                                           onError:^(NSError *error) {
-                                                                              STFail([error localizedDescription]);
+                                                                              XCTFail(@"%@", [error localizedDescription]);
                                                                               finishedBlock();
                                                                           }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -7499,16 +7499,16 @@
                            options:options
                         onComplete:^(JiveContent *content) {
                             // Called 3rd
-                            STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                            STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
-                            STAssertEquals(content, source, @"Content object not updated");
+                            XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                            XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                            XCTAssertEqual(content, source, @"Content object not updated");
                             
                             // Check that delegates where actually called
                             [mockAuthDelegate verify];
                             [mockJiveURLResponseDelegate verify];
                             finishedBlock();
                         } onError:^(NSError *error) {
-                            STFail([error localizedDescription]);
+                            XCTFail(@"%@", [error localizedDescription]);
                             finishedBlock();
                         }];
     });
@@ -7533,18 +7533,18 @@
         AFURLConnectionOperation *operation = [jive createFavoriteOperationForContent:source name:name private:NO options:options onComplete:^(JiveContent *content) {
             JiveFavorite *favorite = (JiveFavorite *)content;
             
-            STAssertEquals([content class], [JiveFavorite class], @"Wrong item class");
-            STAssertEqualObjects(favorite.notes, @"Notes", nil);
-            STAssertEqualObjects(favorite.subject, name, nil);
-            STAssertEqualObjects([favorite.favoriteObject.selfRef path],
-                                 [source.selfRef path], nil);
+            XCTAssertEqual([content class], [JiveFavorite class], @"Wrong item class");
+            XCTAssertEqualObjects(favorite.notes, @"Notes");
+            XCTAssertEqualObjects(favorite.subject, name);
+            XCTAssertEqualObjects([favorite.favoriteObject.selfRef path],
+                                 [source.selfRef path]);
             completionBlock(content);
         } onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"bookmark"
@@ -7572,18 +7572,18 @@
         AFURLConnectionOperation *operation = [jive createFavoriteOperationForContent:source name:name notes:notes private:NO options:options onComplete:^(JiveContent *content) {
             JiveFavorite *favorite = (JiveFavorite *)content;
             
-            STAssertEquals([content class], [JiveFavorite class], @"Wrong item class");
-            STAssertEqualObjects(favorite.notes, @"Notes", nil);
-            STAssertEqualObjects(favorite.subject, name, nil);
-            STAssertEqualObjects([favorite.favoriteObject.selfRef path],
-                                 [source.selfRef path], nil);
+            XCTAssertEqual([content class], [JiveFavorite class], @"Wrong item class");
+            XCTAssertEqualObjects(favorite.notes, @"Notes");
+            XCTAssertEqualObjects(favorite.subject, name);
+            XCTAssertEqualObjects([favorite.favoriteObject.selfRef path],
+                                 [source.selfRef path]);
             completionBlock(content);
         } onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"bookmark"
@@ -7611,17 +7611,17 @@
         AFURLConnectionOperation *operation = [jive createFavoriteOperationForContent:source name:name notes:notes private:YES options:options onComplete:^(JiveContent *content) {
             JiveFavorite *favorite = (JiveFavorite *)content;
             
-            STAssertEquals([content class], [JiveFavorite class], @"Wrong item class");
-            STAssertEqualObjects(favorite.subject, name, nil);
-            STAssertEqualObjects([favorite.favoriteObject.selfRef path],
-                                 [source.selfRef path], nil);
+            XCTAssertEqual([content class], [JiveFavorite class], @"Wrong item class");
+            XCTAssertEqualObjects(favorite.subject, name);
+            XCTAssertEqualObjects([favorite.favoriteObject.selfRef path],
+                                 [source.selfRef path]);
             completionBlock(content);
         } onError:errorBlock];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
-        STAssertEquals([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects([operation.request valueForHTTPHeaderField:@"Content-Type"], @"application/json; charset=UTF-8", @"Wrong content type");
+        XCTAssertEqual([[operation.request valueForHTTPHeaderField:@"Content-Length"] integerValue], (NSInteger)body.length, @"Wrong content length");
         return operation;
     }
                   withResponse:@"bookmark_private"
@@ -7653,17 +7653,17 @@
         [jive createFavoriteForContent:source name:name private:NO options:options onComplete:^(JiveContent *content) {
             JiveFavorite *favorite = (JiveFavorite *)content;
             
-            STAssertEquals([content class], [JiveFavorite class], @"Wrong item class");
-            STAssertEqualObjects(favorite.subject, name, nil);
-            STAssertEqualObjects([favorite.favoriteObject.selfRef absoluteString],
-                                 [source.selfRef absoluteString], nil);
+            XCTAssertEqual([content class], [JiveFavorite class], @"Wrong item class");
+            XCTAssertEqualObjects(favorite.subject, name);
+            XCTAssertEqualObjects([favorite.favoriteObject.selfRef absoluteString],
+                                 [source.selfRef absoluteString]);
             
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -7694,17 +7694,17 @@
         [jive createFavoriteForContent:source name:name notes:notes private:NO options:options onComplete:^(JiveContent *content) {
             JiveFavorite *favorite = (JiveFavorite *)content;
             
-            STAssertEquals([content class], [JiveFavorite class], @"Wrong item class");
-            STAssertEqualObjects(favorite.subject, name, nil);
-            STAssertEqualObjects([favorite.favoriteObject.selfRef absoluteString],
-                                 [source.selfRef absoluteString], nil);
+            XCTAssertEqual([content class], [JiveFavorite class], @"Wrong item class");
+            XCTAssertEqualObjects(favorite.subject, name);
+            XCTAssertEqualObjects([favorite.favoriteObject.selfRef absoluteString],
+                                 [source.selfRef absoluteString]);
             
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -7756,7 +7756,7 @@
         return same;
     }]];
     
-    STAssertTrue(source.canVote, @"PRECONDITION: Wrong can vote status");
+    XCTAssertTrue(source.canVote, @"PRECONDITION: Wrong can vote status");
     [self createJiveAPIObjectWithResponse:nil andAuthDelegate:mockAuthDelegate];
     
     NSArray *votedOptionsParam = @[@"anOption"];
@@ -7771,13 +7771,13 @@
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertEqualObjects(operation.request.HTTPBody, expectedBody,  @"Wrong data posted");
-        STAssertEqualObjects(operation.request.URL, [NSURL URLWithString:expectedURL], @"Wrong url used");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertEqualObjects(operation.request.HTTPBody, expectedBody,  @"Wrong data posted");
+        XCTAssertEqualObjects(operation.request.URL, [NSURL URLWithString:expectedURL], @"Wrong url used");
         [operation start];
     });
 }
@@ -7807,7 +7807,7 @@
             [mockJiveURLResponseDelegate verify];
             
             NSUInteger expectedCount = 3;
-            STAssertEquals([votes count], expectedCount, @"Expected three votes back");
+            XCTAssertEqual([votes count], expectedCount, @"Expected three votes back");
             
             finishedBlock();
         } onError:^(NSError *error) {
@@ -7842,15 +7842,15 @@
             [mockJiveURLResponseDelegate verify];
             
             NSUInteger expectedCount = 3;
-            STAssertEquals([votes count], expectedCount, @"Expected three votes back");
+            XCTAssertEqual([votes count], expectedCount, @"Expected three votes back");
             
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.URL, [NSURL URLWithString:expectedURL], @"Wrong url used");
+        XCTAssertEqualObjects(operation.request.URL, [NSURL URLWithString:expectedURL], @"Wrong url used");
         [operation start];
     });
 }
@@ -7872,17 +7872,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive registerDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -7904,17 +7904,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive registerDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -7936,17 +7936,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive registerDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -7968,17 +7968,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive registerDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -7999,17 +7999,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive registerDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -8026,17 +8026,17 @@
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation = [jive unRegisterDeviceForJivePushNotifications:deviceToken onComplete:^() {
             // Check that delegates where actually called
-            STAssertNoThrow([mockAuthDelegate verify], nil);
-            STAssertNoThrow([mockJiveURLResponseDelegate verify], nil);
+            XCTAssertNoThrow([mockAuthDelegate verify]);
+            XCTAssertNoThrow([mockJiveURLResponseDelegate verify]);
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
-        STAssertNoThrow([operation start], nil);
+        XCTAssertEqualObjects(operation.request.HTTPBody, body, @"Wrong http body");
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.POST, @"Wrong http method used");
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -8057,21 +8057,21 @@
         NSOperation *operation = [jive newsOperation:^(JiveNews *news) {
             // Called 3rd
             NSLog(@"%@", [news persistentJSON]);
-            STAssertEquals([news class], [JiveNews class], @"Wrong item class");
-            STAssertEquals(news.newsStreams.count, (NSUInteger)1, nil);
-            STAssertEqualObjects(((JiveNewsStream *)news.newsStreams[0]).stream.name,
-                                 @"All you suckas", nil);
+            XCTAssertEqual([news class], [JiveNews class], @"Wrong item class");
+            XCTAssertEqual(news.newsStreams.count, (NSUInteger)1);
+            XCTAssertEqualObjects(((JiveNewsStream *)news.newsStreams[0]).stream.name,
+                                 @"All you suckas");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
         
-        STAssertNoThrow([operation start], nil);
+        XCTAssertNoThrow([operation start]);
     });
 }
 
@@ -8091,17 +8091,17 @@
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive news:^(JiveNews *news) {
             // Called 3rd
-            STAssertEquals([news class], [JiveNews class], @"Wrong item class");
-            STAssertEquals(news.newsStreams.count, (NSUInteger)1, nil);
-            STAssertEqualObjects(((JiveNewsStream *)news.newsStreams[0]).stream.name,
-                                 @"Ignore", nil);
+            XCTAssertEqual([news class], [JiveNews class], @"Wrong item class");
+            XCTAssertEqual(news.newsStreams.count, (NSUInteger)1);
+            XCTAssertEqualObjects(((JiveNewsStream *)news.newsStreams[0]).stream.name,
+                                 @"Ignore");
             
             // Check that delegates where actually called
             [mockAuthDelegate verify];
             [mockJiveURLResponseDelegate verify];
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -8134,27 +8134,27 @@
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
         AFURLConnectionOperation *operation;
-        STAssertNoThrow(operation = [jive updateDocumentOperation:source
+        XCTAssertNoThrow(operation = [jive updateDocumentOperation:source
                                                withNewAttachments:attachments
                                                           options:options
                                                        onComplete:^(JiveContent *content) {
                                                            // Called 3rd
-                                                           STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                                           STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                           XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                                           XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
                                                            
                                                            // Check that delegates where actually called
                                                            [mockAuthDelegate verify];
                                                            [mockJiveURLResponseDelegate verify];
                                                            finishedBlock();
                                                        } onError:^(NSError *error) {
-                                                           STFail([error localizedDescription]);
+                                                           XCTFail(@"%@", [error localizedDescription]);
                                                            finishedBlock();
-                                                       }], nil);
+                                                       }]);
         
-        STAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment], nil);
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment]);
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -8185,22 +8185,22 @@
         JiveAttachment *simpleAttachment = [JiveAttachment createAttachmentForURL:fileURL];
         NSArray *attachments = [NSArray arrayWithObject:simpleAttachment];
         
-        STAssertNoThrow([jive updateDocument:source
+        XCTAssertNoThrow([jive updateDocument:source
                           withNewAttachments:attachments
                                      options:options
                                   onComplete:^(JiveContent *content) {
                                       // Called 3rd
-                                      STAssertEquals([content class], [JiveDocument class], @"Wrong item class");
-                                      STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                      XCTAssertEqual([content class], [JiveDocument class], @"Wrong item class");
+                                      XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
                                       
                                       // Check that delegates where actually called
                                       [mockAuthDelegate verify];
                                       [mockJiveURLResponseDelegate verify];
                                       finishedBlock();
                                   } onError:^(NSError *error) {
-                                      STFail([error localizedDescription]);
+                                      XCTFail(@"%@", [error localizedDescription]);
                                       finishedBlock();
-                                  }], nil);
+                                  }]);
     });
 }
 
@@ -8230,28 +8230,29 @@
     [self createJiveAPIObjectWithResponse:@"post_alternate" andAuthDelegate:mockAuthDelegate];
     
     waitForTimeout(^(dispatch_block_t finishedBlock) {
+        NSLog(@"waited for timeout");
         AFURLConnectionOperation *operation;
-        STAssertNoThrow(operation = [jive updatePostOperation:source
+        XCTAssertNoThrow(operation = [jive updatePostOperation:source
                                            withNewAttachments:attachments
                                                       options:options
                                                    onComplete:^(JiveContent *content) {
                                                        // Called 3rd
-                                                       STAssertEquals([content class], [JivePost class], @"Wrong item class");
-                                                       STAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
+                                                       XCTAssertEqual([content class], [JivePost class], @"Wrong item class");
+                                                       XCTAssertEqualObjects(content.subject, @"TABDEV-605", @"New object not created");
                                                        
                                                        // Check that delegates where actually called
                                                        [mockAuthDelegate verify];
                                                        [mockJiveURLResponseDelegate verify];
                                                        finishedBlock();
                                                    } onError:^(NSError *error) {
-                                                       STFail([error localizedDescription]);
+                                                       XCTFail(@"%@", [error localizedDescription]);
                                                        finishedBlock();
-                                                   }], nil);
+                                                   }]);
         
-        STAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment], nil);
-        STAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
+        XCTAssertEqualObjects(source.attachments, [existingAttachments arrayByAddingObject:webAttachment]);
+        XCTAssertEqualObjects(operation.request.HTTPMethod, JiveHTTPMethodTypes.PUT, @"Wrong http method used");
         NSString *contentType = [operation.request valueForHTTPHeaderField:@"Content-Type"];
-        STAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
+        XCTAssertTrue([contentType hasPrefix:@"multipart/form-data; boundary="], @"Wrong content type, don't care about the value of the boundary");
         [operation start];
     });
 }
@@ -8282,22 +8283,22 @@
         JiveAttachment *simpleAttachment = [JiveAttachment createAttachmentForURL:fileURL];
         NSArray *attachments = [NSArray arrayWithObject:simpleAttachment];
         
-        STAssertNoThrow([jive updatePost:source
+        XCTAssertNoThrow([jive updatePost:source
                       withNewAttachments:attachments
                                  options:options
                               onComplete:^(JiveContent *content) {
                                   // Called 3rd
-                                  STAssertEquals([content class], [JivePost class], @"Wrong item class");
-                                  STAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
+                                  XCTAssertEqual([content class], [JivePost class], @"Wrong item class");
+                                  XCTAssertEqualObjects(content.subject, @"Testing document visiblity defaults on iPad", @"New object not created");
                                   
                                   // Check that delegates where actually called
                                   [mockAuthDelegate verify];
                                   [mockJiveURLResponseDelegate verify];
                                   finishedBlock();
                               } onError:^(NSError *error) {
-                                  STFail([error localizedDescription]);
+                                  XCTFail(@"%@", [error localizedDescription]);
                                   finishedBlock();
-                              }], nil);
+                              }]);
     });
 }
 

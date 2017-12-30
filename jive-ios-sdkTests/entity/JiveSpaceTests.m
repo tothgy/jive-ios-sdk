@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.space.type, @"space", @"Wrong type.");
+    XCTAssertEqualObjects(self.space.type, @"space", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.space.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.space class], @"Space class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.space class], @"Space class not registered with JivePlace.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.space class], @"Space class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.space class], @"Space class not registered with JivePlace.");
 }
 
 - (void)testTaskToJSON {
@@ -46,9 +46,9 @@
     NSString *locale = @"Jiverado";
     NSDictionary *JSON = [self.space toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"space", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"space", @"Wrong type");
     
     [self.space setValue:[NSNumber numberWithInt:1] forKey:@"childCount"];
     self.space.locale = locale;
@@ -56,17 +56,17 @@
     
     JSON = [self.space toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.space.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"childCount"], self.space.childCount, @"Wrong childCount");
-    STAssertEqualObjects([JSON objectForKey:JiveSpaceAttributes.locale], locale, @"Wrong locale");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.space.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"childCount"], self.space.childCount, @"Wrong childCount");
+    XCTAssertEqualObjects([JSON objectForKey:JiveSpaceAttributes.locale], locale, @"Wrong locale");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
 }
 
 - (void)testTaskToJSON_alternate {
@@ -79,17 +79,17 @@
     
     NSDictionary *JSON = [self.space toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.space.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"childCount"], self.space.childCount, @"Wrong childCount");
-    STAssertEqualObjects([JSON objectForKey:JiveSpaceAttributes.locale], locale, @"Wrong locale");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.space.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"childCount"], self.space.childCount, @"Wrong childCount");
+    XCTAssertEqualObjects([JSON objectForKey:JiveSpaceAttributes.locale], locale, @"Wrong locale");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
 }
 
 - (void)testPostParsing {
@@ -103,12 +103,12 @@
     id JSON = [self.space toJSONDictionary];
     JiveSpace *newPlace = [JiveSpace objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[self.space class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.type, self.space.type, @"Wrong type");
-    STAssertEqualObjects(newPlace.childCount, self.space.childCount, @"Wrong childCount");
-    STAssertEqualObjects(newPlace.locale, locale, @"Wrong locale");
-    STAssertEquals([newPlace.tags count], [self.space.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[self.space class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.type, self.space.type, @"Wrong type");
+    XCTAssertEqualObjects(newPlace.childCount, self.space.childCount, @"Wrong childCount");
+    XCTAssertEqualObjects(newPlace.locale, locale, @"Wrong locale");
+    XCTAssertEqual([newPlace.tags count], [self.space.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
 }
 
 - (void)testPostParsingAlternate {
@@ -122,12 +122,12 @@
     id JSON = [self.space toJSONDictionary];
     JiveSpace *newPlace = [JiveSpace objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[self.space class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.type, self.space.type, @"Wrong type");
-    STAssertEqualObjects(newPlace.childCount, self.space.childCount, @"Wrong childCount");
-    STAssertEqualObjects(newPlace.locale, locale, @"Wrong locale");
-    STAssertEquals([newPlace.tags count], [self.space.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[self.space class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.type, self.space.type, @"Wrong type");
+    XCTAssertEqualObjects(newPlace.childCount, self.space.childCount, @"Wrong childCount");
+    XCTAssertEqualObjects(newPlace.locale, locale, @"Wrong locale");
+    XCTAssertEqual([newPlace.tags count], [self.space.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newPlace.tags objectAtIndex:0], tag, @"Wrong tag");
 }
 
 @end

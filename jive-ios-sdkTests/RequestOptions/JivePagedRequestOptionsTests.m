@@ -39,14 +39,14 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"startIndex=5", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"startIndex=5", asString, @"Wrong string contents");
     
     value = 7;
     self.pagedOptions.startIndex = value;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"startIndex=7", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"startIndex=7", asString, @"Wrong string contents");
 }
 
 - (void)testStartIndexWithField {
@@ -59,8 +59,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&startIndex=5", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&startIndex=5", asString, @"Wrong string contents");
 }
 
 

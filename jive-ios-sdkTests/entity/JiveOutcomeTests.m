@@ -50,13 +50,13 @@
     
     NSDictionary *JSON = [outcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
                  @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
                          outcome.outcomeType.jiveId, @"outcomeType id wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
                          @"property", @"Properties wrong in outcome JSON");
 }
 
@@ -91,25 +91,25 @@
     
     NSDictionary *JSON = [outcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
                  @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.creationDate],
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.creationDate],
                          @"1970-01-01T00:00:00.000+0000", @"creationDate wrong in JSON");
-    STAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
                          outcome.outcomeType.jiveId, @"outcomeType id wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:JiveOutcomeTypeAttributes.name],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:JiveOutcomeTypeAttributes.name],
                          outcome.outcomeType.name, @"outcomeType name wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
                          @"property", @"Properties wrong in outcome JSON");
-    STAssertEquals([[[JSON objectForKey:@"resources"] objectForKey:@"key"] objectForKey:JiveResourceEntryAttributes.ref],
+    XCTAssertEqual([[[JSON objectForKey:@"resources"] objectForKey:@"key"] objectForKey:JiveResourceEntryAttributes.ref],
                    [resourceEntry.ref absoluteString], @"Resources wrong in outcome JSON");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.parent], outcome.parent,
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.parent], outcome.parent,
                          @"parent wrong in JSON");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.updated],
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.updated],
                          @"1970-01-01T00:16:40.123+0000", @"updated wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.user] objectForKey:JivePersonAttributes.displayName],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.user] objectForKey:JivePersonAttributes.displayName],
                          user.displayName, @"user wrong in JSON");
 }
 
@@ -144,13 +144,13 @@
     
     NSDictionary *JSON = [outcome toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
                  @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
                          outcome.outcomeType.jiveId, @"outcomeType id wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
                          @"property2", @"Properties wrong in outcome JSON");
 }
 
@@ -185,25 +185,25 @@
     
     NSDictionary *JSON = [outcome persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
                  @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.creationDate],
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.creationDate],
                          @"1970-01-01T00:00:00.000+0000", @"creationDate wrong in JSON");
-    STAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], outcome.jiveId, @"jiveId wrong in JSON");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:@"id"],
                          outcome.outcomeType.jiveId, @"outcomeType id wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:JiveOutcomeTypeAttributes.name],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.outcomeType] objectForKey:JiveOutcomeTypeAttributes.name],
                          outcome.outcomeType.name, @"outcomeType name wrong in outcome JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.properties] objectForKey:@"key"],
                          @"property2", @"Properties wrong in outcome JSON");
-    STAssertEquals([[[JSON objectForKey:@"resources"] objectForKey:@"key"] objectForKey:JiveResourceEntryAttributes.ref],
+    XCTAssertEqual([[[JSON objectForKey:@"resources"] objectForKey:@"key"] objectForKey:JiveResourceEntryAttributes.ref],
                    [resourceEntry.ref absoluteString], @"Resources wrong in outcome JSON");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.parent], outcome.parent,
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.parent], outcome.parent,
                          @"parent wrong in JSON");
-    STAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.updated],
+    XCTAssertEqualObjects([JSON objectForKey:JiveOutcomeAttributes.updated],
                          @"1970-01-01T00:16:40.123+0000", @"updated wrong in JSON");
-    STAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.user] objectForKey:JivePersonAttributes.displayName],
+    XCTAssertEqualObjects([[JSON objectForKey:JiveOutcomeAttributes.user] objectForKey:JivePersonAttributes.displayName],
                          user.displayName, @"user wrong in JSON");
 }
 

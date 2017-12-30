@@ -14,16 +14,16 @@
 #import "JivePlatformVersionTests.h"
 
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
 typedef void(^internalCallbackBlock)(JiveProperty *);
 
-@interface JiveMetadataTests : SenTestCase
+@interface JiveMetadataTests : XCTestCase
 
 @end
 
-@interface JiveMetadataTestCases : SenTestCase
+@interface JiveMetadataTestCases : XCTestCase
 
 @property(nonatomic) id mockJive;
 @property(nonatomic) id mockOperation;
@@ -127,7 +127,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 - (void)testNew {
     JiveMetadata *badInit = [JiveMetadata new];
     
-    STAssertNil(badInit, @"Calling new on JiveMetadata should return nil.");
+    XCTAssertNil(badInit, @"Calling new on JiveMetadata should return nil.");
 }
 
 @end
@@ -144,29 +144,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                       onError:^(NSError *error) {
-                          STFail(@"There should be no errors");
+                          XCTFail(@"There should be no errors");
                       }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                       onError:^(NSError *error) {
-                          STAssertEqualObjects(error, expectedError,
+                          XCTAssertEqualObjects(error, expectedError,
                                                @"Wrong error passed to the errorBlock");
                       }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject hasVideoOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                       onError:^(NSError *error) {
-                                          STAssertEqualObjects(error, expectedError,
+                                          XCTAssertEqualObjects(error, expectedError,
                                                                @"Wrong error passed to the errorBlock");
                                       }];
 }
@@ -190,12 +190,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
     }]];
     
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STAssertFalse(flagValue, @"The flag should be NO");
+        XCTAssertFalse(flagValue, @"The flag should be NO");
     } onError:^(NSError *error) {
-        STFail(@"There should be no errors.");
+        XCTFail(@"There should be no errors.");
     }];
     
-    STAssertNotNil(internalCallback, @"A callback should have been set.");
+    XCTAssertNotNil(internalCallback, @"A callback should have been set.");
     if (internalCallback) {
         JiveProperty *property = [[JiveProperty alloc] init];
         [property setValue:JivePropertyTypes.boolean forKey:JivePropertyAttributes.type];
@@ -220,12 +220,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
     }]];
     
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STAssertTrue(flagValue, @"The flag should be NO");
+        XCTAssertTrue(flagValue, @"The flag should be NO");
     } onError:^(NSError *error) {
-        STFail(@"There should be no errors.");
+        XCTFail(@"There should be no errors.");
     }];
     
-    STAssertNotNil(internalCallback, @"A callback should have been set.");
+    XCTAssertNotNil(internalCallback, @"A callback should have been set.");
     if (internalCallback) {
         JiveProperty *property = [[JiveProperty alloc] init];
         [property setValue:JivePropertyTypes.boolean forKey:JivePropertyAttributes.type];
@@ -241,7 +241,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
                               };
     __block void (^internalCallback)(NSDictionary *);
     JiveErrorBlock errorBlock = ^(NSError *error) {
-        STAssertTrue(false, @"There should be no errors");
+        XCTAssertTrue(false, @"There should be no errors");
     };
     
     [[[self.mockJive expect] andReturn:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:6 minorVersion:0 maintenanceVersion:1 buildVersion:0]] platformVersion];
@@ -250,15 +250,15 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         return obj != nil;
     }]
                                                                               onError:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)errorBlock, @"Wrong error block passed");
+        XCTAssertEqual(obj, (id)errorBlock, @"Wrong error block passed");
         return obj != nil;
     }]];
     
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STAssertFalse(flagValue, @"The flag should be NO");
+        XCTAssertFalse(flagValue, @"The flag should be NO");
     } onError:errorBlock];
     
-    STAssertNotNil(internalCallback, @"A callback should have been set.");
+    XCTAssertNotNil(internalCallback, @"A callback should have been set.");
     if (internalCallback) {
         internalCallback(objects);
     }
@@ -271,7 +271,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
                               };
     __block void (^internalCallback)(NSDictionary *);
     JiveErrorBlock errorBlock = ^(NSError *error) {
-        STAssertTrue(false, @"There should be no errors");
+        XCTAssertTrue(false, @"There should be no errors");
     };
     
     [[[self.mockJive expect] andReturn:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0]] platformVersion];
@@ -280,15 +280,15 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         return obj != nil;
     }]
                                                                               onError:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)errorBlock, @"Wrong error block passed");
+        XCTAssertEqual(obj, (id)errorBlock, @"Wrong error block passed");
         return obj != nil;
     }]];
     
     [self.testObject hasVideo:^(BOOL flagValue) {
-        STAssertTrue(flagValue, @"The flag should be NO");
+        XCTAssertTrue(flagValue, @"The flag should be NO");
     } onError:errorBlock];
     
-    STAssertNotNil(internalCallback, @"A callback should have been set.");
+    XCTAssertNotNil(internalCallback, @"A callback should have been set.");
     if (internalCallback) {
         internalCallback(objects);
     }
@@ -305,29 +305,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject blogsEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                  onError:^(NSError *error) {
-                                     STFail(@"There should be no errors");
+                                     XCTFail(@"There should be no errors");
                                  }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject blogsEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                  onError:^(NSError *error) {
-                                     STAssertEqualObjects(error, expectedError,
+                                     XCTAssertEqualObjects(error, expectedError,
                                                           @"Wrong error passed to the errorBlock");
                                  }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject blogsEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                  onError:^(NSError *error) {
-                                                     STAssertEqualObjects(error, expectedError,
+                                                     XCTAssertEqualObjects(error, expectedError,
                                                                           @"Wrong error passed to the errorBlock");
                                                  }];
 }
@@ -343,29 +343,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject realTimeChatEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                  onError:^(NSError *error) {
-                                     STFail(@"There should be no errors");
+                                     XCTFail(@"There should be no errors");
                                  }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject realTimeChatEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                  onError:^(NSError *error) {
-                                     STAssertEqualObjects(error, expectedError,
+                                     XCTAssertEqualObjects(error, expectedError,
                                                           @"Wrong error passed to the errorBlock");
                                  }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject realTimeChatEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                  onError:^(NSError *error) {
-                                                     STAssertEqualObjects(error, expectedError,
+                                                     XCTAssertEqualObjects(error, expectedError,
                                                                           @"Wrong error passed to the errorBlock");
                                                  }];
 }
@@ -381,29 +381,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject imagesEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                            onError:^(NSError *error) {
-                               STFail(@"There should be no errors");
+                               XCTFail(@"There should be no errors");
                            }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject imagesEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                            onError:^(NSError *error) {
-                               STAssertEqualObjects(error, expectedError,
+                               XCTAssertEqualObjects(error, expectedError,
                                                     @"Wrong error passed to the errorBlock");
                            }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject imagesEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                            onError:^(NSError *error) {
-                                               STAssertEqualObjects(error, expectedError,
+                                               XCTAssertEqualObjects(error, expectedError,
                                                                     @"Wrong error passed to the errorBlock");
                                            }];
 }
@@ -419,29 +419,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject statusUpdatesEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                   onError:^(NSError *error) {
-                                      STFail(@"There should be no errors");
+                                      XCTFail(@"There should be no errors");
                                   }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject statusUpdatesEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                   onError:^(NSError *error) {
-                                      STAssertEqualObjects(error, expectedError,
+                                      XCTAssertEqualObjects(error, expectedError,
                                                            @"Wrong error passed to the errorBlock");
                                   }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject statusUpdatesEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                   onError:^(NSError *error) {
-                                                      STAssertEqualObjects(error, expectedError,
+                                                      XCTAssertEqualObjects(error, expectedError,
                                                                            @"Wrong error passed to the errorBlock");
                                                   }];
 }
@@ -457,29 +457,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject personalStatusUpdatesEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                           onError:^(NSError *error) {
-                                              STFail(@"There should be no errors");
+                                              XCTFail(@"There should be no errors");
                                           }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject personalStatusUpdatesEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                           onError:^(NSError *error) {
-                                              STAssertEqualObjects(error, expectedError,
+                                              XCTAssertEqualObjects(error, expectedError,
                                                                    @"Wrong error passed to the errorBlock");
                                           }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject personalStatusUpdatesEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                           onError:^(NSError *error) {
-                                                              STAssertEqualObjects(error, expectedError,
+                                                              XCTAssertEqualObjects(error, expectedError,
                                                                                    @"Wrong error passed to the errorBlock");
                                                           }];
 }
@@ -495,29 +495,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject placeStatusUpdatesEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                        onError:^(NSError *error) {
-                                           STFail(@"There should be no errors");
+                                           XCTFail(@"There should be no errors");
                                        }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject placeStatusUpdatesEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                        onError:^(NSError *error) {
-                                           STAssertEqualObjects(error, expectedError,
+                                           XCTAssertEqualObjects(error, expectedError,
                                                                 @"Wrong error passed to the errorBlock");
                                        }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject placeStatusUpdatesEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                        onError:^(NSError *error) {
-                                                           STAssertEqualObjects(error, expectedError,
+                                                           XCTAssertEqualObjects(error, expectedError,
                                                                                 @"Wrong error passed to the errorBlock");
                                                        }];
 }
@@ -533,29 +533,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject repostStatusUpdatesEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                         onError:^(NSError *error) {
-                                            STFail(@"There should be no errors");
+                                            XCTFail(@"There should be no errors");
                                         }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject repostStatusUpdatesEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                         onError:^(NSError *error) {
-                                            STAssertEqualObjects(error, expectedError,
+                                            XCTAssertEqualObjects(error, expectedError,
                                                                  @"Wrong error passed to the errorBlock");
                                         }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject repostStatusUpdatesEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                         onError:^(NSError *error) {
-                                                            STAssertEqualObjects(error, expectedError,
+                                                            XCTAssertEqualObjects(error, expectedError,
                                                                                  @"Wrong error passed to the errorBlock");
                                                         }];
 }
@@ -571,29 +571,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject statusUpdateMaxCharacters:^(NSNumber *maxCharacters) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                        onError:^(NSError *error) {
-                                           STAssertEqualObjects(error, expectedError,
+                                           XCTAssertEqualObjects(error, expectedError,
                                                                 @"Wrong error passed to the errorBlock");
                                        }];
 }
 
 - (void)runTestExpectingValue:(NSNumber *)expectedValue {
     [self.testObject statusUpdateMaxCharacters:^(NSNumber *value) {
-        STAssertEqualObjects(value, expectedValue, @"Wrong value returned");
+        XCTAssertEqualObjects(value, expectedValue, @"Wrong value returned");
     }
                                        onError:^(NSError *error) {
-                                           STFail(@"There should be no errors");
+                                           XCTFail(@"There should be no errors");
                                        }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject statusUpdateMaxCharactersOperation:^(NSNumber *value) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                               onError:^(NSError *error) {
-                                                  STAssertEqualObjects(error, expectedError,
+                                                  XCTAssertEqualObjects(error, expectedError,
                                                                        @"Wrong error passed to the errorBlock");
                                               }];
 }
@@ -609,29 +609,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject binaryDownloadsDisabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                      onError:^(NSError *error) {
-                                         STFail(@"There should be no errors");
+                                         XCTFail(@"There should be no errors");
                                      }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject binaryDownloadsDisabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                      onError:^(NSError *error) {
-                                         STAssertEqualObjects(error, expectedError,
+                                         XCTAssertEqualObjects(error, expectedError,
                                                               @"Wrong error passed to the errorBlock");
                                      }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject binaryDownloadsDisabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                      onError:^(NSError *error) {
-                                                         STAssertEqualObjects(error, expectedError,
+                                                         XCTAssertEqualObjects(error, expectedError,
                                                                               @"Wrong error passed to the errorBlock");
                                                      }];
 }
@@ -647,29 +647,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject shareEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                                      onError:^(NSError *error) {
-                                         STFail(@"There should be no errors");
+                                         XCTFail(@"There should be no errors");
                                      }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject shareEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                      onError:^(NSError *error) {
-                                         STAssertEqualObjects(error, expectedError,
+                                         XCTAssertEqualObjects(error, expectedError,
                                                               @"Wrong error passed to the errorBlock");
                                      }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject shareEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                      onError:^(NSError *error) {
-                                                         STAssertEqualObjects(error, expectedError,
+                                                         XCTAssertEqualObjects(error, expectedError,
                                                                               @"Wrong error passed to the errorBlock");
                                                      }];
 }
@@ -685,29 +685,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
     [self.testObject newsFeedEnabled:^(BOOL flagValue) {
-        STAssertEquals(flagValue, expectedValue, @"Wrong value returned");
+        XCTAssertEqual(flagValue, expectedValue, @"Wrong value returned");
     }
                              onError:^(NSError *error) {
-                                 STFail(@"There should be no errors");
+                                 XCTFail(@"There should be no errors");
                              }];
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject newsFeedEnabled:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                              onError:^(NSError *error) {
-                                 STAssertEqualObjects(error, expectedError,
+                                 XCTAssertEqualObjects(error, expectedError,
                                                       @"Wrong error passed to the errorBlock");
                              }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject newsFeedEnabledOperation:^(BOOL flagValue) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                              onError:^(NSError *error) {
-                                                 STAssertEqualObjects(error, expectedError,
+                                                 XCTAssertEqualObjects(error, expectedError,
                                                                       @"Wrong error passed to the errorBlock");
                                              }];
 }
@@ -724,29 +724,29 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 - (void)runTestExpectingError:(NSError *)expectedError {
     [self.testObject maxAttachmentSizeInKB:^(NSNumber *maxCharacters) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                    onError:^(NSError *error) {
-                                       STAssertEqualObjects(error, expectedError,
+                                       XCTAssertEqualObjects(error, expectedError,
                                                             @"Wrong error passed to the errorBlock");
                                    }];
 }
 
 - (void)runTestExpectingValue:(NSNumber *)expectedValue {
     [self.testObject maxAttachmentSizeInKB:^(NSNumber *value) {
-        STAssertEqualObjects(value, expectedValue, @"Wrong value returned");
+        XCTAssertEqualObjects(value, expectedValue, @"Wrong value returned");
     }
                                    onError:^(NSError *error) {
-                                       STFail(@"There should be no errors");
+                                       XCTFail(@"There should be no errors");
                                    }];
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
     return [self.testObject maxAttachmentSizeInKBOperation:^(NSNumber *value) {
-        STFail(@"A value should not be generated");
+        XCTFail(@"A value should not be generated");
     }
                                                    onError:^(NSError *error) {
-                                                       STAssertEqualObjects(error, expectedError,
+                                                       XCTAssertEqualObjects(error, expectedError,
                                                                             @"Wrong error passed to the errorBlock");
                                                    }];
 }
@@ -767,8 +767,8 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 }
 
 - (void)tearDown {
-    STAssertNoThrow([self.mockOperation verify], @"The operation was not started.");
-    STAssertNoThrow([self.mockJive verify], @"The operation was not created.");
+    XCTAssertNoThrow([self.mockOperation verify], @"The operation was not started.");
+    XCTAssertNoThrow([self.mockJive verify], @"The operation was not created.");
     self.testObject = nil;
     self.mockOperation = nil;
     self.mockJive = nil;
@@ -776,11 +776,11 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 }
 
 - (void)runTestExpectingError:(NSError *)expectedError {
-    STFail(@"Error test not run. Please override this method in your test class.");
+    XCTFail(@"Error test not run. Please override this method in your test class.");
 }
 
 - (NSOperation *)runTestOperationExpectingError:(NSError *)expectedError {
-    STFail(@"Error test not run. Please override this method in your test class.");
+    XCTFail(@"Error test not run. Please override this method in your test class.");
     return nil;
 }
 
@@ -797,7 +797,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self setupExpects];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -810,7 +810,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingError:otherError];
         
-        STAssertNotNil(internalErrorBlock, @"A callback should have been set.");
+        XCTAssertNotNil(internalErrorBlock, @"A callback should have been set.");
         if (internalErrorBlock) {
             internalErrorBlock(otherError);
         }
@@ -826,7 +826,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self setupExpects];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -839,7 +839,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingError:otherError];
         
-        STAssertNotNil(internalErrorBlock, @"A callback should have been set.");
+        XCTAssertNotNil(internalErrorBlock, @"A callback should have been set.");
         if (internalErrorBlock) {
             internalErrorBlock(otherError);
         }
@@ -855,7 +855,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self setupExpects];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -868,9 +868,9 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         NSOperation *operation = [self runTestOperationExpectingError:otherError];
         
-        STAssertNotNil(operation, @"Operation method must return an operation.");
+        XCTAssertNotNil(operation, @"Operation method must return an operation.");
         [operation start];
-        STAssertNotNil(internalErrorBlock, @"A callback should have been set.");
+        XCTAssertNotNil(internalErrorBlock, @"A callback should have been set.");
         if (internalErrorBlock) {
             internalErrorBlock(otherError);
         }
@@ -882,7 +882,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 @implementation JiveMetadataBoolPropertyTestCases
 
 - (void)runTestExpectingValue:(BOOL)expectedValue {
-    STFail(@"Error test not run. Please override this method in your test class.");
+    XCTFail(@"Error test not run. Please override this method in your test class.");
 }
 
 - (void)testPropertyIsNo {
@@ -894,7 +894,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty expect] andReturn:JivePropertyTypes.boolean] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:@NO] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -907,12 +907,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:NO];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -925,7 +925,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty expect] andReturn:JivePropertyTypes.boolean] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:@YES] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -938,12 +938,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:YES];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -958,7 +958,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self setupExpects];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -971,12 +971,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:NO];
         
-        STAssertNotNil(internalErrorBlock, @"A callback should have been set.");
+        XCTAssertNotNil(internalErrorBlock, @"A callback should have been set.");
         if (internalErrorBlock) {
             internalErrorBlock(invalidPropertyError);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -990,7 +990,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self setupExpects];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1003,12 +1003,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:NO];
         
-        STAssertNotNil(internalErrorBlock, @"A callback should have been set.");
+        XCTAssertNotNil(internalErrorBlock, @"A callback should have been set.");
         if (internalErrorBlock) {
             internalErrorBlock(invalidPropertyError);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -1018,7 +1018,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
 
 
 - (void)runTestExpectingValue:(NSNumber *)expectedValue {
-    STFail(@"Error test not run. Please override this method in your test class.");
+    XCTFail(@"Error test not run. Please override this method in your test class.");
 }
 
 - (void)testPropertySmallNumber {
@@ -1031,7 +1031,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty expect] andReturn:JivePropertyTypes.number] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:expectedValue] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1044,12 +1044,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:expectedValue];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -1063,7 +1063,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty expect] andReturn:JivePropertyTypes.number] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:expectedValue] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1076,12 +1076,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:expectedValue];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -1095,7 +1095,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty stub] andReturn:JivePropertyTypes.integer] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:expectedValue] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1108,12 +1108,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:expectedValue];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 
@@ -1127,7 +1127,7 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         [(JiveProperty *)[[mockProperty stub] andReturn:JivePropertyTypes.integer] type];
         [(JiveProperty *)[[mockProperty expect] andReturn:expectedValue] value];
         [[[self.mockJive expect] andReturn:self.mockOperation] propertyWithNameOperation:[OCMArg checkWithBlock:^BOOL(id obj) {
-            STAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
+            XCTAssertEqualObjects(obj, self.metadataPropertyName, @"Wrong property requested.");
             return obj != nil;
         }]
                                                                               onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
@@ -1140,12 +1140,12 @@ typedef void(^internalCallbackBlock)(JiveProperty *);
         
         [self runTestExpectingValue:expectedValue];
         
-        STAssertNotNil(internalCallback, @"A callback should have been set.");
+        XCTAssertNotNil(internalCallback, @"A callback should have been set.");
         if (internalCallback) {
             internalCallback((JiveProperty *)mockProperty);
         }
         
-        STAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
+        XCTAssertNoThrow([mockProperty verify], @"The property was not processed correctly");
     }
 }
 

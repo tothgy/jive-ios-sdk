@@ -39,14 +39,14 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"count=5", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"count=5", asString, @"Wrong string contents");
     
     value = 7;
     self.pageOptions.count = value;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"count=7", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"count=7", asString, @"Wrong string contents");
 }
 
 - (void)testCountWithField {
@@ -59,8 +59,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&count=5", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&count=5", asString, @"Wrong string contents");
 }
 
 @end

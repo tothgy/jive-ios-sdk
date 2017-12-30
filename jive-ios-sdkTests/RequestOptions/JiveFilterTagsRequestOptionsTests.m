@@ -37,18 +37,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=tag(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=tag(dm)", asString, @"Wrong string contents");
     
     [self.tagOptions addTag:@"mention$"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=tag(dm,mention%24)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=tag(dm,mention%24)", asString, @"Wrong string contents");
     
     [self.tagOptions addTag:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=tag(dm,mention%24,share)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=tag(dm,mention%24,share)", asString, @"Wrong string contents");
 }
 
 - (void)testTagWithFields {
@@ -58,8 +58,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(dm)", asString, @"Wrong string contents");
 }
 
 @end

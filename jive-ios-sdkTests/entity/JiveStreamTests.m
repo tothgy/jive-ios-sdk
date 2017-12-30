@@ -87,20 +87,20 @@
 - (void)testStreamToJSON {
     NSDictionary *JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self setupTestStream];
     [self.stream setValue:@"not a real type" forKey:JiveTypedObjectAttributes.type];
     
-    STAssertNoThrow(JSON = [self.stream toJSONDictionary], @"This is the method under test");
+    XCTAssertNoThrow(JSON = [self.stream toJSONDictionary], @"This is the method under test");
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, @"Wrong name");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.receiveEmails],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, @"Wrong name");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.receiveEmails],
                          self.stream.receiveEmails, @"Wrong receiveEmails");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source], self.stream.source, @"Wrong source");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source], self.stream.source, @"Wrong source");
 }
 
 - (void)testStreamToJSON_alternate {
@@ -108,50 +108,50 @@
     
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.stream toJSONDictionary], @"This is the method under test");
+    XCTAssertNoThrow(JSON = [self.stream toJSONDictionary], @"This is the method under test");
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, @"Wrong name");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, @"Wrong name");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
                          JiveStreamSourceValues.custom, @"Wrong source");
 }
 
 - (void)testStreamPersistentJSON {
     NSDictionary *JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self setupTestStream];
     [self.stream setValue:@"not a real type" forKey:JiveTypedObjectAttributes.type];
     
-    STAssertNoThrow(JSON = [self.stream persistentJSON], @"This is the method under test");
+    XCTAssertNoThrow(JSON = [self.stream persistentJSON], @"This is the method under test");
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)11, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.receiveEmails],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)11, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.receiveEmails],
                          self.stream.receiveEmails, @"Wrong receiveEmails");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.count], self.stream.count, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.stream.jiveId, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
-                         JiveStreamSourceValues.connections, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.published],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.count], self.stream.count);
+    XCTAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.stream.jiveId);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
+                         JiveStreamSourceValues.connections);
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.published],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.updated],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.updated],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.newUpdates],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.newUpdates],
                          @"1970-01-01T15:46:29.000+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.previousUpdates],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.previousUpdates],
                          @"1970-01-01T00:57:36.000+0000", @"Wrong updated");
     
     NSDictionary *personJSON = [JSON objectForKey:JiveStreamAttributes.person];
     
-    STAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], nil);
-    STAssertEquals([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([personJSON objectForKey:JivePersonAttributes.location],
+    XCTAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]]);
+    XCTAssertEqual([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([personJSON objectForKey:JivePersonAttributes.location],
                          self.person.location, @"Wrong value");
 }
 
@@ -160,30 +160,30 @@
     
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.stream persistentJSON], @"This is the method under test");
+    XCTAssertNoThrow(JSON = [self.stream persistentJSON], @"This is the method under test");
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)10, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.count], self.stream.count, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.stream.jiveId, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
-                         JiveStreamSourceValues.custom, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, nil);
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.published],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)10, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.count], self.stream.count);
+    XCTAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.stream.jiveId);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.name], self.stream.name);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.source],
+                         JiveStreamSourceValues.custom);
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type);
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.published],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.updated],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamAttributes.updated],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.newUpdates],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.newUpdates],
                          @"1970-01-01T00:57:36.000+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.previousUpdates],
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamJSONAttributes.previousUpdates],
                          @"1970-01-01T15:46:29.000+0000", @"Wrong updated");
     
     NSDictionary *personJSON = [JSON objectForKey:JiveStreamAttributes.person];
     
-    STAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], nil);
-    STAssertEquals([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([personJSON objectForKey:JivePersonAttributes.location],
+    XCTAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]]);
+    XCTAssertEqual([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([personJSON objectForKey:JivePersonAttributes.location],
                          self.person.location, @"Wrong value");
 }
 
@@ -200,25 +200,25 @@
     
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.stream persistentJSON], @"PRECONDITION");
+    XCTAssertNoThrow(JSON = [self.stream persistentJSON], @"PRECONDITION");
     
     JiveStream *newStream = [JiveStream objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
-    STAssertEqualObjects(newStream.jiveId, self.stream.jiveId, @"Wrong id");
-    STAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
-    STAssertEqualObjects(newStream.name, self.stream.name, @"Wrong name");
-    STAssertEqualObjects(newStream.receiveEmails, self.stream.receiveEmails, @"Wrong receiveEmails");
-    STAssertEqualObjects(newStream.source, self.stream.source, @"Wrong source");
-    STAssertEqualObjects(newStream.person.location, self.stream.person.location, @"Wrong person");
-    STAssertEqualObjects(newStream.published, self.stream.published, @"Wrong published");
-    STAssertEqualObjects(newStream.updated, self.stream.updated, @"Wrong updated");
-    STAssertEquals([newStream.resources count], [self.stream.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newStream.resources objectForKey:resourceKey] ref],
+    XCTAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStream.jiveId, self.stream.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects(newStream.name, self.stream.name, @"Wrong name");
+    XCTAssertEqualObjects(newStream.receiveEmails, self.stream.receiveEmails, @"Wrong receiveEmails");
+    XCTAssertEqualObjects(newStream.source, self.stream.source, @"Wrong source");
+    XCTAssertEqualObjects(newStream.person.location, self.stream.person.location, @"Wrong person");
+    XCTAssertEqualObjects(newStream.published, self.stream.published, @"Wrong published");
+    XCTAssertEqualObjects(newStream.updated, self.stream.updated, @"Wrong updated");
+    XCTAssertEqual([newStream.resources count], [self.stream.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newStream.resources objectForKey:resourceKey] ref],
                          resource.ref, @"Wrong resource object");
-    STAssertEqualObjects(newStream.count, self.stream.count, nil);
-    STAssertEqualObjects(newStream.updatesNew, self.stream.updatesNew, nil);
-    STAssertEqualObjects(newStream.updatesPrevious, self.stream.updatesPrevious, nil);
+    XCTAssertEqualObjects(newStream.count, self.stream.count);
+    XCTAssertEqualObjects(newStream.updatesNew, self.stream.updatesNew);
+    XCTAssertEqualObjects(newStream.updatesPrevious, self.stream.updatesPrevious);
 }
 
 - (void)testStreamParsingAlternate {
@@ -234,25 +234,25 @@
     
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.stream persistentJSON], @"PRECONDITION");
+    XCTAssertNoThrow(JSON = [self.stream persistentJSON], @"PRECONDITION");
     
     JiveStream *newStream = [JiveStream objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
-    STAssertEqualObjects(newStream.jiveId, self.stream.jiveId, @"Wrong id");
-    STAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
-    STAssertEqualObjects(newStream.name, self.stream.name, @"Wrong name");
-    STAssertEqualObjects(newStream.receiveEmails, self.stream.receiveEmails, @"Wrong receiveEmails");
-    STAssertEqualObjects(newStream.source, @"custom", @"Wrong source");
-    STAssertEqualObjects(newStream.person.location, self.stream.person.location, @"Wrong person");
-    STAssertEqualObjects(newStream.published, self.stream.published, @"Wrong published");
-    STAssertEqualObjects(newStream.updated, self.stream.updated, @"Wrong updated");
-    STAssertEquals([newStream.resources count], [self.stream.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newStream.resources objectForKey:resourceKey] ref],
+    XCTAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStream.jiveId, self.stream.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects(newStream.name, self.stream.name, @"Wrong name");
+    XCTAssertEqualObjects(newStream.receiveEmails, self.stream.receiveEmails, @"Wrong receiveEmails");
+    XCTAssertEqualObjects(newStream.source, @"custom", @"Wrong source");
+    XCTAssertEqualObjects(newStream.person.location, self.stream.person.location, @"Wrong person");
+    XCTAssertEqualObjects(newStream.published, self.stream.published, @"Wrong published");
+    XCTAssertEqualObjects(newStream.updated, self.stream.updated, @"Wrong updated");
+    XCTAssertEqual([newStream.resources count], [self.stream.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newStream.resources objectForKey:resourceKey] ref],
                          resource.ref, @"Wrong resource object");
-    STAssertEqualObjects(newStream.count, self.stream.count, nil);
-    STAssertEqualObjects(newStream.updatesNew, self.stream.updatesNew, nil);
-    STAssertEqualObjects(newStream.updatesPrevious, self.stream.updatesPrevious, nil);
+    XCTAssertEqualObjects(newStream.count, self.stream.count);
+    XCTAssertEqualObjects(newStream.updatesNew, self.stream.updatesNew);
+    XCTAssertEqualObjects(newStream.updatesPrevious, self.stream.updatesPrevious);
 }
 
 @end

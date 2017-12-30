@@ -26,11 +26,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"filter=entityDescriptor(102,1234)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=entityDescriptor(102,1234)", asString, @"Wrong string contents");
     
     [self.placesOptions addEntityType:@"37" descriptor:@"2345"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"filter=entityDescriptor(102,1234,37,2345)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=entityDescriptor(102,1234,37,2345)", asString, @"Wrong string contents");
 }
 
 - (void)testEntityDescriptorWithOtherOptions {
@@ -40,11 +40,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&filter=entityDescriptor(37,2345)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=entityDescriptor(37,2345)", asString, @"Wrong string contents");
     
     [self.placesOptions addType:@"dm"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)", asString, @"Wrong string contents");
 }
 
 @end

@@ -31,22 +31,22 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.announcement.type, @"announcement", @"Wrong type.");
+    XCTAssertEqualObjects(self.announcement.type, @"announcement", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.announcement.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.announcement class], @"Announcement class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.announcement class], @"Announcement class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.announcement class], @"Announcement class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.announcement class], @"Announcement class not registered with JiveContent.");
 }
 
 - (void)testAnnouncementToJSON {
     id JSON = [self.announcement toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], @"announcement", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], @"announcement", @"Wrong type");
     
     self.announcement.subjectURI = @"/place/123456";
     self.announcement.publishDate = [NSDate dateWithTimeIntervalSince1970:0];
@@ -58,24 +58,24 @@
     
     JSON = [self.announcement toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURI"], self.announcement.subjectURI, @"Wrong subjectURI");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURITargetType"], self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"publishDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong publishDate");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"endDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong endDate");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"image"], [self.announcement.image absoluteString], @"Wrong image");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"sortKey"], self.announcement.sortKey, @"Wrong sortKey");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"visibleToExternalContributors"], self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURI"], self.announcement.subjectURI, @"Wrong subjectURI");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURITargetType"], self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"publishDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong publishDate");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"endDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong endDate");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"image"], [self.announcement.image absoluteString], @"Wrong image");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"sortKey"], self.announcement.sortKey, @"Wrong sortKey");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"visibleToExternalContributors"], self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
 }
 
 - (void)testAnnouncementToJSON_alternate {
     id JSON = [self.announcement toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
     
     self.announcement.subjectURI = @"/person/4567";
     self.announcement.publishDate = [NSDate dateWithTimeIntervalSince1970:1000.123];
@@ -86,15 +86,15 @@
     
     JSON = [self.announcement toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURI"], self.announcement.subjectURI, @"Wrong subjectURI");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURITargetType"], self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"publishDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong publishDate");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"endDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong endDate");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"image"], [self.announcement.image absoluteString], @"Wrong image");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"sortKey"], self.announcement.sortKey, @"Wrong sortKey");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.announcement.type, @"Wrong type");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURI"], self.announcement.subjectURI, @"Wrong subjectURI");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"subjectURITargetType"], self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"publishDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong publishDate");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"endDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong endDate");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"image"], [self.announcement.image absoluteString], @"Wrong image");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"sortKey"], self.announcement.sortKey, @"Wrong sortKey");
 }
 
 - (void)testAnnouncementParsing {
@@ -109,14 +109,14 @@
     id JSON = [self.announcement toJSONDictionary];
     JiveAnnouncement *newContent = [JiveAnnouncement objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.announcement class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.announcement.type, @"Wrong type");
-    STAssertEqualObjects(newContent.subjectURI, self.announcement.subjectURI, @"Wrong subjectURI");
-    STAssertEqualObjects(newContent.subjectURITargetType, self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
-    STAssertEqualObjects(newContent.publishDate, self.announcement.publishDate, @"Wrong publishDate");
-    STAssertEqualObjects(newContent.endDate, self.announcement.endDate, @"Wrong endDate");
-    STAssertEqualObjects(newContent.image, self.announcement.image, @"Wrong image");
-    STAssertEqualObjects(newContent.visibleToExternalContributors, self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.announcement class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.announcement.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.subjectURI, self.announcement.subjectURI, @"Wrong subjectURI");
+    XCTAssertEqualObjects(newContent.subjectURITargetType, self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
+    XCTAssertEqualObjects(newContent.publishDate, self.announcement.publishDate, @"Wrong publishDate");
+    XCTAssertEqualObjects(newContent.endDate, self.announcement.endDate, @"Wrong endDate");
+    XCTAssertEqualObjects(newContent.image, self.announcement.image, @"Wrong image");
+    XCTAssertEqualObjects(newContent.visibleToExternalContributors, self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
 }
 
 - (void)testAnnouncementParsingAlternate {
@@ -130,14 +130,14 @@
     id JSON = [self.announcement toJSONDictionary];
     JiveAnnouncement *newContent = [JiveAnnouncement objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.announcement class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.announcement.type, @"Wrong type");
-    STAssertEqualObjects(newContent.subjectURI, self.announcement.subjectURI, @"Wrong subjectURI");
-    STAssertEqualObjects(newContent.subjectURITargetType, self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
-    STAssertEqualObjects(newContent.publishDate, self.announcement.publishDate, @"Wrong publishDate");
-    STAssertEqualObjects(newContent.endDate, self.announcement.endDate, @"Wrong endDate");
-    STAssertEqualObjects(newContent.image, self.announcement.image, @"Wrong image");
-    STAssertEqualObjects(newContent.visibleToExternalContributors, self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.announcement class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.announcement.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.subjectURI, self.announcement.subjectURI, @"Wrong subjectURI");
+    XCTAssertEqualObjects(newContent.subjectURITargetType, self.announcement.subjectURITargetType, @"Wrong subjectURITargetType");
+    XCTAssertEqualObjects(newContent.publishDate, self.announcement.publishDate, @"Wrong publishDate");
+    XCTAssertEqualObjects(newContent.endDate, self.announcement.endDate, @"Wrong endDate");
+    XCTAssertEqualObjects(newContent.image, self.announcement.image, @"Wrong image");
+    XCTAssertEqualObjects(newContent.visibleToExternalContributors, self.announcement.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
 }
 
 @end

@@ -44,9 +44,9 @@
     
     NSDictionary *JSON = [outcomeType toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEquals(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqual(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
 }
 
 - (void)testPersistentJSON {
@@ -67,16 +67,16 @@
     
     NSDictionary *JSON = [outcomeType persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.fields][0], @"field", @"Fields wrong in JSON");
-    STAssertEquals(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.name], outcomeTypesName, @"Name wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.resources][@"key"], @"resource", @"Resources wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.communityAudience], communityAudience, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.confirmExclusion], @YES, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.confirmUnmark], @YES, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.generalNote], @YES, nil);
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.fields][0], @"field", @"Fields wrong in JSON");
+    XCTAssertEqual(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.name], outcomeTypesName, @"Name wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.resources][@"key"], @"resource", @"Resources wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.communityAudience], communityAudience);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.confirmExclusion], @YES);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.confirmUnmark], @YES);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.generalNote], @YES);
 }
 
 - (void)testToJSON_alternate {
@@ -94,9 +94,9 @@
     
     NSDictionary *JSON = [outcomeType toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEquals(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqual(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
 }
 
 - (void)testPersistentJSON_alternate {
@@ -117,16 +117,16 @@
     
     NSDictionary *JSON = [outcomeType persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.fields][0], @"field2", @"Fields wrong in JSON");
-    STAssertEquals(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.name], outcomeTypesName, @"Name wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.resources][@"key"], @"resource2", @"Resources wrong in JSON");
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.communityAudience], communityAudience, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.noteRequired], @YES, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.shareable], @YES, nil);
-    STAssertEquals(JSON[JiveOutcomeTypeAttributes.urlAllowed], @YES, nil);
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.fields][0], @"field2", @"Fields wrong in JSON");
+    XCTAssertEqual(JSON[JiveObjectConstants.id], outcomeTypesJiveId, @"ID wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.name], outcomeTypesName, @"Name wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.resources][@"key"], @"resource2", @"Resources wrong in JSON");
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.communityAudience], communityAudience);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.noteRequired], @YES);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.shareable], @YES);
+    XCTAssertEqual(JSON[JiveOutcomeTypeAttributes.urlAllowed], @YES);
 }
 
 @end

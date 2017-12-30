@@ -42,13 +42,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(document)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(document)", asString, @"Wrong string contents");
     
     [self.contentOptions addType:@"discussion"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(document,discussion)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(document,discussion)", asString, @"Wrong string contents");
 }
 
 - (void)testTypeWithField {
@@ -60,13 +60,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=type(document)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=type(document)", asString, @"Wrong string contents");
     
     self.contentOptions.url = [NSURL URLWithString:@"http://dummy"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=place(http://dummy)&filter=type(document)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=place(http://dummy)&filter=type(document)", asString, @"Wrong string contents");
 }
 
 @end

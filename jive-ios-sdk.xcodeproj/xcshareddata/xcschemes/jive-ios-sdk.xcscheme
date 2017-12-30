@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2192BC091614F33300082926"
-               BuildableName = "jive-ios-sdkTests.octest"
+               BuildableName = "jive-ios-sdkTests.xctest"
                BlueprintName = "jive-ios-sdkTests"
                ReferencedContainer = "container:jive-ios-sdk.xcodeproj">
             </BuildableReference>

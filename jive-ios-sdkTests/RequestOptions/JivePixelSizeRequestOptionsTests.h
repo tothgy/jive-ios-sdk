@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "JivePixelSizeRequestOptions.h"
 
-@interface JivePixelSizeRequestOptionsTests : SenTestCase
+@interface JivePixelSizeRequestOptionsTests : XCTestCase
 
 @property (nonatomic, strong) JivePixelSizeRequestOptions *options;
 

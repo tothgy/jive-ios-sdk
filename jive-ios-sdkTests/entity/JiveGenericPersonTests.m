@@ -59,8 +59,8 @@
     
     NSDictionary *JSON = [self.genericPerson toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary had the wrong number of entries");
 }
 
 - (void)testGenericPersonToJSON_external {
@@ -68,18 +68,18 @@
     
     NSDictionary *JSON = [self.genericPerson toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
     
-    STAssertEqualObjects(JSON[JiveGenericPersonAttributes.name], self.genericPerson.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveGenericPersonAttributes.email], self.genericPerson.email, @"Wrong email");
+    XCTAssertEqualObjects(JSON[JiveGenericPersonAttributes.name], self.genericPerson.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveGenericPersonAttributes.email], self.genericPerson.email, @"Wrong email");
 }
 
 - (void)testGenericPersonPersistentJSON {
     NSDictionary *JSON = [self.genericPerson persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary had the wrong number of entries");
 }
 
 - (void)testGenericPersonPersistentJSON_internal {
@@ -87,10 +87,10 @@
     
     NSDictionary *JSON = [self.genericPerson persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
     
-    STAssertEqualObjects([JSON[JiveGenericPersonAttributes.person]
+    XCTAssertEqualObjects([JSON[JiveGenericPersonAttributes.person]
                           objectForKey:JivePersonAttributes.displayName], self.genericPerson.person.displayName, @"Wrong person");
 }
 
@@ -99,11 +99,11 @@
     
     NSDictionary *JSON = [self.genericPerson persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
     
-    STAssertEqualObjects(JSON[JiveGenericPersonAttributes.name], self.genericPerson.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveGenericPersonAttributes.email], self.genericPerson.email, @"Wrong email");
+    XCTAssertEqualObjects(JSON[JiveGenericPersonAttributes.name], self.genericPerson.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveGenericPersonAttributes.email], self.genericPerson.email, @"Wrong email");
 }
 
 - (void)testGenericPersonParsing_internal {
@@ -113,9 +113,9 @@
     JiveGenericPerson *newGenericPerson = [JiveGenericPerson objectFromJSON:JSON
                                                                withInstance:self.instance];
     
-    STAssertEqualObjects(newGenericPerson.email, self.genericPerson.email, nil);
-    STAssertEqualObjects(newGenericPerson.name, self.genericPerson.name, nil);
-    STAssertEqualObjects(newGenericPerson.person.displayName, self.genericPerson.person.displayName, nil);
+    XCTAssertEqualObjects(newGenericPerson.email, self.genericPerson.email);
+    XCTAssertEqualObjects(newGenericPerson.name, self.genericPerson.name);
+    XCTAssertEqualObjects(newGenericPerson.person.displayName, self.genericPerson.person.displayName);
 }
 
 - (void)testGenericPersonParsing_external {
@@ -125,9 +125,9 @@
     JiveGenericPerson *newGenericPerson = [JiveGenericPerson objectFromJSON:JSON
                                                                withInstance:self.instance];
     
-    STAssertEqualObjects(newGenericPerson.email, self.genericPerson.email, nil);
-    STAssertEqualObjects(newGenericPerson.name, self.genericPerson.name, nil);
-    STAssertEqualObjects(newGenericPerson.person.displayName, self.genericPerson.person.displayName, nil);
+    XCTAssertEqualObjects(newGenericPerson.email, self.genericPerson.email);
+    XCTAssertEqualObjects(newGenericPerson.name, self.genericPerson.name);
+    XCTAssertEqualObjects(newGenericPerson.person.displayName, self.genericPerson.person.displayName);
 }
 
 @end

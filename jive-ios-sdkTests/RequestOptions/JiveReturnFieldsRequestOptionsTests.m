@@ -37,7 +37,7 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNil(asString, @"Valid string returned");
+    XCTAssertNil(asString, @"Valid string returned");
 }
 
 - (void)testSingleField {
@@ -48,8 +48,8 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name", asString, @"Wrong string contents");
 }
 
 - (void)testMultipleFields {
@@ -64,8 +64,8 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=familyName,givenName,emails", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=familyName,givenName,emails", asString, @"Wrong string contents");
 }
 
 @end

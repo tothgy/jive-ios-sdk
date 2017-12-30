@@ -36,9 +36,9 @@
     JiveGroup *group = [[JiveGroup alloc] init];
     NSDictionary *JSON = [self.member toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"member", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"member", @"Wrong type");
     
     person.location = @"location";
     group.displayName = @"group";
@@ -51,25 +51,25 @@
     
     JSON = [self.member toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], self.member.jiveId, @"Wrong id");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.member.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"state"], self.member.state, @"Wrong state");
-    STAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], self.member.jiveId, @"Wrong id");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.member.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"state"], self.member.state, @"Wrong state");
+    XCTAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
+    XCTAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
     
     NSDictionary *personJSON = [JSON objectForKey:@"person"];
     
-    STAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([personJSON objectForKey:@"location"], person.location, @"Wrong value");
+    XCTAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([personJSON objectForKey:@"location"], person.location, @"Wrong value");
     
     NSDictionary *groupJSON = [JSON objectForKey:@"group"];
     
-    STAssertTrue([[groupJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([groupJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([groupJSON objectForKey:@"displayName"], group.displayName, @"Wrong value");
+    XCTAssertTrue([[groupJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([groupJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([groupJSON objectForKey:@"displayName"], group.displayName, @"Wrong value");
 }
 
 - (void)testToJSON_alternate {
@@ -87,25 +87,25 @@
     
     NSDictionary *JSON = [self.member toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], self.member.jiveId, @"Wrong id");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.member.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"state"], self.member.state, @"Wrong state");
-    STAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], self.member.jiveId, @"Wrong id");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.member.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"state"], self.member.state, @"Wrong state");
+    XCTAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
+    XCTAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
     
     NSDictionary *personJSON = [JSON objectForKey:@"person"];
     
-    STAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([personJSON objectForKey:@"location"], person.location, @"Wrong value");
+    XCTAssertTrue([[personJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([personJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([personJSON objectForKey:@"location"], person.location, @"Wrong value");
     
     NSDictionary *groupJSON = [JSON objectForKey:@"group"];
     
-    STAssertTrue([[groupJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([groupJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([groupJSON objectForKey:@"displayName"], group.displayName, @"Wrong value");
+    XCTAssertTrue([[groupJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([groupJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([groupJSON objectForKey:@"displayName"], group.displayName, @"Wrong value");
 }
 
 - (void)testContentParsing {
@@ -134,16 +134,16 @@
     
     JiveMember *newMember = [JiveMember objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newMember class] isSubclassOfClass:[self.member class]], @"Wrong item class");
-    STAssertEqualObjects(newMember.jiveId, self.member.jiveId, @"Wrong id");
-    STAssertEqualObjects(newMember.type, self.member.type, @"Wrong type");
-    STAssertEqualObjects(newMember.person.location, self.member.person.location, @"Wrong person");
-    STAssertEqualObjects(newMember.group.displayName, self.member.group.displayName, @"Wrong group");
-    STAssertEqualObjects(newMember.published, self.member.published, @"Wrong published");
-    STAssertEqualObjects(newMember.updated, self.member.updated, @"Wrong updated");
-    STAssertEqualObjects(newMember.state, self.member.state, @"Wrong state");
-    STAssertEquals([newMember.resources count], [self.member.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newMember.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertTrue([[newMember class] isSubclassOfClass:[self.member class]], @"Wrong item class");
+    XCTAssertEqualObjects(newMember.jiveId, self.member.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newMember.type, self.member.type, @"Wrong type");
+    XCTAssertEqualObjects(newMember.person.location, self.member.person.location, @"Wrong person");
+    XCTAssertEqualObjects(newMember.group.displayName, self.member.group.displayName, @"Wrong group");
+    XCTAssertEqualObjects(newMember.published, self.member.published, @"Wrong published");
+    XCTAssertEqualObjects(newMember.updated, self.member.updated, @"Wrong updated");
+    XCTAssertEqualObjects(newMember.state, self.member.state, @"Wrong state");
+    XCTAssertEqual([newMember.resources count], [self.member.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newMember.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
 }
 
 - (void)testContentParsingAlternate {
@@ -172,16 +172,16 @@
     
     JiveMember *newMember = [JiveMember objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newMember class] isSubclassOfClass:[self.member class]], @"Wrong item class");
-    STAssertEqualObjects(newMember.jiveId, self.member.jiveId, @"Wrong id");
-    STAssertEqualObjects(newMember.type, self.member.type, @"Wrong type");
-    STAssertEqualObjects(newMember.person.location, self.member.person.location, @"Wrong person");
-    STAssertEqualObjects(newMember.group.displayName, self.member.group.displayName, @"Wrong group");
-    STAssertEqualObjects(newMember.published, self.member.published, @"Wrong published");
-    STAssertEqualObjects(newMember.updated, self.member.updated, @"Wrong updated");
-    STAssertEqualObjects(newMember.state, self.member.state, @"Wrong state");
-    STAssertEquals([newMember.resources count], [self.member.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newMember.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertTrue([[newMember class] isSubclassOfClass:[self.member class]], @"Wrong item class");
+    XCTAssertEqualObjects(newMember.jiveId, self.member.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newMember.type, self.member.type, @"Wrong type");
+    XCTAssertEqualObjects(newMember.person.location, self.member.person.location, @"Wrong person");
+    XCTAssertEqualObjects(newMember.group.displayName, self.member.group.displayName, @"Wrong group");
+    XCTAssertEqualObjects(newMember.published, self.member.published, @"Wrong published");
+    XCTAssertEqualObjects(newMember.updated, self.member.updated, @"Wrong updated");
+    XCTAssertEqualObjects(newMember.state, self.member.state, @"Wrong state");
+    XCTAssertEqual([newMember.resources count], [self.member.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newMember.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
 }
 
 @end

@@ -37,11 +37,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"state=owner", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"state=owner", asString, @"Wrong string contents");
     
     [self.stateOptions addState:@"banned"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"state=owner&state=banned", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"state=owner&state=banned", asString, @"Wrong string contents");
 }
 
 - (void)testStateWithFields {
@@ -51,7 +51,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&state=owner", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&state=owner", asString, @"Wrong string contents");
 }
 
 @end

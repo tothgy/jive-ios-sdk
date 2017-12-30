@@ -26,8 +26,8 @@
     JiveName *name = [[JiveName alloc] init];
     id JSON = [name toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     name.familyName = @"Last";
     name.givenName = @"First";
@@ -35,19 +35,19 @@
     
     JSON = [name toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"familyName"], name.familyName, @"Wrong display name.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"givenName"], name.givenName, @"Wrong id.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"formatted"], name.formatted, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"familyName"], name.familyName, @"Wrong display name.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"givenName"], name.givenName, @"Wrong id.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"formatted"], name.formatted, @"Wrong type");
 }
 
 - (void)testToJSON_alternate {
     JiveName *name = [[JiveName alloc] init];
     id JSON = [name toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     name.familyName = @"Bushnell";
     name.givenName = @"Orson";
@@ -55,11 +55,11 @@
 
     JSON = [name toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"familyName"], name.familyName, @"Wrong display name.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"givenName"], name.givenName, @"Wrong id.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"formatted"], name.formatted, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"familyName"], name.familyName, @"Wrong display name.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"givenName"], name.givenName, @"Wrong id.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"formatted"], name.formatted, @"Wrong type");
 }
 
 @end

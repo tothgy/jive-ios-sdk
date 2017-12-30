@@ -37,11 +37,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     [self.contentOptions addAuthor:[NSURL URLWithString:@"http://dummy.com/people/54321"]];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"filter=author(http://dummy.com/people/1005,http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=author(http://dummy.com/people/1005,http://dummy.com/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorURLWithOtherOptions {
@@ -51,15 +51,15 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
     
     [self.contentOptions addType:@"dm"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
     
     [self.contentOptions addEntityType:@"37" descriptor:@"2345"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testPlace {
@@ -68,11 +68,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     self.contentOptions.place = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"filter=place(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"filter=place(http://dummy.com/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testPlaceWithOtherOptions {
@@ -82,19 +82,19 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     [self.contentOptions addType:@"dm"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     [self.contentOptions addAuthor:[NSURL URLWithString:@"http://dummy.com/people/54321"]];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=author(http://dummy.com/people/54321)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=author(http://dummy.com/people/54321)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     [self.contentOptions addEntityType:@"37" descriptor:@"2345"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)&filter=author(http://dummy.com/people/54321)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)&filter=entityDescriptor(37,2345)&filter=author(http://dummy.com/people/54321)&filter=place(http://dummy.com/people/1005)", asString, @"Wrong string contents");
 }
 
 @end

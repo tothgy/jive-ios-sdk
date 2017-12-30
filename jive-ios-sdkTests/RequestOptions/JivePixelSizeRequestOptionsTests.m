@@ -37,7 +37,7 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNil(asString, @"Valid string returned");
+    XCTAssertNil(asString, @"Valid string returned");
 }
 
 - (void)testSize {
@@ -48,14 +48,14 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"size=5", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"size=5", asString, @"Wrong string contents");
     
     value = 7;
     self.options.size = value;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"size=7", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"size=7", asString, @"Wrong string contents");
 }
 
 @end

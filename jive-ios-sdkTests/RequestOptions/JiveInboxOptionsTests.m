@@ -43,16 +43,16 @@
 - (void)testUnread {
     
     self.inboxOptions.unread = NO;
-    STAssertFalse(self.inboxOptions.unread, @"Wrong default value");
+    XCTAssertFalse(self.inboxOptions.unread, @"Wrong default value");
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
     
     self.inboxOptions.unread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=unread", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=unread", asString, @"Wrong string contents");
 }
 
 - (void)testUnreadWithField {
@@ -62,8 +62,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=unread", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=unread", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorID {
@@ -72,13 +72,13 @@
 
     NSString *asString = [self.options toQueryString];
 
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(/people/1005)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(/people/1005)", asString, @"Wrong string contents");
 
     self.inboxOptions.authorID = @"54321";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(/people/54321)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorIDWithOtherOptions {
@@ -88,13 +88,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=author(/people/1005)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=author(/people/1005)", asString, @"Wrong string contents");
 
     self.inboxOptions.unread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=unread&filter=author(/people/1005)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=unread&filter=author(/people/1005)", asString, @"Wrong string contents");
 }
 
 - (void)testType {
@@ -103,34 +103,34 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm)", asString, @"Wrong string contents");
     
     [self.inboxOptions addType:@"mention"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention)", asString, @"Wrong string contents");
     
     [self.inboxOptions addType:JiveShareType];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
     
     [self.inboxOptions addType:JiveDirectMessageType];
     [self.inboxOptions addType:JiveShareType];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
     
     [self.inboxOptions addType:nil];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
     
     self.inboxOptions.types = @[JiveDiscussionType];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(discussion)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(discussion)", asString, @"Wrong string contents");
 }
 
 - (void)testTypeWithOtherOptions {
@@ -140,23 +140,23 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)", asString, @"Wrong string contents");
     
     self.inboxOptions.authorID = @"1005";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=author(/people/1005)&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=author(/people/1005)&filter=type(dm)", asString, @"Wrong string contents");
     
     self.inboxOptions.unread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=unread&filter=author(/people/1005)&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=unread&filter=author(/people/1005)&filter=type(dm)", asString, @"Wrong string contents");
     
     self.inboxOptions.authorID = nil;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=unread&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=unread&filter=type(dm)", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorURL {
@@ -165,13 +165,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     self.inboxOptions.authorURL = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorURLWithOtherOptions {
@@ -181,18 +181,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)", asString, @"Wrong string contents");
     
     [self.inboxOptions addType:JiveDirectMessageType];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=author(http://dummy.com/people/54321)&filter=type(dm)", asString, @"Wrong string contents");
     
     self.inboxOptions.unread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=unread&filter=author(http://dummy.com/people/54321)&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=unread&filter=author(http://dummy.com/people/54321)&filter=type(dm)", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorURLIgnoredWithAuthorID {
@@ -201,13 +201,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(http://dummy.com/people/1005)", asString, @"Wrong string contents");
     
     self.inboxOptions.authorID = @"54321";
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=author(/people/54321)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=author(/people/54321)", asString, @"Wrong string contents");
 }
 
 - (void)testCollapse {
@@ -216,8 +216,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"collapse=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"collapse=true", asString);
 }
 
 - (void)testCollapseWithOtherOptions {
@@ -227,26 +227,26 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true", asString);
     
     self.inboxOptions.authorURL = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)",
+                         asString);
     
     [self.inboxOptions addType:JiveDirectMessageType];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&filter=type(dm)",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&filter=type(dm)",
+                         asString);
     
     self.inboxOptions.unread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&filter=unread&filter=author(http://dummy.com/people/54321)&filter=type(dm)",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&filter=unread&filter=author(http://dummy.com/people/54321)&filter=type(dm)",
+                         asString);
 }
 
 - (void)testOldestUnread {
@@ -255,8 +255,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"oldestUnread=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"oldestUnread=true", asString);
 }
 
 - (void)testOldestUnreadWithOtherOptions {
@@ -266,19 +266,19 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&oldestUnread=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&oldestUnread=true", asString);
     
     self.inboxOptions.collapse = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&oldestUnread=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&oldestUnread=true", asString);
     
     self.inboxOptions.authorURL = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&oldestUnread=true",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&oldestUnread=true",
+                         asString);
 }
 
 - (void)testDirectives {
@@ -287,27 +287,27 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, nil);
+    XCTAssertNil(asString);
     
     [self.inboxOptions addDirective:JiveInboxOptionsDirectives.include_rtc];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=include_rtc", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=include_rtc", asString);
     
     [self.inboxOptions addDirective:@"test_directive"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=include_rtc,test_directive", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=include_rtc,test_directive", asString);
     
     [self.inboxOptions addDirective:JiveInboxOptionsDirectives.include_rtc];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=include_rtc,test_directive", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=include_rtc,test_directive", asString);
     
     self.inboxOptions.directives = @[@"alternate"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=alternate", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=alternate", asString);
 }
 
 - (void)testDirectivesWithOtherOptions {
@@ -317,25 +317,25 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&directive=include_rtc", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&directive=include_rtc", asString);
     
     self.inboxOptions.oldestUnread = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&directive=include_rtc&oldestUnread=true", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&directive=include_rtc&oldestUnread=true", asString);
     
     self.inboxOptions.collapse = YES;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&directive=include_rtc&oldestUnread=true",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&directive=include_rtc&oldestUnread=true",
+                         asString);
     
     self.inboxOptions.authorURL = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&directive=include_rtc&oldestUnread=true",
-                         asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"fields=name&collapse=true&filter=author(http://dummy.com/people/54321)&directive=include_rtc&oldestUnread=true",
+                         asString);
 }
 
 - (void)testCollapseSkip {
@@ -346,37 +346,37 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=collapseSkip(10101)", asString, nil);
-    STAssertNil(self.inboxOptions.directives, @"Don't change the directives when adding a collection id.");
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=collapseSkip(10101)", asString);
+    XCTAssertNil(self.inboxOptions.directives, @"Don't change the directives when adding a collection id.");
     
     [self.inboxOptions addCollectionID:secondCollectionID];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString, nil);
-    STAssertNil(self.inboxOptions.directives, @"Don't change the directives when adding a collection id.");
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString);
+    XCTAssertNil(self.inboxOptions.directives, @"Don't change the directives when adding a collection id.");
     
     [self.inboxOptions addCollectionID:firstCollectionID];
     [self.inboxOptions addCollectionID:secondCollectionID];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString);
     
     [self.inboxOptions addCollectionID:nil];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=collapseSkip(10101,202345)", asString);
     
     self.inboxOptions.collapseSkipCollectionIDs = @[secondCollectionID];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=collapseSkip(202345)", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=collapseSkip(202345)", asString);
     
     [self.inboxOptions addDirective:JiveInboxOptionsDirectives.include_rtc];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"directive=include_rtc,collapseSkip(202345)", asString, nil);
-    STAssertEqualObjects(self.inboxOptions.directives, @[JiveInboxOptionsDirectives.include_rtc], nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"directive=include_rtc,collapseSkip(202345)", asString);
+    XCTAssertEqualObjects(self.inboxOptions.directives, @[JiveInboxOptionsDirectives.include_rtc]);
 }
 
 @end

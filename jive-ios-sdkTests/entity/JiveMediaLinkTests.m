@@ -26,8 +26,8 @@
     JiveMediaLink *media = [[JiveMediaLink alloc] init];
     NSDictionary *JSON = [media toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [media setValue:[NSNumber numberWithInt:4] forKey:@"duration"];
     [media setValue:[NSNumber numberWithInt:10] forKey:@"height"];
@@ -36,20 +36,20 @@
     
     JSON = [media toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"duration"], media.duration, @"Wrong duration.");
-    STAssertEqualObjects([JSON objectForKey:@"height"], media.height, @"Wrong height.");
-    STAssertEqualObjects([JSON objectForKey:@"width"], media.width, @"Wrong width.");
-    STAssertEqualObjects([JSON objectForKey:@"url"], [media.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"duration"], media.duration, @"Wrong duration.");
+    XCTAssertEqualObjects([JSON objectForKey:@"height"], media.height, @"Wrong height.");
+    XCTAssertEqualObjects([JSON objectForKey:@"width"], media.width, @"Wrong width.");
+    XCTAssertEqualObjects([JSON objectForKey:@"url"], [media.url absoluteString], @"Wrong url.");
 }
 
 - (void)testToJSON_alternate {
     JiveMediaLink *media = [[JiveMediaLink alloc] init];
     NSDictionary *JSON = [media toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [media setValue:[NSNumber numberWithInt:22] forKey:@"duration"];
     [media setValue:[NSNumber numberWithInt:2] forKey:@"height"];
@@ -58,12 +58,12 @@
     
     JSON = [media toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"duration"], media.duration, @"Wrong duration.");
-    STAssertEqualObjects([JSON objectForKey:@"height"], media.height, @"Wrong height.");
-    STAssertEqualObjects([JSON objectForKey:@"width"], media.width, @"Wrong width.");
-    STAssertEqualObjects([JSON objectForKey:@"url"], [media.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"duration"], media.duration, @"Wrong duration.");
+    XCTAssertEqualObjects([JSON objectForKey:@"height"], media.height, @"Wrong height.");
+    XCTAssertEqualObjects([JSON objectForKey:@"width"], media.width, @"Wrong width.");
+    XCTAssertEqualObjects([JSON objectForKey:@"url"], [media.url absoluteString], @"Wrong url.");
 }
 
 @end

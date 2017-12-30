@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.project.type, @"project", @"Wrong type.");
+    XCTAssertEqualObjects(self.project.type, @"project", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.project.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.project class], @"Project class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.project class], @"Project class not registered with JivePlace.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.project class], @"Project class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.project class], @"Project class not registered with JivePlace.");
 }
 
 - (void)testTaskToJSON {
@@ -47,9 +47,9 @@
     NSString *tag = @"wordy";
     NSDictionary *JSON = [self.project toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"project", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"project", @"Wrong type");
     
     creator.location = @"location";
     [self.project setValue:creator forKey:@"creator"];
@@ -61,25 +61,25 @@
     
     JSON = [self.project toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.project.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"projectStatus"], self.project.projectStatus, @"Wrong projectStatus");
-    STAssertEqualObjects([JSON objectForKey:@"dueDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong due date");
-    STAssertEqualObjects([JSON objectForKey:JiveProjectAttributes.locale], locale, @"Wrong locale");
-    STAssertEqualObjects([JSON objectForKey:@"startDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong start date");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.project.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"projectStatus"], self.project.projectStatus, @"Wrong projectStatus");
+    XCTAssertEqualObjects([JSON objectForKey:@"dueDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong due date");
+    XCTAssertEqualObjects([JSON objectForKey:JiveProjectAttributes.locale], locale, @"Wrong locale");
+    XCTAssertEqualObjects([JSON objectForKey:@"startDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong start date");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
     
     NSDictionary *creatorJSON = [JSON objectForKey:@"creator"];
     
-    STAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
+    XCTAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
 }
 
 - (void)testTaskToJSON_alternate {
@@ -97,25 +97,25 @@
     
     NSDictionary *JSON = [self.project toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.project.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"projectStatus"], self.project.projectStatus, @"Wrong projectStatus");
-    STAssertEqualObjects([JSON objectForKey:@"dueDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong due date");
-    STAssertEqualObjects([JSON objectForKey:JiveProjectAttributes.locale], locale, @"Wrong locale");
-    STAssertEqualObjects([JSON objectForKey:@"startDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong start date");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.project.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"projectStatus"], self.project.projectStatus, @"Wrong projectStatus");
+    XCTAssertEqualObjects([JSON objectForKey:@"dueDate"], @"1970-01-01T00:16:40.123+0000", @"Wrong due date");
+    XCTAssertEqualObjects([JSON objectForKey:JiveProjectAttributes.locale], locale, @"Wrong locale");
+    XCTAssertEqualObjects([JSON objectForKey:@"startDate"], @"1970-01-01T00:00:00.000+0000", @"Wrong start date");
     
     NSArray *tagsJSON = [JSON objectForKey:@"tags"];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
     
     NSDictionary *creatorJSON = [JSON objectForKey:@"creator"];
     
-    STAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
+    XCTAssertTrue([[creatorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([creatorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([creatorJSON objectForKey:@"location"], creator.location, @"Wrong value");
 }
 
 - (void)testPostParsing {
@@ -134,15 +134,15 @@
     id JSON = [self.project toJSONDictionary];
     JiveProject *newProject = [JiveProject objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newProject class] isSubclassOfClass:[self.project class]], @"Wrong item class");
-    STAssertEqualObjects(newProject.type, self.project.type, @"Wrong type");
-    STAssertEqualObjects(newProject.projectStatus, self.project.projectStatus, @"Wrong projectStatus");
-    STAssertEqualObjects(newProject.dueDate, self.project.dueDate, @"Wrong due date");
-    STAssertEqualObjects(newProject.locale, locale, @"Wrong locale");
-    STAssertEqualObjects(newProject.startDate, self.project.startDate, @"Wrong start date");
-    STAssertEquals([newProject.tags count], [self.project.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newProject.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEqualObjects(newProject.creator.location, creator.location, @"Wrong creator location");
+    XCTAssertTrue([[newProject class] isSubclassOfClass:[self.project class]], @"Wrong item class");
+    XCTAssertEqualObjects(newProject.type, self.project.type, @"Wrong type");
+    XCTAssertEqualObjects(newProject.projectStatus, self.project.projectStatus, @"Wrong projectStatus");
+    XCTAssertEqualObjects(newProject.dueDate, self.project.dueDate, @"Wrong due date");
+    XCTAssertEqualObjects(newProject.locale, locale, @"Wrong locale");
+    XCTAssertEqualObjects(newProject.startDate, self.project.startDate, @"Wrong start date");
+    XCTAssertEqual([newProject.tags count], [self.project.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newProject.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqualObjects(newProject.creator.location, creator.location, @"Wrong creator location");
 }
 
 - (void)testPostParsingAlternate {
@@ -161,15 +161,15 @@
     id JSON = [self.project toJSONDictionary];
     JiveProject *newProject = [JiveProject objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newProject class] isSubclassOfClass:[self.project class]], @"Wrong item class");
-    STAssertEqualObjects(newProject.type, self.project.type, @"Wrong type");
-    STAssertEqualObjects(newProject.projectStatus, self.project.projectStatus, @"Wrong projectStatus");
-    STAssertEqualObjects(newProject.dueDate, self.project.dueDate, @"Wrong due date");
-    STAssertEqualObjects(newProject.locale, locale, @"Wrong locale");
-    STAssertEqualObjects(newProject.startDate, self.project.startDate, @"Wrong start date");
-    STAssertEquals([newProject.tags count], [self.project.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newProject.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEqualObjects(newProject.creator.location, creator.location, @"Wrong creator location");
+    XCTAssertTrue([[newProject class] isSubclassOfClass:[self.project class]], @"Wrong item class");
+    XCTAssertEqualObjects(newProject.type, self.project.type, @"Wrong type");
+    XCTAssertEqualObjects(newProject.projectStatus, self.project.projectStatus, @"Wrong projectStatus");
+    XCTAssertEqualObjects(newProject.dueDate, self.project.dueDate, @"Wrong due date");
+    XCTAssertEqualObjects(newProject.locale, locale, @"Wrong locale");
+    XCTAssertEqualObjects(newProject.startDate, self.project.startDate, @"Wrong start date");
+    XCTAssertEqual([newProject.tags count], [self.project.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newProject.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqualObjects(newProject.creator.location, creator.location, @"Wrong creator location");
 }
 
 @end

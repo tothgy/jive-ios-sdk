@@ -37,82 +37,82 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
     
     self.sortedOptions.sort = JiveSortOrderDateCreatedDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=dateCreatedDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=dateCreatedDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderDateCreatedAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=dateCreatedAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=dateCreatedAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderLatestActivityDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=latestActivityDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=latestActivityDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderLatestActivityAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=latestActivityAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=latestActivityAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderTitleAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=titleAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=titleAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderFirstNameAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=firstNameAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=firstNameAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderLastNameAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=lastNameAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=lastNameAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderDateJoinedDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=dateJoinedDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=dateJoinedDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderDateJoinedAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=dateJoinedAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=dateJoinedAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderStatusLevelDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=statusLevelDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=statusLevelDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderRelevanceDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=relevanceDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=relevanceDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderUpdatedAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=updatedAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=updatedAsc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderUpdatedDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"sort=updatedDesc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"sort=updatedDesc", asString, @"Wrong string contents");
     
     self.sortedOptions.sort = JiveSortOrderLastProfileUpdateDesc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"sort=lastProfileUpdateDesc", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"sort=lastProfileUpdateDesc", asString);
     
     self.sortedOptions.sort = JiveSortOrderLastProfileUpdateAsc;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, nil);
-    STAssertEqualObjects(@"sort=lastProfileUpdateAsc", asString, nil);
+    XCTAssertNotNil(asString);
+    XCTAssertEqualObjects(@"sort=lastProfileUpdateAsc", asString);
 }
 
 - (void)testSortWithField {
@@ -123,8 +123,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&sort=dateCreatedAsc", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&sort=dateCreatedAsc", asString, @"Wrong string contents");
 }
 
 - (void)testInvalidSort {
@@ -133,11 +133,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
     
     self.sortedOptions.sort = (enum JiveSortOrder)5000;
     asString = [self.options toQueryString];
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
 }
 
 @end

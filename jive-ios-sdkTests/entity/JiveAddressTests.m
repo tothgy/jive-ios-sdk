@@ -35,8 +35,8 @@
 - (void)testToJSON {
     id JSON = [self.address toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     self.address.jive_label = @"Address";
     self.address.value = @{@"Country": @"USA"};
@@ -45,19 +45,19 @@
     
     JSON = [self.address toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], self.address.jive_label, @"Wrong display name.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], self.address.value, @"Wrong id.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.address.type, @"Wrong type");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"primary"], @YES, @"Wrong primary");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], self.address.jive_label, @"Wrong display name.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], self.address.value, @"Wrong id.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], self.address.type, @"Wrong type");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"primary"], @YES, @"Wrong primary");
 }
 
 - (void)testToJSON_alternate {
     NSDictionary *JSON = [self.address toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     self.address.jive_label = @"email";
     self.address.value = @{@"postalCode": @"80215"};
@@ -65,12 +65,12 @@
     
     JSON = [self.address toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"jive_label"], self.address.jive_label, @"Wrong display name.");
-    STAssertEqualObjects([JSON objectForKey:@"value"], self.address.value, @"Wrong id.");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.address.type, @"Wrong type");
-    STAssertNil([JSON objectForKey:@"primary"], @"JSON contains primary object when it shouldn't");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"jive_label"], self.address.jive_label, @"Wrong display name.");
+    XCTAssertEqualObjects([JSON objectForKey:@"value"], self.address.value, @"Wrong id.");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.address.type, @"Wrong type");
+    XCTAssertNil([JSON objectForKey:@"primary"], @"JSON contains primary object when it shouldn't");
 }
 
 - (void)testJSONParsing {
@@ -82,11 +82,11 @@
     id JSON = [self.address toJSONDictionary];
     JiveAddress *newAddress = [JiveAddress objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newAddress class], [JiveAddress class], @"Wrong item class");
-    STAssertEqualObjects(newAddress.jive_label, self.address.jive_label, @"Wrong jive_label");
-    STAssertEqualObjects(newAddress.value, self.address.value, @"Wrong value");
-    STAssertEqualObjects(newAddress.type, self.address.type, @"Wrong type");
-    STAssertEqualObjects(newAddress.primary, @YES, @"Wrong primary");
+    XCTAssertEqual([newAddress class], [JiveAddress class], @"Wrong item class");
+    XCTAssertEqualObjects(newAddress.jive_label, self.address.jive_label, @"Wrong jive_label");
+    XCTAssertEqualObjects(newAddress.value, self.address.value, @"Wrong value");
+    XCTAssertEqualObjects(newAddress.type, self.address.type, @"Wrong type");
+    XCTAssertEqualObjects(newAddress.primary, @YES, @"Wrong primary");
 }
 
 - (void)testJSONParsingAlternate {
@@ -98,11 +98,11 @@
     id JSON = [self.address toJSONDictionary];
     JiveAddress *newAddress = [JiveAddress objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newAddress class], [JiveAddress class], @"Wrong item class");
-    STAssertEqualObjects(newAddress.jive_label, self.address.jive_label, @"Wrong jive_label");
-    STAssertEqualObjects(newAddress.value, self.address.value, @"Wrong value");
-    STAssertEqualObjects(newAddress.type, self.address.type, @"Wrong type");
-    STAssertEqualObjects(newAddress.primary, @NO, @"Wrong primary");
+    XCTAssertEqual([newAddress class], [JiveAddress class], @"Wrong item class");
+    XCTAssertEqualObjects(newAddress.jive_label, self.address.jive_label, @"Wrong jive_label");
+    XCTAssertEqualObjects(newAddress.value, self.address.value, @"Wrong value");
+    XCTAssertEqualObjects(newAddress.type, self.address.type, @"Wrong type");
+    XCTAssertEqualObjects(newAddress.primary, @NO, @"Wrong primary");
 }
 
 @end

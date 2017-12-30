@@ -17,7 +17,7 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import <UIKit/UIKit.h>
 

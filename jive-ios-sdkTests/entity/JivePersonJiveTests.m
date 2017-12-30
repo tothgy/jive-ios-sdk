@@ -39,8 +39,8 @@
     JiveLevel *level = [JiveLevel new];
     JiveProfileEntry *profile = [JiveProfileEntry new];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)0, @"Initial dictionary is not empty");
     
     [level setValue:@"name" forKey:@"name"];
     [profile setValue:@"jive_label" forKey:@"jive_label"];
@@ -62,23 +62,23 @@
     
     JSON = [self.person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)8, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.enabled], self.person.enabled, @"Wrong enabled");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.external], self.person.external, @"Wrong external");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.externalContributor], self.person.externalContributor, @"Wrong externalContributor");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.federated], self.person.federated, @"Wrong federated");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)8, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.enabled], self.person.enabled, @"Wrong enabled");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.external], self.person.external, @"Wrong external");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.externalContributor], self.person.externalContributor, @"Wrong externalContributor");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.federated], self.person.federated, @"Wrong federated");
 }
 
 - (void)testToJSON_alternate {
     id JSON = [self.person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     self.person.password = @"helpless";
     self.person.locale = @"87654";
@@ -87,16 +87,16 @@
     
     JSON = [self.person toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
-    STAssertNil(JSON[JivePersonJiveAttributes.enabled], @"enabled included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.external], @"external included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.externalContributor], @"externalContributor included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.federated], @"federated included?");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.enabled], @"enabled included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.external], @"external included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.externalContributor], @"externalContributor included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.federated], @"federated included?");
 }
 
 - (void)testPersistentJSON {
@@ -105,8 +105,8 @@
     JiveProfileEntry *profile = [JiveProfileEntry new];
     NSDateFormatter *dateFormatter = [NSDateFormatter jive_threadLocalISO8601DateFormatter];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)0, @"Initial dictionary is not empty");
     
     [level setValue:@"name" forKey:@"name"];
     [profile setValue:@"jive_label" forKey:@"jive_label"];
@@ -128,40 +128,40 @@
     
     JSON = [self.person persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)15, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.enabled], self.person.enabled, @"Wrong enabled");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.external], self.person.external, @"Wrong external");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.externalContributor],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)15, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.enabled], self.person.enabled, @"Wrong enabled");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.external], self.person.external, @"Wrong external");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.externalContributor],
                          self.person.externalContributor, @"Wrong externalContributor");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.federated], self.person.federated, @"Wrong federated");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.federated], self.person.federated, @"Wrong federated");
 
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.lastProfileUpdate],
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.lastProfileUpdate],
                          [dateFormatter stringFromDate:self.person.lastProfileUpdate],
                          @"Wrong last profile update");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.sendable], self.person.sendable, @"Wrong sendable");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.viewContent], self.person.viewContent,
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.sendable], self.person.sendable, @"Wrong sendable");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.viewContent], self.person.viewContent,
                          @"Wrong viewContent");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.visible], self.person.visible, @"Wrong visible");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.termsAndConditionsRequired],
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.visible], self.person.visible, @"Wrong visible");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.termsAndConditionsRequired],
                          self.person.termsAndConditionsRequired, @"Wrong termsAndConditionsRequired");
     
     NSDictionary *levelJSON = JSON[JivePersonJiveAttributes.level];
     
-    STAssertTrue([[levelJSON class] isSubclassOfClass:[NSDictionary class]], @"Level object not converted");
-    STAssertEqualObjects(levelJSON[@"name"], level.name, @"Wrong level");
+    XCTAssertTrue([[levelJSON class] isSubclassOfClass:[NSDictionary class]], @"Level object not converted");
+    XCTAssertEqualObjects(levelJSON[@"name"], level.name, @"Wrong level");
     
     NSArray *profilesJSON = JSON[JivePersonJiveAttributes.profile];
     NSDictionary *profileJSON = profilesJSON[0];
     
-    STAssertTrue([[profilesJSON class] isSubclassOfClass:[NSArray class]], @"Profiles array not converted");
-    STAssertEquals(profilesJSON.count, (NSUInteger)1, @"Wrong number of elements in the profiles array");
-    STAssertTrue([[profileJSON class] isSubclassOfClass:[NSDictionary class]], @"Profile object not converted");
-    STAssertEqualObjects(profileJSON[@"jive_label"], profile.jive_label, @"Wrong profile");
+    XCTAssertTrue([[profilesJSON class] isSubclassOfClass:[NSArray class]], @"Profiles array not converted");
+    XCTAssertEqual(profilesJSON.count, (NSUInteger)1, @"Wrong number of elements in the profiles array");
+    XCTAssertTrue([[profileJSON class] isSubclassOfClass:[NSDictionary class]], @"Profile object not converted");
+    XCTAssertEqualObjects(profileJSON[@"jive_label"], profile.jive_label, @"Wrong profile");
 }
 
 - (void)testPersistentJSON_alternate {
@@ -170,8 +170,8 @@
     JiveProfileEntry *profile = [JiveProfileEntry new];
     NSDateFormatter *dateFormatter = [NSDateFormatter jive_threadLocalISO8601DateFormatter];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [level setValue:@"Johnson" forKey:@"name"];
     [profile setValue:@"restless" forKey:@"jive_label"];
@@ -187,37 +187,37 @@
     
     JSON = [self.person persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals(JSON.count, (NSUInteger)8, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
-    STAssertNil(JSON[JivePersonJiveAttributes.enabled], @"enabled included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.external], @"external included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.externalContributor], @"externalContributor included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.federated], @"federated included?");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.lastProfileUpdate],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual(JSON.count, (NSUInteger)8, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.password], self.person.password, @"Wrong password.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.locale], self.person.locale, @"Wrong locale.");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.timeZone], self.person.timeZone, @"Wrong time zone");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.username], self.person.username, @"Wrong username");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.enabled], @"enabled included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.external], @"external included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.externalContributor], @"externalContributor included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.federated], @"federated included?");
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.lastProfileUpdate],
                          [dateFormatter stringFromDate:self.person.lastProfileUpdate],
                          @"Wrong last profile update");
-    STAssertEqualObjects(JSON[JivePersonJiveAttributes.sendable], self.person.sendable, @"Wrong sendable");
-    STAssertNil(JSON[JivePersonJiveAttributes.viewContent], @"viewContent included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.visible], @"visible included?");
-    STAssertNil(JSON[JivePersonJiveAttributes.termsAndConditionsRequired],
+    XCTAssertEqualObjects(JSON[JivePersonJiveAttributes.sendable], self.person.sendable, @"Wrong sendable");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.viewContent], @"viewContent included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.visible], @"visible included?");
+    XCTAssertNil(JSON[JivePersonJiveAttributes.termsAndConditionsRequired],
                 @"termsAndConditionsRequired included?");
     
     NSDictionary *levelJSON = JSON[JivePersonJiveAttributes.level];
     
-    STAssertTrue([[levelJSON class] isSubclassOfClass:[NSDictionary class]], @"Level object not converted");
-    STAssertEqualObjects(levelJSON[@"name"], level.name, @"Wrong level");
+    XCTAssertTrue([[levelJSON class] isSubclassOfClass:[NSDictionary class]], @"Level object not converted");
+    XCTAssertEqualObjects(levelJSON[@"name"], level.name, @"Wrong level");
     
     NSArray *profilesJSON = JSON[JivePersonJiveAttributes.profile];
     NSDictionary *profileJSON = profilesJSON[0];
     
-    STAssertTrue([[profilesJSON class] isSubclassOfClass:[NSArray class]], @"Profiles array not converted");
-    STAssertEquals(profilesJSON.count, (NSUInteger)1, @"Wrong number of elements in the profiles array");
-    STAssertTrue([[profileJSON class] isSubclassOfClass:[NSDictionary class]], @"Profile object not converted");
-    STAssertEqualObjects(profileJSON[@"jive_label"], profile.jive_label, @"Wrong profile");
+    XCTAssertTrue([[profilesJSON class] isSubclassOfClass:[NSArray class]], @"Profiles array not converted");
+    XCTAssertEqual(profilesJSON.count, (NSUInteger)1, @"Wrong number of elements in the profiles array");
+    XCTAssertTrue([[profileJSON class] isSubclassOfClass:[NSDictionary class]], @"Profile object not converted");
+    XCTAssertEqualObjects(profileJSON[@"jive_label"], profile.jive_label, @"Wrong profile");
 }
 
 - (void)testPersonJiveParsing {
@@ -245,27 +245,27 @@
     NSDictionary *JSON = [self.person persistentJSON];
     JivePersonJive *newPerson = [JivePersonJive objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newPerson class], [JivePersonJive class], @"Wrong item class");
-    STAssertEqualObjects(newPerson.enabled, self.person.enabled, @"Wrong enabled");
-    STAssertEqualObjects(newPerson.external, self.person.external, @"Wrong external");
-    STAssertEqualObjects(newPerson.externalContributor, self.person.externalContributor,
+    XCTAssertEqual([newPerson class], [JivePersonJive class], @"Wrong item class");
+    XCTAssertEqualObjects(newPerson.enabled, self.person.enabled, @"Wrong enabled");
+    XCTAssertEqualObjects(newPerson.external, self.person.external, @"Wrong external");
+    XCTAssertEqualObjects(newPerson.externalContributor, self.person.externalContributor,
                          @"Wrong externalContributor");
-    STAssertEqualObjects(newPerson.federated, self.person.federated, @"Wrong federated");
-    STAssertEqualObjects(newPerson.lastProfileUpdate, self.person.lastProfileUpdate,
+    XCTAssertEqualObjects(newPerson.federated, self.person.federated, @"Wrong federated");
+    XCTAssertEqualObjects(newPerson.lastProfileUpdate, self.person.lastProfileUpdate,
                          @"Wrong update date");
-    STAssertEqualObjects(newPerson.level.name, self.person.level.name, @"Wrong level name");
-    STAssertEqualObjects(newPerson.locale, self.person.locale, @"Wrong locale");
-    STAssertEqualObjects(newPerson.password, self.person.password, @"Wrong password");
-    STAssertEqualObjects(newPerson.sendable, self.person.sendable, @"Wrong sendable");
-    STAssertEqualObjects(newPerson.timeZone, self.person.timeZone, @"Wrong timeZone");
-    STAssertEqualObjects(newPerson.username, self.person.username, @"Wrong username");
-    STAssertEqualObjects(newPerson.viewContent, self.person.viewContent, @"Wrong viewContent");
-    STAssertEqualObjects(newPerson.visible, self.person.visible, @"Wrong visible");
-    STAssertEqualObjects(newPerson.termsAndConditionsRequired,
+    XCTAssertEqualObjects(newPerson.level.name, self.person.level.name, @"Wrong level name");
+    XCTAssertEqualObjects(newPerson.locale, self.person.locale, @"Wrong locale");
+    XCTAssertEqualObjects(newPerson.password, self.person.password, @"Wrong password");
+    XCTAssertEqualObjects(newPerson.sendable, self.person.sendable, @"Wrong sendable");
+    XCTAssertEqualObjects(newPerson.timeZone, self.person.timeZone, @"Wrong timeZone");
+    XCTAssertEqualObjects(newPerson.username, self.person.username, @"Wrong username");
+    XCTAssertEqualObjects(newPerson.viewContent, self.person.viewContent, @"Wrong viewContent");
+    XCTAssertEqualObjects(newPerson.visible, self.person.visible, @"Wrong visible");
+    XCTAssertEqualObjects(newPerson.termsAndConditionsRequired,
                          self.person.termsAndConditionsRequired, @"Wrong termsAndConditionsRequired");
-    STAssertEquals(newPerson.profile.count, (NSUInteger)1, @"Wrong number of profile objects");
+    XCTAssertEqual(newPerson.profile.count, (NSUInteger)1, @"Wrong number of profile objects");
     if (newPerson.profile.count == 1)
-        STAssertEqualObjects(((JiveProfileEntry *)newPerson.profile[0]).jive_label,
+        XCTAssertEqualObjects(((JiveProfileEntry *)newPerson.profile[0]).jive_label,
                              profile.jive_label, @"Wrong profile entry label");
 }
 
@@ -288,27 +288,27 @@
     NSDictionary *JSON = [self.person persistentJSON];
     JivePersonJive *newPerson = [JivePersonJive objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newPerson class], [JivePersonJive class], @"Wrong item class");
-    STAssertEqualObjects(newPerson.enabled, self.person.enabled, @"Wrong enabled");
-    STAssertEqualObjects(newPerson.external, self.person.external, @"Wrong external");
-    STAssertEqualObjects(newPerson.externalContributor, self.person.externalContributor,
+    XCTAssertEqual([newPerson class], [JivePersonJive class], @"Wrong item class");
+    XCTAssertEqualObjects(newPerson.enabled, self.person.enabled, @"Wrong enabled");
+    XCTAssertEqualObjects(newPerson.external, self.person.external, @"Wrong external");
+    XCTAssertEqualObjects(newPerson.externalContributor, self.person.externalContributor,
                          @"Wrong externalContributor");
-    STAssertEqualObjects(newPerson.federated, self.person.federated, @"Wrong federated");
-    STAssertEqualObjects(newPerson.lastProfileUpdate, self.person.lastProfileUpdate,
+    XCTAssertEqualObjects(newPerson.federated, self.person.federated, @"Wrong federated");
+    XCTAssertEqualObjects(newPerson.lastProfileUpdate, self.person.lastProfileUpdate,
                          @"Wrong update date");
-    STAssertEqualObjects(newPerson.level.name, self.person.level.name, @"Wrong level name");
-    STAssertEqualObjects(newPerson.locale, self.person.locale, @"Wrong locale");
-    STAssertEqualObjects(newPerson.password, self.person.password, @"Wrong password");
-    STAssertEqualObjects(newPerson.sendable, self.person.sendable, @"Wrong sendable");
-    STAssertEqualObjects(newPerson.timeZone, self.person.timeZone, @"Wrong timeZone");
-    STAssertEqualObjects(newPerson.username, self.person.username, @"Wrong username");
-    STAssertEqualObjects(newPerson.viewContent, self.person.viewContent, @"Wrong viewContent");
-    STAssertEqualObjects(newPerson.visible, self.person.visible, @"Wrong visible");
-    STAssertEqualObjects(newPerson.termsAndConditionsRequired,
+    XCTAssertEqualObjects(newPerson.level.name, self.person.level.name, @"Wrong level name");
+    XCTAssertEqualObjects(newPerson.locale, self.person.locale, @"Wrong locale");
+    XCTAssertEqualObjects(newPerson.password, self.person.password, @"Wrong password");
+    XCTAssertEqualObjects(newPerson.sendable, self.person.sendable, @"Wrong sendable");
+    XCTAssertEqualObjects(newPerson.timeZone, self.person.timeZone, @"Wrong timeZone");
+    XCTAssertEqualObjects(newPerson.username, self.person.username, @"Wrong username");
+    XCTAssertEqualObjects(newPerson.viewContent, self.person.viewContent, @"Wrong viewContent");
+    XCTAssertEqualObjects(newPerson.visible, self.person.visible, @"Wrong visible");
+    XCTAssertEqualObjects(newPerson.termsAndConditionsRequired,
                          self.person.termsAndConditionsRequired, @"Wrong termsAndConditionsRequired");
-    STAssertEquals(newPerson.profile.count, (NSUInteger)1, @"Wrong number of profile objects");
+    XCTAssertEqual(newPerson.profile.count, (NSUInteger)1, @"Wrong number of profile objects");
     if (newPerson.profile.count == 1)
-        STAssertEqualObjects(((JiveProfileEntry *)newPerson.profile[0]).jive_label,
+        XCTAssertEqualObjects(((JiveProfileEntry *)newPerson.profile[0]).jive_label,
                              profile.jive_label, @"Wrong profile entry label");
 }
 

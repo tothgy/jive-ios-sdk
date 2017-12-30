@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "NSError+Jive.h"
 
-@interface NSErrorJiveTests : SenTestCase
+@interface NSErrorJiveTests : XCTestCase
 
 @end
 
@@ -33,10 +33,10 @@
     NSError *jiveError = [NSError jive_errorWithUnderlyingError:nativeError
                                                        JSON:nil];
     
-    STAssertEqualObjects(jiveError.domain, JiveErrorDomain, @"Not Jive Error Domain");
-    STAssertEquals(jiveError.code, nativeError.code, @"Native error code not duplicated");
-    STAssertNil(jiveError.localizedRecoverySuggestion, @"Missing message found");
-    STAssertEqualObjects(jiveError.jive_HTTPStatusCode, @0, @"Wrong status code reported");
+    XCTAssertEqualObjects(jiveError.domain, JiveErrorDomain, @"Not Jive Error Domain");
+    XCTAssertEqual(jiveError.code, nativeError.code, @"Native error code not duplicated");
+    XCTAssertNil(jiveError.localizedRecoverySuggestion, @"Missing message found");
+    XCTAssertEqualObjects(jiveError.jive_HTTPStatusCode, @0, @"Wrong status code reported");
 }
 
 - (void)testBasicJSONError {
@@ -52,14 +52,14 @@
     NSError *jiveError = [NSError jive_errorWithUnderlyingError:nativeError
                                                        JSON:JSONError];
     
-    STAssertEqualObjects(jiveError.domain, JiveErrorDomain, @"Not Jive Error Domain");
-    STAssertEquals(jiveError.code, nativeError.code, @"Native error code not duplicated");
-    STAssertEqualObjects(jiveError.localizedDescription, nativeError.localizedDescription, @"Native error not duplicated");
-    STAssertEqualObjects(jiveError.localizedFailureReason, nativeError.localizedFailureReason, @"Native error not duplicated");
-    STAssertEqualObjects(jiveError.localizedRecoveryOptions, nativeError.localizedRecoveryOptions, @"Native error not duplicated");
-    STAssertEqualObjects(jiveError.helpAnchor, nativeError.helpAnchor, @"Native error not duplicated");
-    STAssertEqualObjects(jiveError.localizedRecoverySuggestion, message, @"Wrong message found");
-    STAssertEqualObjects(jiveError.jive_HTTPStatusCode, status, @"Wrong status found");
+    XCTAssertEqualObjects(jiveError.domain, JiveErrorDomain, @"Not Jive Error Domain");
+    XCTAssertEqual(jiveError.code, nativeError.code, @"Native error code not duplicated");
+    XCTAssertEqualObjects(jiveError.localizedDescription, nativeError.localizedDescription, @"Native error not duplicated");
+    XCTAssertEqualObjects(jiveError.localizedFailureReason, nativeError.localizedFailureReason, @"Native error not duplicated");
+    XCTAssertEqualObjects(jiveError.localizedRecoveryOptions, nativeError.localizedRecoveryOptions, @"Native error not duplicated");
+    XCTAssertEqualObjects(jiveError.helpAnchor, nativeError.helpAnchor, @"Native error not duplicated");
+    XCTAssertEqualObjects(jiveError.localizedRecoverySuggestion, message, @"Wrong message found");
+    XCTAssertEqualObjects(jiveError.jive_HTTPStatusCode, status, @"Wrong status found");
 }
 
 @end

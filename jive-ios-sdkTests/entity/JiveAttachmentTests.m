@@ -80,21 +80,21 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
 - (void)testToJSON {
     NSDictionary *JSON = [self.attachment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeAttachment];
     
     JSON = [self.attachment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.doUpload], self.attachment.doUpload, @"Wrong doUpload");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.doUpload], self.attachment.doUpload, @"Wrong doUpload");
 }
 
 - (void)testToJSON_alternate {
@@ -102,47 +102,47 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     
     NSDictionary *JSON = [self.attachment toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
 }
 
 - (void)testPersistentJSON {
     NSDictionary *JSON = [self.attachment persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeAttachment];
     
     JSON = [self.attachment persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.doUpload], self.attachment.doUpload, @"Wrong doUpload");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.doUpload], self.attachment.doUpload, @"Wrong doUpload");
     
     NSDictionary *resourcesJSON = [JSON objectForKey:JiveAttachmentAttributes.resources];
     
-    STAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
+    XCTAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
     
     NSDictionary *selfResourceJSON = [resourcesJSON objectForKey:JiveAttachmentTestSelfKey];
     JiveResourceEntry *resource = (JiveResourceEntry *)self.attachment.resources[JiveAttachmentTestSelfKey];
     
-    STAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
-    STAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
+    XCTAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
                          resource.ref.absoluteString, @"Wrong resource");
-    STAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.allowed], resource.allowed, @"Wrong resource");
+    XCTAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.allowed], resource.allowed, @"Wrong resource");
 }
 
 - (void)testPersistentJSON_alternate {
@@ -150,27 +150,27 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     
     NSDictionary *JSON = [self.attachment persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
-    STAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.contentType], self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.name], self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.url], [self.attachment.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(JSON[JiveAttachmentAttributes.size], self.attachment.size, @"Wrong size");
     
     NSDictionary *resourcesJSON = [JSON objectForKey:JiveAttachmentAttributes.resources];
     
-    STAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
+    XCTAssertTrue([[resourcesJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([resourcesJSON count], (NSUInteger)1, @"Resources dictionary had the wrong number of entries");
     
     NSDictionary *selfResourceJSON = [resourcesJSON objectForKey:JiveAttachmentTestFollowersKey];
     JiveResourceEntry *resource = (JiveResourceEntry *)self.attachment.resources[JiveAttachmentTestFollowersKey];
     
-    STAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
-    STAssertEquals([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
-    STAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
+    XCTAssertTrue([[selfResourceJSON class] isSubclassOfClass:[NSDictionary class]], @"Resources not converted");
+    XCTAssertEqual([selfResourceJSON count], (NSUInteger)2, @"Resources dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.ref],
                          resource.ref.absoluteString, @"Wrong resource");
-    STAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.allowed], resource.allowed, @"Wrong resource");
+    XCTAssertEqualObjects(selfResourceJSON[JiveResourceEntryAttributes.allowed], resource.allowed, @"Wrong resource");
 }
 
 - (void)testAttachmentParsing {
@@ -179,14 +179,14 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     id JSON = [self.attachment persistentJSON];
     JiveAttachment *newAttachment = [JiveAttachment objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newAttachment class] isSubclassOfClass:[self.attachment class]], @"Wrong item class");
-    STAssertEqualObjects(newAttachment.jiveId, self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(newAttachment.contentType, self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(newAttachment.name, self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(newAttachment.url, self.attachment.url, @"Wrong url");
-    STAssertEqualObjects(newAttachment.size, self.attachment.size, @"Wrong size");
-    STAssertEqualObjects(newAttachment.doUpload, self.attachment.doUpload, @"Wrong doUpload");
-    STAssertEqualObjects(newAttachment.resources.allKeys, self.attachment.resources.allKeys, @"Wrong resource object");
+    XCTAssertTrue([[newAttachment class] isSubclassOfClass:[self.attachment class]], @"Wrong item class");
+    XCTAssertEqualObjects(newAttachment.jiveId, self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newAttachment.contentType, self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(newAttachment.name, self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(newAttachment.url, self.attachment.url, @"Wrong url");
+    XCTAssertEqualObjects(newAttachment.size, self.attachment.size, @"Wrong size");
+    XCTAssertEqualObjects(newAttachment.doUpload, self.attachment.doUpload, @"Wrong doUpload");
+    XCTAssertEqualObjects(newAttachment.resources.allKeys, self.attachment.resources.allKeys, @"Wrong resource object");
 }
 
 - (void)testAttachmentParsingAlternate {
@@ -195,14 +195,14 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     id JSON = [self.attachment persistentJSON];
     JiveAttachment *newAttachment = [JiveAttachment objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newAttachment class] isSubclassOfClass:[self.attachment class]], @"Wrong item class");
-    STAssertEqualObjects(newAttachment.jiveId, self.attachment.jiveId, @"Wrong id");
-    STAssertEqualObjects(newAttachment.contentType, self.attachment.contentType, @"Wrong contentType");
-    STAssertEqualObjects(newAttachment.name, self.attachment.name, @"Wrong name");
-    STAssertEqualObjects(newAttachment.url, self.attachment.url, @"Wrong url");
-    STAssertEqualObjects(newAttachment.size, self.attachment.size, @"Wrong size");
-    STAssertEqualObjects(newAttachment.doUpload, self.attachment.doUpload, @"Wrong doUpload");
-    STAssertEqualObjects(newAttachment.resources.allKeys, self.attachment.resources.allKeys, @"Wrong resource object");
+    XCTAssertTrue([[newAttachment class] isSubclassOfClass:[self.attachment class]], @"Wrong item class");
+    XCTAssertEqualObjects(newAttachment.jiveId, self.attachment.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newAttachment.contentType, self.attachment.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(newAttachment.name, self.attachment.name, @"Wrong name");
+    XCTAssertEqualObjects(newAttachment.url, self.attachment.url, @"Wrong url");
+    XCTAssertEqualObjects(newAttachment.size, self.attachment.size, @"Wrong size");
+    XCTAssertEqualObjects(newAttachment.doUpload, self.attachment.doUpload, @"Wrong doUpload");
+    XCTAssertEqualObjects(newAttachment.resources.allKeys, self.attachment.resources.allKeys, @"Wrong resource object");
 }
 
 - (void)testSelfReferenceParsedBeforeAnythingElse {
@@ -227,7 +227,7 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     NSDictionary *firstJSON = @{JiveAttachmentAttributes.resources:firstResourceJSON};
     
     [[self.object class] objectFromJSON:firstJSON withInstance:self.instance];
-    STAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
+    XCTAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
     
     self.instance.badInstanceURL = nil;
     
@@ -236,7 +236,7 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     NSDictionary *secondJSON = @{JiveAttachmentAttributes.resources:secondResourceJSON};
     
     [[self.object class] objectFromJSON:secondJSON withInstance:self.instance];
-    STAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
+    XCTAssertEqualObjects(self.instance.badInstanceURL, expectedURL, @"SelfRef was not parsed first.");
 }
 
 - (void)test_createAttachmentForFile_fileURL {
@@ -247,78 +247,78 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
                                                                                     error:nil];
     JiveAttachment *attachment;
     
-    STAssertNoThrow(attachment = [JiveAttachment createAttachmentForURL:fileURL], nil);
-    STAssertNotNil(bundle, nil);
-    STAssertNotNil(path, nil);
-    STAssertNotNil(attachment, nil);
-    STAssertNotNil(fileURL, nil);
-    STAssertNotNil(fileAttributes, nil);
-    STAssertNotNil(attachment, @"attachment object not created");
-    STAssertEqualObjects(attachment.url, fileURL, @"Wrong URL");
-    STAssertEqualObjects(attachment.name, [fileURL lastPathComponent], @"Wrong file name");
-    STAssertEqualObjects(attachment.doUpload, @YES, @"doUpload not set");
+    XCTAssertNoThrow(attachment = [JiveAttachment createAttachmentForURL:fileURL]);
+    XCTAssertNotNil(bundle);
+    XCTAssertNotNil(path);
+    XCTAssertNotNil(attachment);
+    XCTAssertNotNil(fileURL);
+    XCTAssertNotNil(fileAttributes);
+    XCTAssertNotNil(attachment, @"attachment object not created");
+    XCTAssertEqualObjects(attachment.url, fileURL, @"Wrong URL");
+    XCTAssertEqualObjects(attachment.name, [fileURL lastPathComponent], @"Wrong file name");
+    XCTAssertEqualObjects(attachment.doUpload, @YES, @"doUpload not set");
 //    STAssertEqualObjects(attachment.contentType, @"application/json", @"Wrong content type");
-    STAssertEqualObjects(attachment.size, [fileAttributes objectForKey:NSFileSize], @"Wrong file size");
+    XCTAssertEqualObjects(attachment.size, [fileAttributes objectForKey:NSFileSize], @"Wrong file size");
 }
 
 - (void)test_createAttachmentForURL_webURL {
     NSURL *webURL = [NSURL URLWithString:@"https://brewspace.jiveland.com/file.php"];
     JiveAttachment *attachment = [JiveAttachment createAttachmentForURL:webURL];
     
-    STAssertNotNil(attachment, @"attachment object not created");
-    STAssertEqualObjects(attachment.url, webURL, @"Wrong URL");
-    STAssertEqualObjects(attachment.name, [webURL lastPathComponent], @"Wrong file name");
-    STAssertEqualObjects(attachment.doUpload, @YES, @"doUpload not set");
-    STAssertNil(attachment.contentType, @"Wrong content type");
-    STAssertNil(attachment.size, @"Wrong file size");
+    XCTAssertNotNil(attachment, @"attachment object not created");
+    XCTAssertEqualObjects(attachment.url, webURL, @"Wrong URL");
+    XCTAssertEqualObjects(attachment.name, [webURL lastPathComponent], @"Wrong file name");
+    XCTAssertEqualObjects(attachment.doUpload, @YES, @"doUpload not set");
+    XCTAssertNil(attachment.contentType, @"Wrong content type");
+    XCTAssertNil(attachment.size, @"Wrong file size");
 }
 
 - (void)test_createAttachmentForFile_invalidFileURL {
     NSURL *fileURL = [NSURL URLWithString:@"file://brewspace.jiveland.com"];
     JiveAttachment *attachment = [JiveAttachment createAttachmentForURL:fileURL];
     
-    STAssertTrue([fileURL isFileURL], @"Should report as a file url.");
-    STAssertNil(attachment, @"Should not create an attachment object for an invalid file url.");
+    XCTAssertTrue([fileURL isFileURL], @"Should report as a file url.");
+    XCTAssertNil(attachment, @"Should not create an attachment object for an invalid file url.");
 }
 
 - (void)test_deleteFromInstanceOperation_onComplete_onError_noResources {
     id jiveMock = [OCMockObject mockForClass:[Jive class]];
     __block BOOL operationDone = NO;
     
-    STAssertNil([self.attachment deleteFromInstanceOperation:jiveMock onComplete:^{
-        STFail(@"No resources available to make the call");
+    XCTAssertNil([self.attachment deleteFromInstanceOperation:jiveMock onComplete:^{
+        XCTFail(@"No resources available to make the call");
         operationDone = YES;
     } onError:^(NSError *deliveredError) {
         NSError *expectedError = [NSError errorWithDomain:JiveErrorDomain
                                                      code:JiveErrorCodeCantDeleteAttachment
                                                  userInfo:nil];
-        
-        STAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
+
+        XCTAssertEqualObjects(deliveredError, expectedError, @"%@ != %@", deliveredError, expectedError);
         operationDone = YES;
-    }], nil);
+    }]);
     
-    STAssertTrue(operationDone, nil);
-    STAssertNoThrow([jiveMock verify], nil);
+    XCTAssertTrue(operationDone);
+    XCTAssertNoThrow([jiveMock verify]);
 }
 
 - (void)test_deleteFromInstance_onComplete_onError_noResources {
     id jiveMock = [OCMockObject mockForClass:[Jive class]];
     __block BOOL operationDone = NO;
     
-    STAssertNoThrow([self.attachment deleteFromInstance:jiveMock onComplete:^{
-        STFail(@"No resources available to make the call");
+    XCTAssertNoThrow([self.attachment deleteFromInstance:jiveMock onComplete:^{
+        XCTFail(@"No resources available to make the call");
         operationDone = YES;
     } onError:^(NSError *deliveredError) {
         NSError *expectedError = [NSError errorWithDomain:JiveErrorDomain
                                                      code:JiveErrorCodeCantDeleteAttachment
                                                  userInfo:nil];
         
-        STAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
+        XCTAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
         operationDone = YES;
-    }], nil);
+    }]);
     
-    STAssertTrue(operationDone, nil);
-    STAssertNoThrow([jiveMock verify], nil);
+    XCTAssertTrue(operationDone);
+    XCTAssertNoThrow([jiveMock verify]);
 }
 
 - (void)test_deleteFromInstanceOperation_onComplete_onError_deleteNotAllowed {
@@ -332,20 +332,20 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     [self.attachment setValue:@{JiveAttachmentTestSelfKey: selfResource}
                        forKey:JiveAttachmentAttributes.resources];
     
-    STAssertNil([self.attachment deleteFromInstanceOperation:jiveMock onComplete:^{
-        STFail(@"No resources available to make the call");
+    XCTAssertNil([self.attachment deleteFromInstanceOperation:jiveMock onComplete:^{
+        XCTFail(@"No resources available to make the call");
         operationDone = YES;
     } onError:^(NSError *deliveredError) {
         NSError *expectedError = [NSError errorWithDomain:JiveErrorDomain
                                                      code:JiveErrorCodeCantDeleteAttachment
                                                  userInfo:nil];
-        
-        STAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
+
+        XCTAssertEqualObjects(deliveredError, expectedError, @"%@ != %@", deliveredError, expectedError);
         operationDone = YES;
-    }], nil);
+    }]);
     
-    STAssertTrue(operationDone, nil);
-    STAssertNoThrow([jiveMock verify], nil);
+    XCTAssertTrue(operationDone);
+    XCTAssertNoThrow([jiveMock verify]);
 }
 
 - (void)test_deleteFromInstance_onComplete_onError_deleteNotAllowed {
@@ -359,20 +359,20 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     [self.attachment setValue:@{JiveAttachmentTestSelfKey: selfResource}
                        forKey:JiveAttachmentAttributes.resources];
     
-    STAssertNoThrow([self.attachment deleteFromInstance:jiveMock onComplete:^{
-        STFail(@"No resources available to make the call");
+    XCTAssertNoThrow([self.attachment deleteFromInstance:jiveMock onComplete:^{
+        XCTFail(@"No resources available to make the call");
         operationDone = YES;
     } onError:^(NSError *deliveredError) {
         NSError *expectedError = [NSError errorWithDomain:JiveErrorDomain
                                                      code:JiveErrorCodeCantDeleteAttachment
                                                  userInfo:nil];
         
-        STAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
+        XCTAssertTrue([deliveredError isEqual:expectedError], @"%@ != %@", deliveredError, expectedError);
         operationDone = YES;
-    }], nil);
+    }]);
     
-    STAssertTrue(operationDone, nil);
-    STAssertNoThrow([jiveMock verify], nil);
+    XCTAssertTrue(operationDone);
+    XCTAssertNoThrow([jiveMock verify]);
 }
 
 - (void)test_deleteFromInstanceOperation_onComplete_onError {
@@ -391,33 +391,33 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     [self.attachment setValue:@{JiveAttachmentTestSelfKey: selfResource}
                        forKey:JiveAttachmentAttributes.resources];
     [[[[jiveMock expect] andReturn:requestMock] ignoringNonObjectArgs] credentialedRequestWithOptions:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertNil(obj, nil);
+        XCTAssertNil(obj);
         return YES;
     }] template:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, [url path], nil);
+        XCTAssertEqualObjects(obj, [url path]);
         return YES;
     }] andArguments:nil];
     [[requestMock expect] setHTTPMethod:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JiveHTTPMethodTypes.DELETE, nil);
+        XCTAssertEqualObjects(obj, JiveHTTPMethodTypes.DELETE);
         return YES;
     }]];
     [[[jiveMock expect] andReturn:operation] emptyOperationWithRequest:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, requestMock, nil);
+        XCTAssertEqual(obj, requestMock);
         return YES;
     }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)completeBlock, nil);
+        XCTAssertEqual(obj, (id)completeBlock);
         return YES;
     }] onError:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)errorBlock, nil);
+        XCTAssertEqual(obj, (id)errorBlock);
         return YES;
     }]];
     
-    STAssertNoThrow(result = [self.attachment deleteFromInstanceOperation:jiveMock
+    XCTAssertNoThrow(result = [self.attachment deleteFromInstanceOperation:jiveMock
                                                                onComplete:completeBlock
-                                                                  onError:errorBlock], nil);
-    STAssertEquals(result, operation, nil);
-    STAssertNoThrow([jiveMock verify], nil);
-    STAssertNoThrow([requestMock verify], nil);
+                                                                  onError:errorBlock]);
+    XCTAssertEqual(result, operation);
+    XCTAssertNoThrow([jiveMock verify]);
+    XCTAssertNoThrow([requestMock verify]);
 }
 
 - (void)test_deleteFromInstance_onComplete_onError {
@@ -435,34 +435,34 @@ NSString * const JiveAttachmentTestFollowersKey = @"followers";
     [self.attachment setValue:@{JiveAttachmentTestSelfKey: selfResource}
                        forKey:JiveAttachmentAttributes.resources];
     [[[[jiveMock expect] andReturn:requestMock] ignoringNonObjectArgs] credentialedRequestWithOptions:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertNil(obj, nil);
+        XCTAssertNil(obj);
         return YES;
     }] template:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, [url path], nil);
+        XCTAssertEqualObjects(obj, [url path]);
         return YES;
     }] andArguments:nil];
     [[requestMock expect] setHTTPMethod:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JiveHTTPMethodTypes.DELETE, nil);
+        XCTAssertEqualObjects(obj, JiveHTTPMethodTypes.DELETE);
         return YES;
     }]];
     [[[jiveMock expect] andReturn:operationMock] emptyOperationWithRequest:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, requestMock, nil);
+        XCTAssertEqual(obj, requestMock);
         return YES;
     }] onComplete:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)completeBlock, nil);
+        XCTAssertEqual(obj, (id)completeBlock);
         return YES;
     }] onError:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEquals(obj, (id)errorBlock, nil);
+        XCTAssertEqual(obj, (id)errorBlock);
         return YES;
     }]];
     [(NSOperation *)[operationMock expect] start];
     
-    STAssertNoThrow([self.attachment deleteFromInstance:jiveMock
+    XCTAssertNoThrow([self.attachment deleteFromInstance:jiveMock
                                              onComplete:completeBlock
-                                                onError:errorBlock], nil);
-    STAssertNoThrow([jiveMock verify], nil);
-    STAssertNoThrow([requestMock verify], nil);
-    STAssertNoThrow([operationMock verify], nil);
+                                                onError:errorBlock]);
+    XCTAssertNoThrow([jiveMock verify]);
+    XCTAssertNoThrow([requestMock verify]);
+    XCTAssertNoThrow([operationMock verify]);
 }
 
 @end

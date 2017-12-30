@@ -62,55 +62,55 @@
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:@"random" forKey:key];
     SEL selector = @selector(entityClass:);
     
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveContent class], @"Out of bounds");
     
     [typeSpecifier setValue:@"announcement" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveAnnouncement class], @"Announcement");
     
     [typeSpecifier setValue:@"message" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveMessage class], @"Message");
     
     [typeSpecifier setValue:@"document" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveDocument class], @"Document");
     
     [typeSpecifier setValue:@"file" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveFile class], @"File");
     
     [typeSpecifier setValue:@"poll" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JivePoll class], @"Poll");
     
     [typeSpecifier setValue:@"post" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JivePost class], @"Post");
     
     [typeSpecifier setValue:@"comment" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveComment class], @"Comment");
     
     [typeSpecifier setValue:@"dm" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveDirectMessage class], @"Direct Message");
     
     [typeSpecifier setValue:@"favorite" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveFavorite class], @"Favorite");
     
     [typeSpecifier setValue:@"task" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveTask class], @"Task");
     
     [typeSpecifier setValue:@"update" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveUpdate class], @"Update");
     
     [typeSpecifier setValue:@"Not random" forKey:key];
-    STAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JiveContent performSelector:selector withObject:typeSpecifier],
                          [JiveContent class], @"Different out of bounds");
 }
 
@@ -198,9 +198,9 @@
 - (void)testContentToJSON {
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     [self initializeContentForTest];
     
@@ -214,10 +214,10 @@
     
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
-    STAssertNil(JSON[JiveContentAttributes.subject], nil);
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertNil(JSON[JiveContentAttributes.subject]);
 }
 
 - (void)testContentToJSON_emptySubject {
@@ -225,8 +225,8 @@
     
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertNil(JSON[JiveContentAttributes.subject], nil);
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertNil(JSON[JiveContentAttributes.subject]);
 }
 
 - (void)testContentToJSON_tags {
@@ -237,30 +237,30 @@
     
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     NSArray *categoriesJSON = JSON[JiveContentAttributes.tags];
     
-    STAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([categoriesJSON objectAtIndex:0], tag1, @"Wrong value");
+    XCTAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([categoriesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([categoriesJSON objectAtIndex:0], tag1, @"Wrong value");
     
     self.content.tags = @[tag2, tag1];
     
     JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     categoriesJSON = JSON[JiveContentAttributes.tags];
     
-    STAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([categoriesJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([categoriesJSON objectAtIndex:0], tag2, @"Wrong value");
-    STAssertEqualObjects([categoriesJSON objectAtIndex:1], tag1, @"Wrong value");
+    XCTAssertTrue([[categoriesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([categoriesJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([categoriesJSON objectAtIndex:0], tag2, @"Wrong value");
+    XCTAssertEqualObjects([categoriesJSON objectAtIndex:1], tag1, @"Wrong value");
 }
 
 - (void)testContentToJSON_incomplete_status {
@@ -271,15 +271,15 @@
     
     JSON = [self.content toJSONDictionary];
     
-    STAssertEquals(JSON[JiveContentAttributes.status], JiveContentStatusValues.incomplete, @"Status should be incomplete");
+    XCTAssertEqual(JSON[JiveContentAttributes.status], JiveContentStatusValues.incomplete, @"Status should be incomplete");
 }
 
 - (void)testContentToJSON_alternate {
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     [self initializeAlternateContentForTest];
     
@@ -291,32 +291,32 @@
 - (void)assertCommonContentToJSON:(NSDictionary *)JSON
                     withItemCount:(NSUInteger)expectedCount
                     messageHeader:(NSString *)message {
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Generated JSON has the wrong class", message);
-    STAssertEquals([JSON count], expectedCount,
+    XCTAssertEqual([JSON count], expectedCount,
                    @"%@: Initial dictionary had the wrong number of entries", message);
-    STAssertEqualObjects(JSON[JiveObjectConstants.id], self.content.jiveId,
+    XCTAssertEqualObjects(JSON[JiveObjectConstants.id], self.content.jiveId,
                          @"%@: Wrong id.", message);
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type,
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type,
                          @"%@: Wrong type", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.parent], self.content.parent,
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.parent], self.content.parent,
                          @"%@: Wrong parent", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.subject], self.content.subject,
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.subject], self.content.subject,
                          @"%@: Wrong subject", message);
     if ([self.content isVisibleToExternalContributors]) {
-        STAssertTrue([JSON[JiveContentAttributes.visibleToExternalContributors] boolValue],
+        XCTAssertTrue([JSON[JiveContentAttributes.visibleToExternalContributors] boolValue],
                      @"%@: Wrong visibleToExternalContributors", message);
     } else {
-        STAssertFalse([JSON[JiveContentAttributes.visibleToExternalContributors] boolValue],
+        XCTAssertFalse([JSON[JiveContentAttributes.visibleToExternalContributors] boolValue],
                       @"%@: Wrong visibleToExternalContributors", message);
     }
     
     NSArray *tags = JSON[JiveContentAttributes.tags];
     
-    STAssertTrue([[tags class] isSubclassOfClass:[NSArray class]], @"%@: Tags not converted", message);
-    STAssertEquals([tags count], (NSUInteger)1,
+    XCTAssertTrue([[tags class] isSubclassOfClass:[NSArray class]], @"%@: Tags not converted", message);
+    XCTAssertEqual([tags count], (NSUInteger)1,
                    @"%@: Tags array had the wrong number of entries", message);
-    STAssertEqualObjects(tags[0],  self.content.tags[0], @"%@: Wrong tag", message);
+    XCTAssertEqualObjects(tags[0],  self.content.tags[0], @"%@: Wrong tag", message);
 }
 
 - (void)assertContentToJSON:(NSDictionary *)JSON
@@ -326,11 +326,11 @@
     
     NSDictionary *contentJSON = JSON[JiveContentAttributes.content];
     
-    STAssertTrue([[contentJSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[contentJSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Content not converted", message);
-    STAssertEquals([contentJSON count], (NSUInteger)1,
+    XCTAssertEqual([contentJSON count], (NSUInteger)1,
                    @"%@: Content dictionary had the wrong number of entries", message);
-    STAssertEqualObjects(contentJSON[JiveTypedObjectAttributes.type],
+    XCTAssertEqualObjects(contentJSON[JiveTypedObjectAttributes.type],
                          self.content.content.type, @"%@: Wrong content type", message);
 }
 
@@ -338,34 +338,34 @@
 - (void)testContentPersistentJSON {
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     [self initializeContentForTest];
     
     JSON = [self.content persistentJSON];
     [self assertPersistentJSON:JSON withItemCount:25 messageHeader:@"initial content"];
-    STAssertEqualObjects(JSON[JiveContentAttributes.published],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.published],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong published");
-    STAssertEqualObjects(JSON[JiveContentAttributes.updated],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.updated],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
 }
 
 - (void)testContentPersistentJSON_alternate {
     NSDictionary *JSON = [self.content toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.content.type, @"Wrong type");
     
     [self initializeAlternateContentForTest];
     
     JSON = [self.content persistentJSON];
     [self assertPersistentJSON:JSON withItemCount:22 messageHeader:@"alternate content"];
-    STAssertEqualObjects(JSON[JiveContentAttributes.published],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.published],
                          @"1970-01-01T00:16:40.123+0000", @"Wrong published");
-    STAssertEqualObjects(JSON[JiveContentAttributes.updated],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.updated],
                          @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
 }
 
@@ -376,102 +376,102 @@
                       withItemCount:expectedCount
                       messageHeader:[@"persistent " stringByAppendingString:message]];
     
-    STAssertEqualObjects(JSON[JiveContentAttributes.contentID],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.contentID],
                          self.content.contentID, @"%@: Wrong contentID", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.followerCount],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.followerCount],
                          self.content.followerCount, @"%@: Wrong followerCount", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.highlightBody],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.highlightBody],
                          self.content.highlightBody, @"%@: Wrong highlightBody", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.highlightSubject],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.highlightSubject],
                          self.content.highlightSubject, @"%@: Wrong highlightSubject", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.highlightTags],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.highlightTags],
                          self.content.highlightTags, @"%@: Wrong highlightTags", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.iconCss],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.iconCss],
                          self.content.iconCss, @"%@: Wrong iconCss", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.likeCount],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.likeCount],
                          self.content.likeCount, @"%@: Wrong likeCount", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.replyCount],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.replyCount],
                          self.content.replyCount, @"%@: Wrong replyCount", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.status],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.status],
                          self.content.status, @"%@: Wrong status", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.viewCount],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.viewCount],
                          self.content.viewCount, @"%@: Wrong viewCount", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.note],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.note],
                          self.content.note, @"%@: Wrong note", message);
-    STAssertEqualObjects(JSON[JiveContentAttributes.root],
+    XCTAssertEqualObjects(JSON[JiveContentAttributes.root],
                          self.content.root.absoluteString, @"%@: Wrong root", message);
     
     if ([self.content isParentContentVisible]) {
-        STAssertTrue([JSON[JiveContentAttributes.parentContentVisible] boolValue],
+        XCTAssertTrue([JSON[JiveContentAttributes.parentContentVisible] boolValue],
                      @"%@: Wrong parentContentVisible", message);
     } else {
-        STAssertFalse([JSON[JiveContentAttributes.parentContentVisible] boolValue],
+        XCTAssertFalse([JSON[JiveContentAttributes.parentContentVisible] boolValue],
                       @"%@: Wrong parentContentVisible", message);
     }
     
     if ([self.content isParentVisible]) {
-        STAssertTrue([JSON[JiveContentAttributes.parentVisible] boolValue],
+        XCTAssertTrue([JSON[JiveContentAttributes.parentVisible] boolValue],
                      @"%@: Wrong parentVisible", message);
     } else {
-        STAssertFalse([JSON[JiveContentAttributes.parentVisible] boolValue],
+        XCTAssertFalse([JSON[JiveContentAttributes.parentVisible] boolValue],
                       @"%@: Wrong parentVisible", message);
     }
 
     NSDictionary *authorJSON = JSON[JiveContentAttributes.author];
     
-    STAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Jive not converted", message);
-    STAssertEquals([authorJSON count], (NSUInteger)3,
+    XCTAssertEqual([authorJSON count], (NSUInteger)3,
                    @"%@: Jive dictionary had the wrong number of entries", message);
-    STAssertEqualObjects(authorJSON[JivePersonAttributes.location],
+    XCTAssertEqualObjects(authorJSON[JivePersonAttributes.location],
                          self.content.author.location, @"%@: Wrong value", message);
-    STAssertEqualObjects(authorJSON[JivePersonAttributes.displayName],
+    XCTAssertEqualObjects(authorJSON[JivePersonAttributes.displayName],
                          self.content.author.displayName, @"%@: Wrong display name", message);
     
     NSDictionary *contentJSON = JSON[JiveContentAttributes.content];
     
-    STAssertEqualObjects(contentJSON[JiveContentBodyAttributes.editable],
+    XCTAssertEqualObjects(contentJSON[JiveContentBodyAttributes.editable],
                          self.content.content.editable, @"%@: Wrong editable state", message);
     
     NSDictionary *parentContentJSON = JSON[JiveContentAttributes.parentContent];
     
-    STAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Jive not converted", message);
-    STAssertEquals([parentContentJSON count], (NSUInteger)1,
+    XCTAssertEqual([parentContentJSON count], (NSUInteger)1,
                    @"%@: Parent content dictionary had the wrong number of entries", message);
-    STAssertEqualObjects(parentContentJSON[@"name"],
+    XCTAssertEqualObjects(parentContentJSON[@"name"],
                          self.content.parentContent.name, @"%@: Wrong value", message);
     
     NSDictionary *parentPlaceJSON = JSON[JiveContentAttributes.parentPlace];
     
-    STAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Jive not converted", message);
-    STAssertEquals([parentPlaceJSON count], (NSUInteger)1,
+    XCTAssertEqual([parentPlaceJSON count], (NSUInteger)1,
                    @"%@: Parent place dictionary had the wrong number of entries", message);
-    STAssertEqualObjects(parentPlaceJSON[@"name"],
+    XCTAssertEqualObjects(parentPlaceJSON[@"name"],
                          self.content.parentPlace.name, @"%@: Wrong value", message);
     
     NSArray *contentImagesJSON = JSON[JiveContentAttributes.contentImages];
     NSDictionary *imageJSON = [contentImagesJSON lastObject];
     
-    STAssertTrue([[contentImagesJSON class] isSubclassOfClass:[NSArray class]],
+    XCTAssertTrue([[contentImagesJSON class] isSubclassOfClass:[NSArray class]],
                  @"%@: Jive not converted", message);
-    STAssertEquals([contentImagesJSON count], (NSUInteger)1,
+    XCTAssertEqual([contentImagesJSON count], (NSUInteger)1,
                    @"%@: Images array had the wrong number of entries", message);
-    STAssertEqualObjects(imageJSON[JiveObjectConstants.id],
+    XCTAssertEqualObjects(imageJSON[JiveObjectConstants.id],
                          ((JiveImage *)[self.content.contentImages lastObject]).jiveId,
                          @"%@: Wrong value", message);
     
     NSArray *contentVideosJSON = JSON[JiveContentAttributes.contentVideos];
     NSDictionary *contentVideoJSON = [contentVideosJSON lastObject];
     
-    STAssertTrue([[contentVideosJSON class] isSubclassOfClass:[NSArray class]],
+    XCTAssertTrue([[contentVideosJSON class] isSubclassOfClass:[NSArray class]],
                  @"%@: Video beans array not converted", message);
-    STAssertEquals([contentVideosJSON count], (NSUInteger)1,
+    XCTAssertEqual([contentVideosJSON count], (NSUInteger)1,
                    @"%@: Video beans array had the wrong number of entries", message);
-    STAssertTrue([[contentVideoJSON class] isSubclassOfClass:[NSDictionary class]],
+    XCTAssertTrue([[contentVideoJSON class] isSubclassOfClass:[NSDictionary class]],
                  @"%@: Vdieo bean not converted", message);
-    STAssertEqualObjects(contentVideoJSON[JiveContentVideoAttributes.stillImageURL],
+    XCTAssertEqualObjects(contentVideoJSON[JiveContentVideoAttributes.stillImageURL],
                          [((JiveContentVideo *)[self.content.contentVideos lastObject]).stillImageURL absoluteString],
                          @"%@: Wrong still image", message);
 }
@@ -482,7 +482,7 @@
     id JSON = [self.content persistentJSON];
     JiveContent *newContent = [JiveContent objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertNotNil(newContent, @"Content object not created");
+    XCTAssertNotNil(newContent, @"Content object not created");
     [self assertSameAsOriginal:newContent message:@"initial content"];
 }
 
@@ -492,75 +492,75 @@
     id JSON = [self.content persistentJSON];
     JiveContent *newContent = [JiveContent objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertNotNil(newContent, @"Content object not created");
+    XCTAssertNotNil(newContent, @"Content object not created");
     [self assertSameAsOriginal:newContent message:@"alternate content"];
 }
 
 - (void)assertSameAsOriginal:(JiveContent *)newContent message:(NSString *)message {
-    STAssertTrue([[newContent class] isSubclassOfClass:[JiveContent class]],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[JiveContent class]],
                  @"%@: Wrong item class", message);
-    STAssertEqualObjects(newContent.author.location, self.content.author.location,
+    XCTAssertEqualObjects(newContent.author.location, self.content.author.location,
                          @"%@: Wrong author.location", message);
-    STAssertEqualObjects(newContent.content.type, self.content.content.type,
+    XCTAssertEqualObjects(newContent.content.type, self.content.content.type,
                          @"%@: Wrong content.type", message);
-    STAssertEqualObjects(newContent.contentID, self.content.contentID,
+    XCTAssertEqualObjects(newContent.contentID, self.content.contentID,
                          @"%@: Wrong contentID", message);
-    STAssertEquals(newContent.contentImages.count, self.content.contentImages.count,
+    XCTAssertEqual(newContent.contentImages.count, self.content.contentImages.count,
                    @"%@: Wrong number of images", message);
-    STAssertEqualObjects(((JiveImage *)[newContent.contentImages lastObject]).jiveId,
+    XCTAssertEqualObjects(((JiveImage *)[newContent.contentImages lastObject]).jiveId,
                          ((JiveImage *)[self.content.contentImages lastObject]).jiveId,
                          @"%@: Wrong image id", message);
-    STAssertEquals(newContent.contentVideos.count, self.content.contentVideos.count,
+    XCTAssertEqual(newContent.contentVideos.count, self.content.contentVideos.count,
                    @"%@: Wrong number of videos", message);
-    STAssertEqualObjects([((JiveContentVideo *)[newContent.contentVideos lastObject]).stillImageURL absoluteString],
+    XCTAssertEqualObjects([((JiveContentVideo *)[newContent.contentVideos lastObject]).stillImageURL absoluteString],
                          [((JiveContentVideo *)[self.content.contentVideos lastObject]).stillImageURL absoluteString],
                          @"%@: Wrong still image url", message);
-    STAssertEqualObjects(newContent.followerCount, self.content.followerCount,
+    XCTAssertEqualObjects(newContent.followerCount, self.content.followerCount,
                          @"%@: Wrong followerCount", message);
-    STAssertEqualObjects(newContent.highlightBody, self.content.highlightBody,
+    XCTAssertEqualObjects(newContent.highlightBody, self.content.highlightBody,
                          @"%@: Wrong highlightBody", message);
-    STAssertEqualObjects(newContent.highlightSubject, self.content.highlightSubject,
+    XCTAssertEqualObjects(newContent.highlightSubject, self.content.highlightSubject,
                          @"%@: Wrong highlightSubject", message);
-    STAssertEqualObjects(newContent.highlightTags, self.content.highlightTags,
+    XCTAssertEqualObjects(newContent.highlightTags, self.content.highlightTags,
                          @"%@: Wrong highlightTags", message);
-    STAssertEqualObjects(newContent.iconCss, self.content.iconCss,
+    XCTAssertEqualObjects(newContent.iconCss, self.content.iconCss,
                          @"%@: Wrong iconCss", message);
-    STAssertEqualObjects(newContent.jiveId, self.content.jiveId,
+    XCTAssertEqualObjects(newContent.jiveId, self.content.jiveId,
                          @"%@: Wrong id", message);
-    STAssertEqualObjects(newContent.likeCount, self.content.likeCount,
+    XCTAssertEqualObjects(newContent.likeCount, self.content.likeCount,
                          @"%@: Wrong likeCount", message);
-    STAssertEqualObjects(newContent.parent, self.content.parent,
+    XCTAssertEqualObjects(newContent.parent, self.content.parent,
                          @"%@: Wrong parent", message);
-    STAssertEqualObjects(newContent.parentContent.name, self.content.parentContent.name,
+    XCTAssertEqualObjects(newContent.parentContent.name, self.content.parentContent.name,
                          @"%@: Wrong parentContent.name", message);
-    STAssertEqualObjects(newContent.parentContentVisible, self.content.parentContentVisible,
+    XCTAssertEqualObjects(newContent.parentContentVisible, self.content.parentContentVisible,
                          @"%@: Wrong parentContentVisible", message);
-    STAssertEqualObjects(newContent.parentPlace.name, self.content.parentPlace.name,
+    XCTAssertEqualObjects(newContent.parentPlace.name, self.content.parentPlace.name,
                          @"%@: Wrong parentPlace.name", message);
-    STAssertEqualObjects(newContent.parentVisible, self.content.parentVisible,
+    XCTAssertEqualObjects(newContent.parentVisible, self.content.parentVisible,
                          @"%@: Wrong parentVisible", message);
-    STAssertEqualObjects(newContent.published, self.content.published,
+    XCTAssertEqualObjects(newContent.published, self.content.published,
                          @"%@: Wrong published", message);
-    STAssertEqualObjects(newContent.replyCount, self.content.replyCount,
+    XCTAssertEqualObjects(newContent.replyCount, self.content.replyCount,
                          @"%@: Wrong replyCount", message);
-    STAssertEqualObjects(newContent.status, self.content.status,
+    XCTAssertEqualObjects(newContent.status, self.content.status,
                          @"%@: Wrong status", message);
-    STAssertEqualObjects(newContent.subject, self.content.subject,
+    XCTAssertEqualObjects(newContent.subject, self.content.subject,
                          @"%@: Wrong subject", message);
-    STAssertEquals(newContent.tags.count, self.content.tags.count,
+    XCTAssertEqual(newContent.tags.count, self.content.tags.count,
                    @"%@: Wrong number of tags", message);
-    STAssertEqualObjects([newContent.tags lastObject], [self.content.tags lastObject],
+    XCTAssertEqualObjects([newContent.tags lastObject], [self.content.tags lastObject],
                          @"%@: Wrong tag", message);
-    STAssertEqualObjects(newContent.updated, self.content.updated,
+    XCTAssertEqualObjects(newContent.updated, self.content.updated,
                          @"%@: Wrong updated", message);
-    STAssertEqualObjects(newContent.viewCount, self.content.viewCount,
+    XCTAssertEqualObjects(newContent.viewCount, self.content.viewCount,
                          @"%@: Wrong viewCount", message);
-    STAssertEqualObjects(newContent.visibleToExternalContributors,
+    XCTAssertEqualObjects(newContent.visibleToExternalContributors,
                          self.content.visibleToExternalContributors,
                          @"%@: Wrong visibileToExternalContributors", message);
-    STAssertEqualObjects(newContent.note, self.content.note,
+    XCTAssertEqualObjects(newContent.note, self.content.note,
                          @"%@: Wrong note", message);
-    STAssertEqualObjects(newContent.root, self.content.root,
+    XCTAssertEqualObjects(newContent.root, self.content.root,
                          @"%@: Wrong root", message);
 }
 

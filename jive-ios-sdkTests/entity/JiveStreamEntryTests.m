@@ -40,51 +40,51 @@
 - (void)testStreamEntryToJSON {
     NSDictionary *JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
     
     [self.stream setValue:@"verb" forKey:JiveStreamEntryAttributes.verb];
     
     JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
 }
 
 - (void)testStreamEntryPersistentJSON {
     NSDictionary *JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
     
     [self.stream setValue:@"verb" forKey:JiveStreamEntryAttributes.verb];
     
     JSON = [self.stream persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamEntryAttributes.verb], self.stream.verb, @"Wrong verb");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamEntryAttributes.verb], self.stream.verb, @"Wrong verb");
 }
 
 - (void)testStreamEntryPersistentJSON_alternate {
     NSDictionary *JSON = [self.stream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
 
     [self.stream setValue:@"noun" forKey:JiveStreamEntryAttributes.verb];
     
     JSON = [self.stream persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JiveStreamEntryAttributes.verb], self.stream.verb, @"Wrong verb");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JiveStreamEntryAttributes.verb], self.stream.verb, @"Wrong verb");
 }
 
 - (void)testStreamEntryParsing {
@@ -93,9 +93,9 @@
     id JSON = [self.stream persistentJSON];
     JiveStreamEntry *newStream = [JiveStreamEntry objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
-    STAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
-    STAssertEqualObjects(newStream.verb, self.stream.verb, @"Wrong verb");
+    XCTAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects(newStream.verb, self.stream.verb, @"Wrong verb");
 }
 
 - (void)testStreamEntryParsingAlternate {
@@ -104,9 +104,9 @@
     id JSON = [self.stream persistentJSON];
     JiveStreamEntry *newStream = [JiveStreamEntry objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
-    STAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
-    STAssertEqualObjects(newStream.verb, self.stream.verb, @"Wrong verb");
+    XCTAssertTrue([[newStream class] isSubclassOfClass:[self.stream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStream.type, self.stream.type, @"Wrong type");
+    XCTAssertEqualObjects(newStream.verb, self.stream.verb, @"Wrong verb");
 }
 
 @end

@@ -71,17 +71,17 @@ extern struct JivePlaceResourceAttributes {
 }
 
 - (void)testHandlePrimitivePropertyFromJSON {
-    STAssertFalse(self.place.visibleToExternalContributors, @"PRECONDITION: default is false");
+    XCTAssertFalse(self.place.visibleToExternalContributors, @"PRECONDITION: default is false");
     
     [self.place performSelector:@selector(handlePrimitiveProperty:fromJSON:)
                 withObject:@"visibleToExternalContributors"
                 withObject:(__bridge id)kCFBooleanTrue];
-    STAssertTrue(self.place.visibleToExternalContributors, @"Set to true");
+    XCTAssertTrue(self.place.visibleToExternalContributors, @"Set to true");
     
     [self.place performSelector:@selector(handlePrimitiveProperty:fromJSON:)
                 withObject:@"visibleToExternalContributors"
                 withObject:(__bridge id)kCFBooleanFalse];
-    STAssertFalse(self.place.visibleToExternalContributors, @"Back to false");
+    XCTAssertFalse(self.place.visibleToExternalContributors, @"Back to false");
 }
 
 - (void)testEntityClass {
@@ -89,27 +89,27 @@ extern struct JivePlaceResourceAttributes {
     NSMutableDictionary *typeSpecifier = [@{key:@"blog"} mutableCopy];
     SEL selector = @selector(entityClass:);
     
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JiveBlog class], @"Blog");
     
     [typeSpecifier setValue:@"group" forKey:key];
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JiveGroup class], @"Group");
     
     [typeSpecifier setValue:@"project" forKey:key];
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JiveProject class], @"Project");
     
     [typeSpecifier setValue:@"space" forKey:key];
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JiveSpace class], @"Space");
     
     [typeSpecifier setValue:@"random" forKey:key];
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JivePlace class], @"Out of bounds");
     
     [typeSpecifier setValue:@"Not random" forKey:key];
-    STAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
+    XCTAssertEqualObjects([JivePlace performSelector:selector withObject:typeSpecifier],
                          [JivePlace class], @"Different out of bounds");
 }
 
@@ -119,11 +119,11 @@ extern struct JivePlaceResourceAttributes {
     NSString *contentType = @"First";
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.place toJSONDictionary], nil);
+    XCTAssertNoThrow(JSON = [self.place toJSONDictionary]);
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
     
     [parentContent setValue:@"content" forKey:@"name"];
     [parentPlace setValue:@"place" forKey:@"name"];
@@ -153,54 +153,54 @@ extern struct JivePlaceResourceAttributes {
     [self.place setValue:@"testIconCss" forKey:JivePlaceAttributes.iconCss];
     [self.place setValue:@"not here" forKey:JivePlaceAttributes.placeID];
     
-    STAssertNoThrow(JSON = [self.place toJSONDictionary], nil);
+    XCTAssertNoThrow(JSON = [self.place toJSONDictionary]);
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)19, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.name], self.place.name, @"Wrong name.");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.displayName],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)19, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.name], self.place.name, @"Wrong name.");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.displayName],
                          self.place.displayName, @"Wrong display name.");
-    STAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.place.jiveId, @"Wrong id.");
-    STAssertEqualObjects([JSON objectForKey:@"description"], self.place.jiveDescription, @"Wrong description");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.status], self.place.status, @"Wrong status update");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightBody],
+    XCTAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.place.jiveId, @"Wrong id.");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], self.place.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.status], self.place.status, @"Wrong status update");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightBody],
                          self.place.highlightBody, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightSubject],
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightSubject],
                          self.place.highlightSubject, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightTags],
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightTags],
                          self.place.highlightTags, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.followerCount],
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.followerCount],
                          self.place.followerCount, @"Wrong followerCount.");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.likeCount], self.place.likeCount, @"Wrong likeCount");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.viewCount], self.place.viewCount, @"Wrong viewCount");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.published], @"1970-01-01T00:00:00.000+0000", @"Wrong published date");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.updated], @"1970-01-01T00:16:40.123+0000", @"Wrong updated date");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.parent], self.place.parent, @"Wrong parent");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.likeCount], self.place.likeCount, @"Wrong likeCount");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.viewCount], self.place.viewCount, @"Wrong viewCount");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.published], @"1970-01-01T00:00:00.000+0000", @"Wrong published date");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.updated], @"1970-01-01T00:16:40.123+0000", @"Wrong updated date");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.parent], self.place.parent, @"Wrong parent");
     
     NSNumber *visibility = [JSON objectForKey:JivePlaceAttributes.visibleToExternalContributors];
     
-    STAssertNotNil(visibility, @"Missing visibility");
+    XCTAssertNotNil(visibility, @"Missing visibility");
     if (visibility)
-        STAssertTrue([visibility boolValue], @"Wrong visiblity");
+        XCTAssertTrue([visibility boolValue], @"Wrong visiblity");
     
     NSDictionary *parentContentJSON = [JSON objectForKey:JivePlaceAttributes.parentContent];
     
-    STAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([parentContentJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([parentContentJSON objectForKey:@"name"], parentContent.name, @"Wrong user name");
+    XCTAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([parentContentJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([parentContentJSON objectForKey:@"name"], parentContent.name, @"Wrong user name");
     
     NSDictionary *parentPlaceJSON = [JSON objectForKey:JivePlaceAttributes.parentPlace];
     
-    STAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([parentPlaceJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([parentPlaceJSON objectForKey:@"name"], parentPlace.name, @"Wrong user name");
+    XCTAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([parentPlaceJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([parentPlaceJSON objectForKey:@"name"], parentPlace.name, @"Wrong user name");
 
     NSArray *contentTypesJSON = [JSON objectForKey:JivePlaceAttributes.contentTypes];
     
-    STAssertTrue([[contentTypesJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
-    STAssertEquals([contentTypesJSON count], (NSUInteger)1, @"Wrong number of elements in the contentTypes array");
-    STAssertEqualObjects([contentTypesJSON objectAtIndex:0], contentType, @"contentType object not converted");
+    XCTAssertTrue([[contentTypesJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
+    XCTAssertEqual([contentTypesJSON count], (NSUInteger)1, @"Wrong number of elements in the contentTypes array");
+    XCTAssertEqualObjects([contentTypesJSON objectAtIndex:0], contentType, @"contentType object not converted");
 }
 
 - (void)testToJSON_alternate {
@@ -230,43 +230,43 @@ extern struct JivePlaceResourceAttributes {
 
     NSDictionary *JSON;
     
-    STAssertNoThrow(JSON = [self.place toJSONDictionary], nil);
+    XCTAssertNoThrow(JSON = [self.place toJSONDictionary]);
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)17, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.name], self.place.name, @"Wrong name.");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.displayName],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)17, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.name], self.place.name, @"Wrong name.");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.displayName],
                          self.place.displayName, @"Wrong display name.");
-    STAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.place.jiveId, @"Wrong id.");
-    STAssertEqualObjects([JSON objectForKey:@"description"], self.place.jiveDescription, @"Wrong description");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.status], self.place.status, @"Wrong status update");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightBody],
+    XCTAssertEqualObjects([JSON objectForKey:JiveObjectConstants.id], self.place.jiveId, @"Wrong id.");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], self.place.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.status], self.place.status, @"Wrong status update");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightBody],
                          self.place.highlightBody, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightSubject],
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightSubject],
                          self.place.highlightSubject, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightTags],
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.highlightTags],
                          self.place.highlightTags, @"Wrong thumbnail url");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.followerCount],
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.followerCount],
                          self.place.followerCount, @"Wrong followerCount.");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.likeCount], self.place.likeCount, @"Wrong likeCount");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.viewCount], self.place.viewCount, @"Wrong viewCount");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.published], @"1970-01-01T00:16:40.123+0000", @"Wrong published date");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.updated], @"1970-01-01T00:00:00.000+0000", @"Wrong updated date");
-    STAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.parent], self.place.parent, @"Wrong parent");
-    STAssertNil([JSON objectForKey:JivePlaceAttributes.visibleToExternalContributors], @"Visibility included?");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.likeCount], self.place.likeCount, @"Wrong likeCount");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.viewCount], self.place.viewCount, @"Wrong viewCount");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.published], @"1970-01-01T00:16:40.123+0000", @"Wrong published date");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.updated], @"1970-01-01T00:00:00.000+0000", @"Wrong updated date");
+    XCTAssertEqualObjects([JSON objectForKey:JivePlaceAttributes.parent], self.place.parent, @"Wrong parent");
+    XCTAssertNil([JSON objectForKey:JivePlaceAttributes.visibleToExternalContributors], @"Visibility included?");
     
     NSDictionary *parentContentJSON = [JSON objectForKey:JivePlaceAttributes.parentContent];
     
-    STAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([parentContentJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([parentContentJSON objectForKey:@"name"], parentContent.name, @"Wrong user name");
+    XCTAssertTrue([[parentContentJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([parentContentJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([parentContentJSON objectForKey:@"name"], parentContent.name, @"Wrong user name");
     
     NSDictionary *parentPlaceJSON = [JSON objectForKey:JivePlaceAttributes.parentPlace];
     
-    STAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([parentPlaceJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([parentPlaceJSON objectForKey:@"name"], parentPlace.name, @"Wrong user name");
+    XCTAssertTrue([[parentPlaceJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([parentPlaceJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([parentPlaceJSON objectForKey:@"name"], parentPlace.name, @"Wrong user name");
 }
 
 - (void)testToJSON_contentTypes {
@@ -278,30 +278,30 @@ extern struct JivePlaceResourceAttributes {
     
     NSDictionary *JSON = [self.place toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
 
     NSArray *addressJSON = [JSON objectForKey:JivePlaceAttributes.contentTypes];
     
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the contentTypes array");
-    STAssertEqualObjects([addressJSON objectAtIndex:0], contentType1, @"Wrong contentType value");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)1, @"Wrong number of elements in the contentTypes array");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:0], contentType1, @"Wrong contentType value");
     
     [self.place setValue:[self.place.contentTypes arrayByAddingObject:contentType2]
                   forKey:JivePlaceAttributes.contentTypes];
     
-    STAssertNoThrow(JSON = [self.place toJSONDictionary], nil);
+    XCTAssertNoThrow(JSON = [self.place toJSONDictionary]);
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.place.type, @"Wrong type");
 
     addressJSON = [JSON objectForKey:JivePlaceAttributes.contentTypes];
-    STAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
-    STAssertEquals([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the contentTypes array");
-    STAssertEqualObjects([addressJSON objectAtIndex:0], contentType1, @"Wrong contentType 1 value");
-    STAssertEqualObjects([addressJSON objectAtIndex:1], contentType2, @"Wrong contentType 2 value");
+    XCTAssertTrue([[addressJSON class] isSubclassOfClass:[NSArray class]], @"contentTypes array not converted");
+    XCTAssertEqual([addressJSON count], (NSUInteger)2, @"Wrong number of elements in the contentTypes array");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:0], contentType1, @"Wrong contentType 1 value");
+    XCTAssertEqualObjects([addressJSON objectAtIndex:1], contentType2, @"Wrong contentType 2 value");
 }
 
 - (void)testPlaceParsing {
@@ -346,33 +346,33 @@ extern struct JivePlaceResourceAttributes {
     id JSON;
     JivePlace *newPlace;
     
-    STAssertNoThrow(JSON = [self.place persistentJSON], nil);
-    STAssertNoThrow(newPlace = [JivePlace objectFromJSON:JSON withInstance:self.instance], nil);
+    XCTAssertNoThrow(JSON = [self.place persistentJSON]);
+    XCTAssertNoThrow(newPlace = [JivePlace objectFromJSON:JSON withInstance:self.instance]);
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.displayName, self.place.displayName, @"Wrong display name");
-    STAssertEqualObjects(newPlace.followerCount, self.place.followerCount, @"Wrong follower count");
-    STAssertEqualObjects(newPlace.likeCount, self.place.likeCount, @"Wrong like count");
-    STAssertEqualObjects(newPlace.viewCount, self.place.viewCount, @"Wrong viewCount");
-    STAssertEqualObjects(newPlace.jiveId, self.place.jiveId, @"Wrong id");
-    STAssertEqualObjects(newPlace.jiveDescription, self.place.jiveDescription, @"Wrong description");
-    STAssertEqualObjects(newPlace.name, self.place.name, @"Wrong name");
-    STAssertEqualObjects(newPlace.published, self.place.published, @"Wrong published date");
-    STAssertEqualObjects(newPlace.status, self.place.status, @"Wrong status");
-    STAssertEqualObjects(newPlace.highlightBody, self.place.highlightBody, @"Wrong highlightBody");
-    STAssertEqualObjects(newPlace.highlightSubject, self.place.highlightSubject, @"Wrong highlightSubject");
-    STAssertEqualObjects(newPlace.highlightTags, self.place.highlightTags, @"Wrong highlightTags");
-    STAssertEqualObjects(newPlace.updated, self.place.updated, @"Wrong updated date");
-    STAssertEqualObjects(newPlace.parent, self.place.parent, @"Wrong parent");
-    STAssertEqualObjects(newPlace.parentContent.name, parentContent.name, @"Wrong parentContent name");
-    STAssertEqualObjects(newPlace.parentPlace.name, parentPlace.name, @"Wrong parentPlace name");
-    STAssertTrue(newPlace.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
-    STAssertEquals([newPlace.contentTypes count], [self.place.contentTypes count], @"Wrong number of contentType objects");
-    STAssertEqualObjects([newPlace.contentTypes objectAtIndex:0], [self.place.contentTypes objectAtIndex:0], @"Wrong contentType object class");
-    STAssertEquals([newPlace.resources count], [self.place.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newPlace.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
-    STAssertEqualObjects(newPlace.iconCss, self.place.iconCss, nil);
-    STAssertEqualObjects(newPlace.placeID, self.place.placeID, nil);
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.displayName, self.place.displayName, @"Wrong display name");
+    XCTAssertEqualObjects(newPlace.followerCount, self.place.followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(newPlace.likeCount, self.place.likeCount, @"Wrong like count");
+    XCTAssertEqualObjects(newPlace.viewCount, self.place.viewCount, @"Wrong viewCount");
+    XCTAssertEqualObjects(newPlace.jiveId, self.place.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newPlace.jiveDescription, self.place.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects(newPlace.name, self.place.name, @"Wrong name");
+    XCTAssertEqualObjects(newPlace.published, self.place.published, @"Wrong published date");
+    XCTAssertEqualObjects(newPlace.status, self.place.status, @"Wrong status");
+    XCTAssertEqualObjects(newPlace.highlightBody, self.place.highlightBody, @"Wrong highlightBody");
+    XCTAssertEqualObjects(newPlace.highlightSubject, self.place.highlightSubject, @"Wrong highlightSubject");
+    XCTAssertEqualObjects(newPlace.highlightTags, self.place.highlightTags, @"Wrong highlightTags");
+    XCTAssertEqualObjects(newPlace.updated, self.place.updated, @"Wrong updated date");
+    XCTAssertEqualObjects(newPlace.parent, self.place.parent, @"Wrong parent");
+    XCTAssertEqualObjects(newPlace.parentContent.name, parentContent.name, @"Wrong parentContent name");
+    XCTAssertEqualObjects(newPlace.parentPlace.name, parentPlace.name, @"Wrong parentPlace name");
+    XCTAssertTrue(newPlace.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertEqual([newPlace.contentTypes count], [self.place.contentTypes count], @"Wrong number of contentType objects");
+    XCTAssertEqualObjects([newPlace.contentTypes objectAtIndex:0], [self.place.contentTypes objectAtIndex:0], @"Wrong contentType object class");
+    XCTAssertEqual([newPlace.resources count], [self.place.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newPlace.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertEqualObjects(newPlace.iconCss, self.place.iconCss);
+    XCTAssertEqualObjects(newPlace.placeID, self.place.placeID);
 }
 
 - (void)testPlaceParsingAlternate {
@@ -414,33 +414,33 @@ extern struct JivePlaceResourceAttributes {
     id JSON;
     JivePlace *newPlace;
     
-    STAssertNoThrow(JSON = [self.place persistentJSON], nil);
-    STAssertNoThrow(newPlace = [JivePlace objectFromJSON:JSON withInstance:self.instance], nil);
+    XCTAssertNoThrow(JSON = [self.place persistentJSON]);
+    XCTAssertNoThrow(newPlace = [JivePlace objectFromJSON:JSON withInstance:self.instance]);
     
-    STAssertTrue([[newPlace class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
-    STAssertEqualObjects(newPlace.displayName, self.place.displayName, @"Wrong display name");
-    STAssertEqualObjects(newPlace.followerCount, self.place.followerCount, @"Wrong follower count");
-    STAssertEqualObjects(newPlace.likeCount, self.place.likeCount, @"Wrong like count");
-    STAssertEqualObjects(newPlace.viewCount, self.place.viewCount, @"Wrong viewCount");
-    STAssertEqualObjects(newPlace.jiveId, self.place.jiveId, @"Wrong id");
-    STAssertEqualObjects(newPlace.jiveDescription, self.place.jiveDescription, @"Wrong description");
-    STAssertEqualObjects(newPlace.name, self.place.name, @"Wrong name");
-    STAssertEqualObjects(newPlace.published, self.place.published, @"Wrong published date");
-    STAssertEqualObjects(newPlace.status, self.place.status, @"Wrong status");
-    STAssertEqualObjects(newPlace.highlightBody, self.place.highlightBody, @"Wrong highlightBody");
-    STAssertEqualObjects(newPlace.highlightSubject, self.place.highlightSubject, @"Wrong highlightSubject");
-    STAssertEqualObjects(newPlace.highlightTags, self.place.highlightTags, @"Wrong highlightTags");
-    STAssertEqualObjects(newPlace.updated, self.place.updated, @"Wrong updated date");
-    STAssertEqualObjects(newPlace.parent, self.place.parent, @"Wrong parent");
-    STAssertEqualObjects(newPlace.parentContent.name, parentContent.name, @"Wrong parentContent name");
-    STAssertEqualObjects(newPlace.parentPlace.name, parentPlace.name, @"Wrong parentPlace name");
-    STAssertFalse(newPlace.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
-    STAssertEquals([newPlace.contentTypes count], [self.place.contentTypes count], @"Wrong number of contentType objects");
-    STAssertEqualObjects([newPlace.contentTypes objectAtIndex:0], [self.place.contentTypes objectAtIndex:0], @"Wrong contentType object class");
-    STAssertEquals([newPlace.resources count], [self.place.resources count], @"Wrong number of resource objects");
-    STAssertEqualObjects([(JiveResourceEntry *)[newPlace.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
-    STAssertEqualObjects(newPlace.iconCss, self.place.iconCss, nil);
-    STAssertEqualObjects(newPlace.placeID, self.place.placeID, nil);
+    XCTAssertTrue([[newPlace class] isSubclassOfClass:[JivePlace class]], @"Wrong item class");
+    XCTAssertEqualObjects(newPlace.displayName, self.place.displayName, @"Wrong display name");
+    XCTAssertEqualObjects(newPlace.followerCount, self.place.followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(newPlace.likeCount, self.place.likeCount, @"Wrong like count");
+    XCTAssertEqualObjects(newPlace.viewCount, self.place.viewCount, @"Wrong viewCount");
+    XCTAssertEqualObjects(newPlace.jiveId, self.place.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newPlace.jiveDescription, self.place.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects(newPlace.name, self.place.name, @"Wrong name");
+    XCTAssertEqualObjects(newPlace.published, self.place.published, @"Wrong published date");
+    XCTAssertEqualObjects(newPlace.status, self.place.status, @"Wrong status");
+    XCTAssertEqualObjects(newPlace.highlightBody, self.place.highlightBody, @"Wrong highlightBody");
+    XCTAssertEqualObjects(newPlace.highlightSubject, self.place.highlightSubject, @"Wrong highlightSubject");
+    XCTAssertEqualObjects(newPlace.highlightTags, self.place.highlightTags, @"Wrong highlightTags");
+    XCTAssertEqualObjects(newPlace.updated, self.place.updated, @"Wrong updated date");
+    XCTAssertEqualObjects(newPlace.parent, self.place.parent, @"Wrong parent");
+    XCTAssertEqualObjects(newPlace.parentContent.name, parentContent.name, @"Wrong parentContent name");
+    XCTAssertEqualObjects(newPlace.parentPlace.name, parentPlace.name, @"Wrong parentPlace name");
+    XCTAssertFalse(newPlace.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertEqual([newPlace.contentTypes count], [self.place.contentTypes count], @"Wrong number of contentType objects");
+    XCTAssertEqualObjects([newPlace.contentTypes objectAtIndex:0], [self.place.contentTypes objectAtIndex:0], @"Wrong contentType object class");
+    XCTAssertEqual([newPlace.resources count], [self.place.resources count], @"Wrong number of resource objects");
+    XCTAssertEqualObjects([(JiveResourceEntry *)[newPlace.resources objectForKey:resourceKey] ref], resource.ref, @"Wrong resource object");
+    XCTAssertEqualObjects(newPlace.iconCss, self.place.iconCss);
+    XCTAssertEqualObjects(newPlace.placeID, self.place.placeID);
 }
 
 - (void)test_canCreate {
@@ -448,73 +448,73 @@ extern struct JivePlaceResourceAttributes {
     
     // announcement
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.announcements, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.announcements, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canCreateAnnouncement], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canCreateAnnouncement], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.announcements, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.announcements, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canCreateAnnouncement], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canCreateAnnouncement], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // invite
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.invites, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.invites, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canCreateInvite], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canCreateInvite], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.invites, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.invites, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canCreateInvite], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canCreateInvite], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // member
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.members, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.members, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canCreateMember], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canCreateMember], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.members, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.members, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canCreateMember], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canCreateMember], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // task
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.tasks, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.tasks, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canCreateTask], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canCreateTask], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.tasks, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.tasks, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canCreateTask], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canCreateTask], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // content
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.contents, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.contents, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canCreateContent], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canCreateContent], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.contents, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.contents, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canCreateContent], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canCreateContent], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
 }
 
 - (void)test_canAdd {
@@ -522,45 +522,45 @@ extern struct JivePlaceResourceAttributes {
     
     // extprops
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canAddExtProps], @"user cannot add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canAddExtProps], @"user cannot add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canAddExtProps], @"user can add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canAddExtProps], @"user can add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // statics
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.statics, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.statics, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canAddStatic], @"user cannot add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canAddStatic], @"user cannot add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.statics, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.statics, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canAddStatic], @"user can add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canAddStatic], @"user can add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // categories
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.categories, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.categories, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canAddCategory], @"user cannot add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canAddCategory], @"user cannot add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.categories, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.categories, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canAddCategory], @"user can add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canAddCategory], @"user can add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
 }
 
 - (void)test_canDelete {
@@ -568,31 +568,31 @@ extern struct JivePlaceResourceAttributes {
     
     // extprops
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasDeleteForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canDeleteExtProps], @"user cannot add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canDeleteExtProps], @"user cannot add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasDeleteForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.extprops, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canDeleteExtProps], @"user can add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canDeleteExtProps], @"user can add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // avatar
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasDeleteForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canDeleteAvatar], @"user cannot add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canDeleteAvatar], @"user cannot add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasDeleteForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canDeleteAvatar], @"user can add this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canDeleteAvatar], @"user can add this type");
+    XCTAssertNoThrow([mockedPlace verify]);
 }
 
 - (void)test_canUpdate {
@@ -600,45 +600,45 @@ extern struct JivePlaceResourceAttributes {
     
     // avatar
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canUpdateAvatar], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canUpdateAvatar], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.avatar, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canUpdateAvatar], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canUpdateAvatar], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // checkPoints
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.checkPoints, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.checkPoints, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canUpdateCheckPoints], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canUpdateCheckPoints], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.checkPoints, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.checkPoints, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canUpdateCheckPoints], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canUpdateCheckPoints], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     
     // followingIn
     [[[mockedPlace expect] andReturnValue:@NO] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.followingIn, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.followingIn, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertFalse([mockedPlace canUpdateFollowingIn], @"user cannot create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertFalse([mockedPlace canUpdateFollowingIn], @"user cannot create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
     [[[mockedPlace expect] andReturnValue:@YES] resourceHasPostForTag:[OCMArg checkWithBlock:^BOOL(id obj) {
-        STAssertEqualObjects(obj, JivePlaceResourceAttributes.followingIn, @"Wrong property requested.");
+        XCTAssertEqualObjects(obj, JivePlaceResourceAttributes.followingIn, @"Wrong property requested.");
         return YES;
     }]];
-    STAssertTrue([mockedPlace canUpdateFollowingIn], @"user can create this type");
-    STAssertNoThrow([mockedPlace verify], nil);
+    XCTAssertTrue([mockedPlace canUpdateFollowingIn], @"user can create this type");
+    XCTAssertNoThrow([mockedPlace verify]);
 }
 
 @end

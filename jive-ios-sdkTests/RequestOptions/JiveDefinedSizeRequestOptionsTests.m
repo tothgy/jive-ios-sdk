@@ -37,17 +37,17 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
     
     self.options.size = JiveImageSizeOptionMediumImage;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"size=medium", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"size=medium", asString, @"Wrong string contents");
     
     self.options.size = JiveImageSizeOptionSmallImage;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"size=small", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"size=small", asString, @"Wrong string contents");
 }
 
 - (void)testInvalidSize {
@@ -56,11 +56,11 @@
 
     NSString *asString = [self.options toQueryString];
     
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
 
     self.options.size = (enum JiveImageSizeOption)5000;
     asString = [self.options toQueryString];
-    STAssertNil(asString, @"Invalid string returned");
+    XCTAssertNil(asString, @"Invalid string returned");
 }
 
 @end

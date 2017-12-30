@@ -39,10 +39,10 @@
     
     JiveResourceEntry *resource = [JiveResourceEntry objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertNotNil(resource, @"Object not created");
-    STAssertEqualObjects(resource.ref, ref, @"Wrong ref");
-    STAssertEquals(resource.allowed.count, allowedJSON.count, @"Wrong number of allowed entries");
-    STAssertEqualObjects([resource.allowed objectAtIndex:0], [allowedJSON objectAtIndex:0], @"Wrong allowed entry");
+    XCTAssertNotNil(resource, @"Object not created");
+    XCTAssertEqualObjects(resource.ref, ref, @"Wrong ref");
+    XCTAssertEqual(resource.allowed.count, allowedJSON.count, @"Wrong number of allowed entries");
+    XCTAssertEqualObjects([resource.allowed objectAtIndex:0], [allowedJSON objectAtIndex:0], @"Wrong allowed entry");
 }
 
 @end

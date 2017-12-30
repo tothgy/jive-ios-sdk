@@ -44,9 +44,9 @@
     NSDate *updated = [NSDate dateWithTimeIntervalSince1970:1000.123];
     NSDictionary *JSON = [self.category toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"category", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"category", @"Wrong type");
     
     [self.category setValue:description forKey:@"jiveDescription"];
     [self.category setValue:followerCount forKey:@"followerCount"];
@@ -61,11 +61,11 @@
     
     JSON = [self.category toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"description"], description, @"Wrong description.");
-    STAssertEqualObjects([JSON objectForKey:@"name"], name, @"Wrong name.");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.category.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], description, @"Wrong description.");
+    XCTAssertEqualObjects([JSON objectForKey:@"name"], name, @"Wrong name.");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.category.type, @"Wrong type");
 }
 
 - (void)testToJSON_alternate {
@@ -91,11 +91,11 @@
     
     NSDictionary *JSON = [self.category toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"description"], description, @"Wrong description.");
-    STAssertEqualObjects([JSON objectForKey:@"name"], name, @"Wrong name.");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.category.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], description, @"Wrong description.");
+    XCTAssertEqualObjects([JSON objectForKey:@"name"], name, @"Wrong name.");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.category.type, @"Wrong type");
 }
 
 - (void)testCategoryParsing {
@@ -129,20 +129,20 @@
     
     self.object = [JiveCategory objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([self.category class], [JiveCategory class], @"Wrong item class");
-    STAssertEqualObjects(self.category.jiveDescription, description, @"Wrong description");
-    STAssertEqualObjects(self.category.followerCount, followerCount, @"Wrong follower count");
-    STAssertEqualObjects(self.category.jiveId, jiveId, @"Wrong id");
-    STAssertEqualObjects(self.category.likeCount, likeCount, @"Wrong likeCount");
-    STAssertEqualObjects(self.category.name, name, @"Wrong name");
-    STAssertEqualObjects(self.category.place, place, @"Wrong place");
-    STAssertEqualObjects(self.category.published, published, @"Wrong published date");
-    STAssertEqualObjects(self.category.type, @"category", @"Wrong type");
-    STAssertEqualObjects(self.category.updated, updated, @"Wrong updated date");
-    STAssertEquals([self.category.tags count], (NSUInteger)1, @"Wrong number of tag objects");
-    STAssertEqualObjects([self.category.tags objectAtIndex:0], tag, @"Wrong tag object");
-    STAssertEquals([self.category.resources count], (NSUInteger)1, @"Wrong number of resource objects");
-    STAssertEqualObjects([[(JiveResourceEntry *)[self.category.resources objectForKey:resourceKey] ref] absoluteString], photoURI, @"Wrong resource object");
+    XCTAssertEqual([self.category class], [JiveCategory class], @"Wrong item class");
+    XCTAssertEqualObjects(self.category.jiveDescription, description, @"Wrong description");
+    XCTAssertEqualObjects(self.category.followerCount, followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(self.category.jiveId, jiveId, @"Wrong id");
+    XCTAssertEqualObjects(self.category.likeCount, likeCount, @"Wrong likeCount");
+    XCTAssertEqualObjects(self.category.name, name, @"Wrong name");
+    XCTAssertEqualObjects(self.category.place, place, @"Wrong place");
+    XCTAssertEqualObjects(self.category.published, published, @"Wrong published date");
+    XCTAssertEqualObjects(self.category.type, @"category", @"Wrong type");
+    XCTAssertEqualObjects(self.category.updated, updated, @"Wrong updated date");
+    XCTAssertEqual([self.category.tags count], (NSUInteger)1, @"Wrong number of tag objects");
+    XCTAssertEqualObjects([self.category.tags objectAtIndex:0], tag, @"Wrong tag object");
+    XCTAssertEqual([self.category.resources count], (NSUInteger)1, @"Wrong number of resource objects");
+    XCTAssertEqualObjects([[(JiveResourceEntry *)[self.category.resources objectForKey:resourceKey] ref] absoluteString], photoURI, @"Wrong resource object");
 }
 
 - (void)testCategoryParsingAlternate {
@@ -176,20 +176,20 @@
     
     self.object = [JiveCategory objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([self.category class], [JiveCategory class], @"Wrong item class");
-    STAssertEqualObjects(self.category.jiveDescription, description, @"Wrong description");
-    STAssertEqualObjects(self.category.followerCount, followerCount, @"Wrong follower count");
-    STAssertEqualObjects(self.category.jiveId, jiveId, @"Wrong id");
-    STAssertEqualObjects(self.category.likeCount, likeCount, @"Wrong likeCount");
-    STAssertEqualObjects(self.category.name, name, @"Wrong name");
-    STAssertEqualObjects(self.category.place, place, @"Wrong place");
-    STAssertEqualObjects(self.category.published, published, @"Wrong published date");
-    STAssertEqualObjects(self.category.type, @"category", @"Wrong type");
-    STAssertEqualObjects(self.category.updated, updated, @"Wrong updated date");
-    STAssertEquals([self.category.tags count], (NSUInteger)1, @"Wrong number of tag objects");
-    STAssertEqualObjects([self.category.tags objectAtIndex:0], tag, @"Wrong tag object");
-    STAssertEquals([self.category.resources count], (NSUInteger)1, @"Wrong number of resource objects");
-    STAssertEqualObjects([[(JiveResourceEntry *)[self.category.resources objectForKey:resourceKey] ref] absoluteString], photoURI, @"Wrong resource object");
+    XCTAssertEqual([self.category class], [JiveCategory class], @"Wrong item class");
+    XCTAssertEqualObjects(self.category.jiveDescription, description, @"Wrong description");
+    XCTAssertEqualObjects(self.category.followerCount, followerCount, @"Wrong follower count");
+    XCTAssertEqualObjects(self.category.jiveId, jiveId, @"Wrong id");
+    XCTAssertEqualObjects(self.category.likeCount, likeCount, @"Wrong likeCount");
+    XCTAssertEqualObjects(self.category.name, name, @"Wrong name");
+    XCTAssertEqualObjects(self.category.place, place, @"Wrong place");
+    XCTAssertEqualObjects(self.category.published, published, @"Wrong published date");
+    XCTAssertEqualObjects(self.category.type, @"category", @"Wrong type");
+    XCTAssertEqualObjects(self.category.updated, updated, @"Wrong updated date");
+    XCTAssertEqual([self.category.tags count], (NSUInteger)1, @"Wrong number of tag objects");
+    XCTAssertEqualObjects([self.category.tags objectAtIndex:0], tag, @"Wrong tag object");
+    XCTAssertEqual([self.category.resources count], (NSUInteger)1, @"Wrong number of resource objects");
+    XCTAssertEqualObjects([[(JiveResourceEntry *)[self.category.resources objectForKey:resourceKey] ref] absoluteString], photoURI, @"Wrong resource object");
 }
 
 @end

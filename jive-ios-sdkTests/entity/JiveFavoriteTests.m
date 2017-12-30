@@ -43,15 +43,15 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.favorite.type, @"favorite", @"Wrong type.");
+    XCTAssertEqualObjects(self.favorite.type, @"favorite", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.favorite.type
                                                                             forKey:JiveTypedObjectAttributes.type];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.favorite class], @"Favorite class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.favorite class], @"Favorite class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.favorite class], @"Favorite class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.favorite class], @"Favorite class not registered with JiveContent.");
 }
 
 - (void)initializeFavorite {
@@ -73,102 +73,102 @@
 - (void)testFavoriteToJSON {
     NSDictionary *JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
     
     [self initializeFavorite];
     
     JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveFavoriteAttributes.private], self.favorite.private, @"Wrong private");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveFavoriteAttributes.private], self.favorite.private, @"Wrong private");
     
     NSDictionary *favoriteObject = JSON[JiveFavoriteAttributes.favoriteObject];
     
-    STAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([favoriteObject count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([favoriteObject count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
                          self.favorite.favoriteObject.type, @"Wrong type");
-    STAssertEqualObjects(favoriteObject[JiveExternalURLEntityAttributes.url],
+    XCTAssertEqualObjects(favoriteObject[JiveExternalURLEntityAttributes.url],
                          [((JiveExternalURLEntity *)self.favorite.favoriteObject).url absoluteString], @"Wrong url");
 }
 
 - (void)testFavoriteToJSON_alternate {
     NSDictionary *JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
     
     [self initializeAlternateFavorite];
     
     JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
     
     NSDictionary *favoriteObject = JSON[JiveFavoriteAttributes.favoriteObject];
     
-    STAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([favoriteObject count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([favoriteObject count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
                          self.favorite.favoriteObject.type, @"Wrong type");
 }
 
 - (void)testFavoritePersistentJSON {
     NSDictionary *JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
     
     [self initializeFavorite];
     
     JSON = [self.favorite persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveFavoriteAttributes.private], self.favorite.private, @"Wrong private");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveFavoriteAttributes.private], self.favorite.private, @"Wrong private");
     
     NSDictionary *favoriteObject = JSON[JiveFavoriteAttributes.favoriteObject];
     
-    STAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([favoriteObject count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([favoriteObject count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
                          self.favorite.favoriteObject.type, @"Wrong type");
-    STAssertEqualObjects(favoriteObject[JiveExternalURLEntityAttributes.url],
+    XCTAssertEqualObjects(favoriteObject[JiveExternalURLEntityAttributes.url],
                          [((JiveExternalURLEntity *)self.favorite.favoriteObject).url absoluteString], @"Wrong url");
-    STAssertEqualObjects(favoriteObject[JiveContentAttributes.status],
+    XCTAssertEqualObjects(favoriteObject[JiveContentAttributes.status],
                          self.favorite.favoriteObject.status, @"Wrong status");
 }
 
 - (void)testFavoritePersistentJSON_alternate {
     NSDictionary *JSON = [self.favorite toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"favorite", @"Wrong type");
     
     [self initializeAlternateFavorite];
     
     JSON = [self.favorite persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.favorite.type, @"Wrong type");
     
     NSDictionary *favoriteObject = JSON[JiveFavoriteAttributes.favoriteObject];
     
-    STAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([favoriteObject count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
+    XCTAssertTrue([[favoriteObject class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([favoriteObject count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(favoriteObject[JiveTypedObjectAttributes.type],
                          self.favorite.favoriteObject.type, @"Wrong type");
-    STAssertEqualObjects(favoriteObject[JiveContentAttributes.status],
+    XCTAssertEqualObjects(favoriteObject[JiveContentAttributes.status],
                          self.favorite.favoriteObject.status, @"Wrong status");
 }
 
@@ -178,12 +178,12 @@
     id JSON = [self.favorite persistentJSON];
     JiveFavorite *newContent = [JiveFavorite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.favorite class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.favorite.type, @"Wrong type");
-    STAssertEqualObjects(newContent.private, self.favorite.private, @"Wrong private");
-    STAssertEqualObjects(newContent.favoriteObject.type, self.favorite.favoriteObject.type, @"Wrong favoriteObject");
-    STAssertEqualObjects(newContent.favoriteObject.status, self.favorite.favoriteObject.status, @"Wrong favoriteObject");
-    STAssertEqualObjects([((JiveExternalURLEntity *)newContent.favoriteObject).url absoluteString],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.favorite class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.favorite.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.private, self.favorite.private, @"Wrong private");
+    XCTAssertEqualObjects(newContent.favoriteObject.type, self.favorite.favoriteObject.type, @"Wrong favoriteObject");
+    XCTAssertEqualObjects(newContent.favoriteObject.status, self.favorite.favoriteObject.status, @"Wrong favoriteObject");
+    XCTAssertEqualObjects([((JiveExternalURLEntity *)newContent.favoriteObject).url absoluteString],
                          [((JiveExternalURLEntity *)self.favorite.favoriteObject).url absoluteString], @"Wrong favoriteObject");
 }
 
@@ -193,11 +193,11 @@
     id JSON = [self.favorite persistentJSON];
     JiveFavorite *newContent = [JiveFavorite objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.favorite class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.favorite.type, @"Wrong type");
-    STAssertEqualObjects(newContent.private, self.favorite.private, @"Wrong private");
-    STAssertEqualObjects(newContent.favoriteObject.type, self.favorite.favoriteObject.type, @"Wrong favoriteObject");
-    STAssertEqualObjects(newContent.favoriteObject.status, self.favorite.favoriteObject.status, @"Wrong favoriteObject");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.favorite class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.favorite.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.private, self.favorite.private, @"Wrong private");
+    XCTAssertEqualObjects(newContent.favoriteObject.type, self.favorite.favoriteObject.type, @"Wrong favoriteObject");
+    XCTAssertEqualObjects(newContent.favoriteObject.status, self.favorite.favoriteObject.status, @"Wrong favoriteObject");
 }
 
 - (void)test_createFavoriteForContent_name {
@@ -206,44 +206,44 @@
     NSString *notes = @"first notes";
     JiveFavorite *favorite = [JiveFavorite createFavoriteForContent:source name:name notes:notes];
     
-    STAssertEqualObjects(favorite.subject, name, nil);
-    STAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
-                         [source.selfRef absoluteString], nil);
-    STAssertEqualObjects(favorite.notes, notes, nil);
-    STAssertEqualObjects(favorite.content.type, @"text/html", nil);
+    XCTAssertEqualObjects(favorite.subject, name);
+    XCTAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
+                         [source.selfRef absoluteString]);
+    XCTAssertEqualObjects(favorite.notes, notes);
+    XCTAssertEqualObjects(favorite.content.type, @"text/html");
     
     name = @"second name";
     notes = @"second notes";
     favorite = [JiveFavorite createFavoriteForContent:source name:name notes:notes];
-    STAssertEqualObjects(favorite.subject, name, nil);
-    STAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
-                         [source.selfRef absoluteString], nil);
-    STAssertEqualObjects(favorite.notes, notes, nil);
-    STAssertEqualObjects(favorite.content.type, @"text/html", nil);
+    XCTAssertEqualObjects(favorite.subject, name);
+    XCTAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
+                         [source.selfRef absoluteString]);
+    XCTAssertEqualObjects(favorite.notes, notes);
+    XCTAssertEqualObjects(favorite.content.type, @"text/html");
     
     source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_by_id"];
     name = @"third name";
     notes = @"third notes";
     favorite = [JiveFavorite createFavoriteForContent:source name:name notes:notes];
-    STAssertEqualObjects(favorite.subject, name, nil);
-    STAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
-                         [source.selfRef absoluteString], nil);
-    STAssertEqualObjects(favorite.notes, notes, nil);
-    STAssertEqualObjects(favorite.content.type, @"text/html", nil);
+    XCTAssertEqualObjects(favorite.subject, name);
+    XCTAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
+                         [source.selfRef absoluteString]);
+    XCTAssertEqualObjects(favorite.notes, notes);
+    XCTAssertEqualObjects(favorite.content.type, @"text/html");
     
     source = [self entityForClass:[JiveContent class] fromJSONNamed:@"content_by_id"];
     name = @"Fourth name";
     notes = nil;
     favorite = [JiveFavorite createFavoriteForContent:source name:name notes:notes];
-    STAssertEqualObjects(favorite.subject, name, nil);
-    STAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
-                         [source.selfRef absoluteString], nil);
-    STAssertEqualObjects(favorite.notes, @"", nil);
-    STAssertEqualObjects(favorite.content.type, @"text/html", nil);
+    XCTAssertEqualObjects(favorite.subject, name);
+    XCTAssertEqualObjects([((JiveExternalURLEntity *)favorite.favoriteObject).url absoluteString],
+                         [source.selfRef absoluteString]);
+    XCTAssertEqualObjects(favorite.notes, @"");
+    XCTAssertEqualObjects(favorite.content.type, @"text/html");
     
     notes = @"This really is a note";
     favorite.notes = notes;
-    STAssertEqualObjects(favorite.content.text, notes, nil);
+    XCTAssertEqualObjects(favorite.content.text, notes);
 }
 
 @end

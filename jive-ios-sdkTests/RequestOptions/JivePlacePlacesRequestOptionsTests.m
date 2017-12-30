@@ -37,18 +37,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addType:@"mention"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addType:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=type(dm,mention,share)", asString, @"Wrong string contents");
 }
 
 - (void)testTypeWithFields {
@@ -58,13 +58,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=type(dm)", asString, @"Wrong string contents");
 
     [self.placePlacesOptions addTag:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(share)&filter=type(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(share)&filter=type(dm)", asString, @"Wrong string contents");
 }
 
 - (void)testSearch {
@@ -73,23 +73,23 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=search(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=search(dm)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addSearchTerm:@"mention"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=search(dm,mention)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=search(dm,mention)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addSearchTerm:@"(sh,a\\re)"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=search(dm,mention,\\(sh\\,a\\\\re\\))", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=search(dm,mention,\\(sh\\,a\\\\re\\))", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addSearchTerm:@"h)e(j,m"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"filter=search(dm,mention,\\(sh\\,a\\\\re\\),h\\)e\\(j\\,m)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"filter=search(dm,mention,\\(sh\\,a\\\\re\\),h\\)e\\(j\\,m)", asString, @"Wrong string contents");
 }
 
 - (void)testSearchWithFields {
@@ -99,18 +99,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=search(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=search(dm)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addTag:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(share)&filter=search(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(share)&filter=search(dm)", asString, @"Wrong string contents");
     
     [self.placePlacesOptions addType:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&filter=tag(share)&filter=type(share)&filter=search(dm)", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&filter=tag(share)&filter=type(share)&filter=search(dm)", asString, @"Wrong string contents");
 }
 
 @end

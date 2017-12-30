@@ -67,35 +67,35 @@
                             @"instanceURL" : instanceURL
                             };
     
-    STAssertNotNil(sdkVersion, @"PRECONDITION: Invalid sdk version");
+    XCTAssertNotNil(sdkVersion, @"PRECONDITION: Invalid sdk version");
     
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                           withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertNil(version.ssoEnabled, @"Invalid ssoEnabled result");
-    STAssertEqualObjects(version.sdk, sdkVersion, @"Invalid sdk version number");
-    STAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Invalid instance URL");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertNil(version.ssoEnabled, @"Invalid ssoEnabled result");
+    XCTAssertEqualObjects(version.sdk, sdkVersion, @"Invalid sdk version number");
+    XCTAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Invalid instance URL");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
     if (version.coreURI.count == 2) {
         JiveCoreVersion *version2 = version.coreURI[0];
         
-        STAssertEquals([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
-        STAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
-        STAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
+        XCTAssertEqual([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
+        XCTAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
         
         JiveCoreVersion *version3 = version.coreURI[1];
         
-        STAssertEquals([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
-        STAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
-        STAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
+        XCTAssertEqual([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
+        XCTAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
     }
 }
 
@@ -130,35 +130,35 @@
                             @"instanceURL" : instanceURL
                             };
     
-    STAssertNotNil(sdkVersion, @"PRECONDITION: Invalid sdk version");
+    XCTAssertNotNil(sdkVersion, @"PRECONDITION: Invalid sdk version");
     
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                           withInstance:[Jive new]];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertNil(version.ssoEnabled, @"Invalid ssoEnabled result");
-    STAssertEqualObjects(version.sdk, sdkVersion, @"Invalid sdk version number");
-    STAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Invalid instance URL");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertNil(version.ssoEnabled, @"Invalid ssoEnabled result");
+    XCTAssertEqualObjects(version.sdk, sdkVersion, @"Invalid sdk version number");
+    XCTAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Invalid instance URL");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
     if (version.coreURI.count == 2) {
         JiveCoreVersion *version2 = version.coreURI[0];
         
-        STAssertEquals([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
-        STAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
-        STAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
+        XCTAssertEqual([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
+        XCTAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
         
         JiveCoreVersion *version3 = version.coreURI[1];
         
-        STAssertEquals([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
-        STAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
-        STAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
+        XCTAssertEqual([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
+        XCTAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
     }
 }
 
@@ -193,28 +193,28 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertNil(version.instanceURL, @"There should be no instance URL here");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertNil(version.instanceURL, @"There should be no instance URL here");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
     if (version.coreURI.count == 2) {
         JiveCoreVersion *version2 = version.coreURI[0];
         
-        STAssertEquals([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
-        STAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
-        STAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
+        XCTAssertEqual([version2 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version2.version, apiVersion2, @"Wrong version number");
+        XCTAssertEqualObjects(version2.revision, apiVersion2Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version2.uri, coreVersion2URI, @"Wrong uri number");
         
         JiveCoreVersion *version3 = version.coreURI[1];
         
-        STAssertEquals([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
-        STAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
-        STAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
+        XCTAssertEqual([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
+        XCTAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
     }
 }
 
@@ -246,16 +246,16 @@
                             };
     JivePlatformVersion *version;
     
-    STAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
+    XCTAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
                                                        withInstance:self.instance], @"Should not throw");
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertNil(version.releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertNil(version.releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
 }
 
 - (void)testVersionParsing_NoBuild {
@@ -286,16 +286,16 @@
                             };
     JivePlatformVersion *version;
     
-    STAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
+    XCTAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
                                                        withInstance:self.instance], @"Should not throw");
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertNil(version.build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertNil(version.build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
 }
 
 - (void)testVersionParsing_NoMaintenance {
@@ -325,16 +325,16 @@
                             };
     JivePlatformVersion *version;
     
-    STAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
+    XCTAssertNoThrow(version = [JivePlatformVersion objectFromJSON:JSON
                                                        withInstance:self.instance], @"Should not throw");
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertNil(version.maintenance, @"Wrong maintenance version");
-    STAssertNil(version.build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertNil(version.maintenance, @"Wrong maintenance version");
+    XCTAssertNil(version.build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)2, @"Wrong number of core URIs");
 }
 
 - (void)testVersionParsingInvalidJSON_WrongTags {
@@ -367,7 +367,7 @@
     
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
-    STAssertNil(version, @"Invalid JSON parsed");
+    XCTAssertNil(version, @"Invalid JSON parsed");
 }
 
 - (void)testVersionParsingInvalidJSON_MissingVersion {
@@ -393,7 +393,7 @@
     
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
-    STAssertNil(version, @"Invalid JSON parsed");
+    XCTAssertNil(version, @"Invalid JSON parsed");
 }
 
 - (void)testVersionParsingInvalidJSON_MissingCoreVersions {
@@ -408,7 +408,7 @@
     
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
-    STAssertNil(version, @"Invalid JSON parsed");
+    XCTAssertNil(version, @"Invalid JSON parsed");
 }
 
 - (void)testVersionParsing_SingleVersion {
@@ -434,20 +434,20 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
     if (version.coreURI.count == 1) {
         JiveCoreVersion *version3 = version.coreURI[0];
         
-        STAssertEquals([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
-        STAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
-        STAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
-        STAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
+        XCTAssertEqual([version3 class], [JiveCoreVersion class], @"Wrong sub-item class");
+        XCTAssertEqualObjects(version3.version, apiVersion3, @"Wrong version number");
+        XCTAssertEqualObjects(version3.revision, apiVersion3Revision, @"Wrong revision number");
+        XCTAssertEqualObjects(version3.uri, coreVersion3URI, @"Wrong uri number");
     }
 }
 
@@ -476,19 +476,19 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                             withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
-    STAssertEquals(version.ssoEnabled.count, (NSUInteger)1, @"Wrong number of ssoEnabled entries");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
+    XCTAssertEqual(version.ssoEnabled.count, (NSUInteger)1, @"Wrong number of ssoEnabled entries");
     if (version.ssoEnabled.count > 0) {
-        STAssertEquals(version.ssoEnabled[0], ssoTypes[0], @"Wrong sso type");
+        XCTAssertEqual(version.ssoEnabled[0], ssoTypes[0], @"Wrong sso type");
     }
     
-    STAssertFalse([version allowsSSOForOAuth], nil);
+    XCTAssertFalse([version allowsSSOForOAuth]);
 }
 
 - (void)testSsoForOAuthGrantEnabledParsing {
@@ -517,19 +517,19 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                           withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEquals(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
-    STAssertEquals(version.ssoEnabled.count, (NSUInteger)1, @"Wrong number of ssoEnabled entries");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
+    XCTAssertEqual(version.ssoEnabled.count, (NSUInteger)1, @"Wrong number of ssoEnabled entries");
     if (version.ssoEnabled.count > 0) {
-        STAssertEquals(version.ssoEnabled[0], ssoTypes[0], @"Wrong sso type");
+        XCTAssertEqual(version.ssoEnabled[0], ssoTypes[0], @"Wrong sso type");
     }
     
-    STAssertTrue([version allowsSSOForOAuth], nil);
+    XCTAssertTrue([version allowsSSOForOAuth]);
 }
 
 - (void)testInstanceURL {
@@ -557,14 +557,14 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                           withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Wrong instance URL");
-    STAssertEquals(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqualObjects([version.instanceURL absoluteString], instanceURL, @"Wrong instance URL");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
 }
 
 - (void)testInstanceURLWithoutTrailingSlash {
@@ -593,298 +593,298 @@
     JivePlatformVersion *version = [JivePlatformVersion objectFromJSON:JSON
                                                           withInstance:self.instance];
     
-    STAssertEquals([version class], [JivePlatformVersion class], @"Wrong item class");
-    STAssertEqualObjects(version.major, major, @"Wrong major version");
-    STAssertEqualObjects(version.minor, minor, @"Wrong minor version");
-    STAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
-    STAssertEqualObjects(version.build, build, @"Wrong build version");
-    STAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
-    STAssertEqualObjects([version.instanceURL absoluteString], instanceURLWithSlash, @"Wrong instance URL");
-    STAssertEquals(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
+    XCTAssertEqual([version class], [JivePlatformVersion class], @"Wrong item class");
+    XCTAssertEqualObjects(version.major, major, @"Wrong major version");
+    XCTAssertEqualObjects(version.minor, minor, @"Wrong minor version");
+    XCTAssertEqualObjects(version.maintenance, maintenance, @"Wrong maintenance version");
+    XCTAssertEqualObjects(version.build, build, @"Wrong build version");
+    XCTAssertEqualObjects(version.releaseID, releaseID, @"Wrong releaseID version");
+    XCTAssertEqualObjects([version.instanceURL absoluteString], instanceURLWithSlash, @"Wrong instance URL");
+    XCTAssertEqual(version.coreURI.count, (NSUInteger)1, @"Wrong number of core URIs");
 }
 
 - (void)test_supportsFeatureAvailableWithMajorVersion_minorVersion_maintenanceVersion_valid {
     JivePlatformVersion *version = [JivePlatformVersionTests jivePlatformVersionWithMajorVersion:6 minorVersion:5 maintenanceVersion:3 buildVersion:0];
     
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:1 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:5 minorVersion:8 maintenanceVersion:8 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:3 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:1 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:5 minorVersion:8 maintenanceVersion:8 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:3 buildVersion:0], @"Feature should be supported for platform version");
     
     version = [JivePlatformVersionTests jivePlatformVersionWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
     
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:1 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:5 minorVersion:8 maintenanceVersion:8 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
-    STAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:3 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:0 minorVersion:0 maintenanceVersion:1 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:5 minorVersion:8 maintenanceVersion:8 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:2 buildVersion:0], @"Feature should be supported for platform version");
+    XCTAssertTrue([version supportsFeatureAvailableWithMajorVersion:6 minorVersion:5 maintenanceVersion:3 buildVersion:0], @"Feature should be supported for platform version");
 }
 
 - (void)test_supportsDraftPostCreation {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsDraftPostCreation], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsDraftPostCreation], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsDraftPostCreation], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsDraftPostCreation], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsDraftPostContentFilter {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsDraftPostContentFilter], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsDraftPostContentFilter], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsDraftPostContentFilter], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsDraftPostContentFilter], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsExplicitSSO {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0];
-    STAssertFalse([version supportsExplicitSSO], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsExplicitSSO], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:2 buildVersion:0];
-    STAssertTrue([version supportsExplicitSSO], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsExplicitSSO], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsFollowing {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:4 buildVersion:0];
-    STAssertFalse([version supportsFollowing], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsFollowing], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:4 buildVersion:0];
-    STAssertTrue([version supportsFollowing], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsFollowing], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsStatusUpdateInPlace {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsStatusUpdateInPlace], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsStatusUpdateInPlace], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsStatusUpdateInPlace], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsStatusUpdateInPlace], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsBookmarkInboxEntries {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsBookmarkInboxEntries], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsBookmarkInboxEntries], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsBookmarkInboxEntries], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsBookmarkInboxEntries], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsCorrectAndHelpfulReplies {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsCorrectAndHelpfulReplies], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsCorrectAndHelpfulReplies], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsCorrectAndHelpfulReplies], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsCorrectAndHelpfulReplies], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsStructuredOutcomes {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsStructuredOutcomes], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsStructuredOutcomes], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsStructuredOutcomes], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsStructuredOutcomes], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsUnmarkAsCorrectAnswer {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsUnmarkAsCorrectAnswer], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsUnmarkAsCorrectAnswer], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsUnmarkAsCorrectAnswer], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsUnmarkAsCorrectAnswer], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsExplicitCorrectAnswerAPI {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsExplicitCorrectAnswerAPI], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsExplicitCorrectAnswerAPI], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsExplicitCorrectAnswerAPI], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsExplicitCorrectAnswerAPI], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsDiscussionLikesInActivityObjects {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsDiscussionLikesInActivityObjects], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsDiscussionLikesInActivityObjects], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsDiscussionLikesInActivityObjects], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsDiscussionLikesInActivityObjects], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsInboxTypeFiltering {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsInboxTypeFiltering], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsInboxTypeFiltering], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsInboxTypeFiltering], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsInboxTypeFiltering], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsCommentAndReplyPermissions {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsCommentAndReplyPermissions], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsCommentAndReplyPermissions], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsCommentAndReplyPermissions], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsCommentAndReplyPermissions], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportedIPhoneVersion {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportedIPhoneVersion], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportedIPhoneVersion], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportedIPhoneVersion], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportedIPhoneVersion], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsOAuth {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsOAuth], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsOAuth], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsOAuth], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsOAuth], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsOAuthSessionGrant {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:1 buildVersion:0];
-    STAssertFalse([version supportsOAuthSessionGrant], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsOAuthSessionGrant], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:1 buildVersion:0];
-    STAssertTrue([version supportsOAuthSessionGrant], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsOAuthSessionGrant], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsFeatureModuleVideoProperty {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:1 buildVersion:0];
-    STAssertFalse([version supportsFeatureModuleVideoProperty], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsFeatureModuleVideoProperty], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:1 buildVersion:0];
-    STAssertTrue([version supportsFeatureModuleVideoProperty], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsFeatureModuleVideoProperty], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsContentEditingAPI {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsContentEditingAPI], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsContentEditingAPI], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsContentEditingAPI], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsContentEditingAPI], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsLikeCountInStreams {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertFalse([version supportsLikeCountInStreams], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsLikeCountInStreams], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:0];
-    STAssertTrue([version supportsLikeCountInStreams], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsLikeCountInStreams], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsNativeAppAllowed {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:2];
-    STAssertFalse([version supportsNativeAppAllowed], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsNativeAppAllowed], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:6 minorVersion:0 maintenanceVersion:3 buildVersion:2];
-    STAssertTrue([version supportsNativeAppAllowed], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsNativeAppAllowed], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsCollapsingStreams {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsCollapsingStreams], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsCollapsingStreams], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:7 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsCollapsingStreams], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsCollapsingStreams], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 - (void)test_supportsOriginParam {
     id version = [OCMockObject partialMockForObject:[JivePlatformVersionTests jivePlatformVersionWithMajorVersion:0 minorVersion:0 maintenanceVersion:0 buildVersion:0]];
     
     [[[version expect] andReturnValue:@NO] supportsFeatureAvailableWithMajorVersion:8 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertFalse([version supportsOriginParam], @"should not support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertFalse([version supportsOriginParam], @"should not support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
     
     [[[version expect] andReturnValue:@YES] supportsFeatureAvailableWithMajorVersion:8 minorVersion:0 maintenanceVersion:0 buildVersion:0];
-    STAssertTrue([version supportsOriginParam], @"should support this feature");
-    STAssertNoThrow([version verify], @"verify failure");
+    XCTAssertTrue([version supportsOriginParam], @"should support this feature");
+    XCTAssertNoThrow([version verify], @"verify failure");
 }
 
 #pragma mark - Factory methods

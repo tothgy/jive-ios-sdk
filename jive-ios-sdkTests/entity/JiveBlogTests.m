@@ -28,22 +28,22 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.place.type, @"blog", @"Wrong type.");
+    XCTAssertEqualObjects(self.place.type, @"blog", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.place.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.place class], @"Blog class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.place class], @"Blog class not registered with JivePlace.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.place class], @"Blog class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JivePlace entityClass:typeSpecifier], [self.place class], @"Blog class not registered with JivePlace.");
 }
 
 - (void)testTaskToJSON {
     NSDictionary *JSON = [self.place toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"blog", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"blog", @"Wrong type");
 }
 
 @end

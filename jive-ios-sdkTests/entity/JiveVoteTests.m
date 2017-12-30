@@ -43,7 +43,7 @@
     
     NSUInteger expectedOptionCount = 3;
 
-    STAssertEquals([votes count], expectedOptionCount, @"Expected three options.");
+    XCTAssertEqual([votes count], expectedOptionCount, @"Expected three options.");
 
     // The test data specifies 0 votes for A, 1 vote for B, 2 votes for C
     // so just use the array index as expected vote count
@@ -55,8 +55,8 @@
         
         JiveVote *thisVote = (JiveVote*)[votes objectAtIndex:i];
         
-        STAssertTrue([expectedOption isEqualToString:thisVote.option], @"Expected option %@ to appear", expectedOption);
-        STAssertEquals(thisVote.count, expectedCount, @"Vote count for %@ does not match expected %d", expectedOption, expectedCount);
+        XCTAssertTrue([expectedOption isEqualToString:thisVote.option], @"Expected option %@ to appear", expectedOption);
+        XCTAssertEqual(thisVote.count, expectedCount, @"Vote count for %@ does not match expected %@", expectedOption, expectedCount);
     }
     
 }

@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.dm.type, @"dm", @"Wrong type.");
+    XCTAssertEqualObjects(self.dm.type, @"dm", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.dm.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.dm class], @"Dm class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.dm class], @"Dm class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.dm class], @"Dm class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.dm class], @"Dm class not registered with JiveContent.");
 }
 
 - (void)initializeDirectMessage {
@@ -53,16 +53,16 @@
 - (void)testDirectMessageToJSON {
     NSDictionary *JSON = [self.dm toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
     
     [self initializeDirectMessage];
     
     JSON = [self.dm toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
 }
 
 - (void)testToJSON_participants {
@@ -75,37 +75,37 @@
     
     NSDictionary *JSON = [self.dm persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
     
     NSArray *array = [JSON objectForKey:JiveDirectMessageAttributes.participants];
     id object1 = [array objectAtIndex:0];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"participants array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
-    STAssertEqualObjects([object1 objectForKey:@"status"], participant1.status, @"Wrong value");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"participants array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:@"status"], participant1.status, @"Wrong value");
     
     [self.dm setValue:[self.dm.participants arrayByAddingObject:participant2] forKey:JiveDirectMessageAttributes.participants];
     
     JSON = [self.dm persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.dm.type, @"Wrong type");
     
     array = [JSON objectForKey:JiveDirectMessageAttributes.participants];
     object1 = [array objectAtIndex:0];
     
     id object2 = [array objectAtIndex:1];
     
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"participants array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:@"status"], participant1.status, @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:@"status"], participant2.status, @"Wrong value 2");
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"participants array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"attachment 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:@"status"], participant1.status, @"Wrong value 1");
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"attachment 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:@"status"], participant2.status, @"Wrong value 2");
 }
 
 - (void)testDirectMessageParsing {
@@ -114,18 +114,18 @@
     id JSON = [self.dm persistentJSON];
     JiveDirectMessage *newContent = [JiveDirectMessage objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.dm class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.dm.type, @"Wrong type");
-    STAssertEqualObjects(newContent.typeActual, self.dm.typeActual, @"Wrong typeActual");
-    STAssertEquals([newContent.participants count], [self.dm.participants count], @"Wrong number of participant objects");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.dm class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.dm.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.typeActual, self.dm.typeActual, @"Wrong typeActual");
+    XCTAssertEqual([newContent.participants count], [self.dm.participants count], @"Wrong number of participant objects");
     if ([newContent.participants count] > 0) {
         JivePerson *convertedObject = newContent.participants[0];
         JivePerson *participant = self.dm.participants[0];
         
-        STAssertEquals([convertedObject class], [JivePerson class], @"Wrong participant object class");
+        XCTAssertEqual([convertedObject class], [JivePerson class], @"Wrong participant object class");
         if ([[convertedObject class] isSubclassOfClass:[JivePerson class]]) {
-            STAssertEqualObjects(convertedObject.status, participant.status, @"Wrong participant status");
-            STAssertEqualObjects(convertedObject.displayName, participant.displayName, @"Wrong participant displayName");
+            XCTAssertEqualObjects(convertedObject.status, participant.status, @"Wrong participant status");
+            XCTAssertEqualObjects(convertedObject.displayName, participant.displayName, @"Wrong participant displayName");
         }
     }
 }
@@ -141,17 +141,17 @@
     id JSON = [self.dm persistentJSON];
     JiveDirectMessage *newContent = [JiveDirectMessage objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.dm class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.dm.type, @"Wrong type");
-    STAssertEqualObjects(newContent.typeActual, self.dm.typeActual, @"Wrong typeActual");
-    STAssertEquals([newContent.participants count], [self.dm.participants count], @"Wrong number of participant objects");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.dm class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.dm.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.typeActual, self.dm.typeActual, @"Wrong typeActual");
+    XCTAssertEqual([newContent.participants count], [self.dm.participants count], @"Wrong number of participant objects");
     if ([newContent.participants count] > 0) {
         JivePerson *convertedObject = newContent.participants[0];
         
-        STAssertEquals([convertedObject class], [JivePerson class], @"Wrong participant object class");
+        XCTAssertEqual([convertedObject class], [JivePerson class], @"Wrong participant object class");
         if ([[convertedObject class] isSubclassOfClass:[JivePerson class]]) {
-            STAssertEqualObjects(convertedObject.status, participant.status, @"Wrong participant status");
-            STAssertEqualObjects(convertedObject.displayName, participant.displayName, @"Wrong participant displayName");
+            XCTAssertEqualObjects(convertedObject.status, participant.status, @"Wrong participant status");
+            XCTAssertEqualObjects(convertedObject.displayName, participant.displayName, @"Wrong participant displayName");
         }
     }
 }

@@ -36,22 +36,22 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.externalObject.type, @"extStreamActivity", @"Wrong type.");
+    XCTAssertEqualObjects(self.externalObject.type, @"extStreamActivity", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.externalObject.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.externalObject class], @"External object class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.externalObject class], @"External object class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.externalObject class], @"External object class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.externalObject class], @"External object class not registered with JiveContent.");
 }
 
 - (void)testExternalPersistentJSON {
     NSDictionary *JSON = [self.externalObject persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"extStreamActivity", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"extStreamActivity", @"Wrong type");
     
     JiveAttachment *attachment = [[JiveAttachment alloc] init];
     [attachment setValue:[NSNumber numberWithInteger:2] forKey:JiveAttachmentAttributes.size];
@@ -70,20 +70,20 @@
     
     JSON = [self.externalObject persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.externalObject.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.externalObject.type, @"Wrong type");
     
-    STAssertEqualObjects([[JSON objectForKey:JiveExternalObjectAttributes.object] objectForKey:@"id"], self.externalObject.object.jiveId, @"Wrong object");
-    STAssertEqualObjects([[JSON objectForKey:JiveExternalObjectAttributes.onBehalfOf] objectForKey:JiveGenericPersonAttributes.email], self.externalObject.onBehalfOf.email, @"Wrong onBehalfOf");
-    STAssertEqualObjects([JSON objectForKey:JiveExternalObjectAttributes.productIcon], [self.externalObject.productIcon absoluteString], @"Wrong productIcon");
-    STAssertEqualObjects([JSON objectForKey:JiveExternalObjectAttributes.productName], self.externalObject.productName, @"Wrong productName");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveExternalObjectAttributes.object] objectForKey:@"id"], self.externalObject.object.jiveId, @"Wrong object");
+    XCTAssertEqualObjects([[JSON objectForKey:JiveExternalObjectAttributes.onBehalfOf] objectForKey:JiveGenericPersonAttributes.email], self.externalObject.onBehalfOf.email, @"Wrong onBehalfOf");
+    XCTAssertEqualObjects([JSON objectForKey:JiveExternalObjectAttributes.productIcon], [self.externalObject.productIcon absoluteString], @"Wrong productIcon");
+    XCTAssertEqualObjects([JSON objectForKey:JiveExternalObjectAttributes.productName], self.externalObject.productName, @"Wrong productName");
     
     NSArray *attachmentsJSON = [JSON objectForKey:JiveExternalObjectAttributes.attachments];
     
-    STAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Wrong object type for attachments");
-    STAssertEquals([attachmentsJSON count], (NSUInteger)1, @"Attachments dictionary had the wrong number of entries");
-    STAssertEqualObjects([[attachmentsJSON objectAtIndex:0] objectForKey:JiveAttachmentAttributes.size], attachment.size, @"Wrong value");
+    XCTAssertTrue([[attachmentsJSON class] isSubclassOfClass:[NSArray class]], @"Wrong object type for attachments");
+    XCTAssertEqual([attachmentsJSON count], (NSUInteger)1, @"Attachments dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([[attachmentsJSON objectAtIndex:0] objectForKey:JiveAttachmentAttributes.size], attachment.size, @"Wrong value");
 }
 
 @end

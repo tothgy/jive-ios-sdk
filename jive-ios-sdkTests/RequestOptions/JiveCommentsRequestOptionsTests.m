@@ -37,11 +37,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"anchor=http://dummy.com/people/1005", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"anchor=http://dummy.com/people/1005", asString, @"Wrong string contents");
     
     self.commentsOptions.anchor = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"anchor=http://dummy.com/people/54321", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"anchor=http://dummy.com/people/54321", asString, @"Wrong string contents");
 }
 
 - (void)testAnchorWithField {
@@ -51,7 +51,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/1005", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/1005", asString, @"Wrong string contents");
 }
 
 - (void)testAuthor {
@@ -60,7 +60,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"excludeReplies=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"excludeReplies=true", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorWithField {
@@ -70,11 +70,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&excludeReplies=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&excludeReplies=true", asString, @"Wrong string contents");
     
     self.commentsOptions.anchor = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&excludeReplies=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&excludeReplies=true", asString, @"Wrong string contents");
 }
 
 - (void)testHierarchical {
@@ -83,7 +83,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"hierarchical=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"hierarchical=true", asString, @"Wrong string contents");
 }
 
 - (void)testHierarchicalWithField {
@@ -93,15 +93,15 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&hierarchical=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&hierarchical=true", asString, @"Wrong string contents");
     
     self.commentsOptions.anchor = [NSURL URLWithString:@"http://dummy.com/people/54321"];
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&hierarchical=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&hierarchical=true", asString, @"Wrong string contents");
     
     self.commentsOptions.excludeReplies = YES;
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&excludeReplies=true&hierarchical=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&anchor=http://dummy.com/people/54321&excludeReplies=true&hierarchical=true", asString, @"Wrong string contents");
 }
 
 @end

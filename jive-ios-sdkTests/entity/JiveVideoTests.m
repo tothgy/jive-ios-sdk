@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.video.type, @"video", @"Wrong type.");
+    XCTAssertEqualObjects(self.video.type, @"video", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.video.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.video class], @"Video class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.video class], @"Video class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.video class], @"Video class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.video class], @"Video class not registered with JiveContent.");
 }
 
 - (void)initializeVideo {
@@ -106,17 +106,17 @@
 - (void)testVideoToJSON {
     NSDictionary *JSON = [self.video toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"video", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"video", @"Wrong type");
     
     [self initializeVideo];
     
     JSON = [self.video toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
 }
 
 - (void)testVideoToJSON_alternate {
@@ -124,57 +124,57 @@
     
     NSDictionary *JSON = [self.video toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
 }
 
 - (void)testVideoPersistentJSON {
     NSDictionary *JSON = [self.video persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"video", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"video", @"Wrong type");
     
     [self initializeVideo];
     
     JSON = [self.video persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)18, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.externalID], self.video.externalID, @"Wrong externalID");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.playerBaseURL],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)18, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.externalID], self.video.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.playerBaseURL],
                          [self.video.playerBaseURL absoluteString], @"Wrong playerBaseURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.height], self.video.height, @"Wrong height");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.width], self.video.width, @"Wrong width");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.authtoken], self.video.authtoken, @"Wrong authtoken");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoSource], self.video.videoSource, @"Wrong videoSource");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.height], self.video.height, @"Wrong height");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.width], self.video.width, @"Wrong width");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.authtoken], self.video.authtoken, @"Wrong authtoken");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoSource], self.video.videoSource, @"Wrong videoSource");
     
     if ([self.video shouldAutoPlay]) {
-        STAssertEqualObjects(JSON[JiveVideoAttributes.autoplay], self.video.autoplay, @"Wrong autoplay");
+        XCTAssertEqualObjects(JSON[JiveVideoAttributes.autoplay], self.video.autoplay, @"Wrong autoplay");
     } else {
-        STAssertNil(JSON[JiveVideoAttributes.autoplay], @"Wrong autoplay");
+        XCTAssertNil(JSON[JiveVideoAttributes.autoplay], @"Wrong autoplay");
     }
     
     if ([self.video isEmbeddedVideo]) {
-        STAssertEqualObjects(JSON[JiveVideoAttributes.embedded], self.video.embedded, @"Wrong embedded");
+        XCTAssertEqualObjects(JSON[JiveVideoAttributes.embedded], self.video.embedded, @"Wrong embedded");
     } else {
-        STAssertNil(JSON[JiveVideoAttributes.embedded], @"Wrong embedded");
+        XCTAssertNil(JSON[JiveVideoAttributes.embedded], @"Wrong embedded");
     }
-    STAssertEqualObjects(JSON[JiveVideoAttributes.stillImageURL],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.stillImageURL],
                          [self.video.stillImageURL absoluteString], @"Wrong stillImageURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.iframeSource], self.video.iframeSource, @"Wrong iframeSource");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.playerName], self.video.playerName, @"Wrong playerName");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.watermarkURL],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.iframeSource], self.video.iframeSource, @"Wrong iframeSource");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.playerName], self.video.playerName, @"Wrong playerName");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.watermarkURL],
                          [self.video.watermarkURL absoluteString], @"Wrong watermarkURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.duration], self.video.duration, @"Wrong duration");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.hours], self.video.hours, @"Wrong hours");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.minutes], self.video.minutes, @"Wrong minutes");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.seconds], self.video.seconds, @"Wrong seconds");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoThumbnail],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.duration], self.video.duration, @"Wrong duration");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.hours], self.video.hours, @"Wrong hours");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.minutes], self.video.minutes, @"Wrong minutes");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.seconds], self.video.seconds, @"Wrong seconds");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoThumbnail],
                          [self.video.videoThumbnail absoluteString], @"Wrong videoThumbnail");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoType], self.video.videoType, @"Wrong videoType");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoType], self.video.videoType, @"Wrong videoType");
 }
 
 - (void)testVideoPersistentJSON_alternate {
@@ -182,41 +182,41 @@
     
     NSDictionary *JSON = [self.video persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)18, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.externalID], self.video.externalID, @"Wrong externalID");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.playerBaseURL],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)18, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.video.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.externalID], self.video.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.playerBaseURL],
                          [self.video.playerBaseURL absoluteString], @"Wrong playerBaseURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.height], self.video.height, @"Wrong height");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.width], self.video.width, @"Wrong width");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.authtoken], self.video.authtoken, @"Wrong authtoken");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoSource], self.video.videoSource, @"Wrong videoSource");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.height], self.video.height, @"Wrong height");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.width], self.video.width, @"Wrong width");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.authtoken], self.video.authtoken, @"Wrong authtoken");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoSource], self.video.videoSource, @"Wrong videoSource");
     
     if ([self.video shouldAutoPlay]) {
-        STAssertEqualObjects(JSON[JiveVideoAttributes.autoplay], self.video.autoplay, @"Wrong autoplay");
+        XCTAssertEqualObjects(JSON[JiveVideoAttributes.autoplay], self.video.autoplay, @"Wrong autoplay");
     } else {
-        STAssertNil(JSON[JiveVideoAttributes.autoplay], @"Wrong autoplay");
+        XCTAssertNil(JSON[JiveVideoAttributes.autoplay], @"Wrong autoplay");
     }
     
     if ([self.video isEmbeddedVideo]) {
-        STAssertEqualObjects(JSON[JiveVideoAttributes.embedded], self.video.embedded, @"Wrong embedded");
+        XCTAssertEqualObjects(JSON[JiveVideoAttributes.embedded], self.video.embedded, @"Wrong embedded");
     } else {
-        STAssertNil(JSON[JiveVideoAttributes.embedded], @"Wrong embedded");
+        XCTAssertNil(JSON[JiveVideoAttributes.embedded], @"Wrong embedded");
     }
-    STAssertEqualObjects(JSON[JiveVideoAttributes.stillImageURL],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.stillImageURL],
                          [self.video.stillImageURL absoluteString], @"Wrong stillImageURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.iframeSource], self.video.iframeSource, @"Wrong iframeSource");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.playerName], self.video.playerName, @"Wrong playerName");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.watermarkURL],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.iframeSource], self.video.iframeSource, @"Wrong iframeSource");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.playerName], self.video.playerName, @"Wrong playerName");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.watermarkURL],
                          [self.video.watermarkURL absoluteString], @"Wrong watermarkURL");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.duration], self.video.duration, @"Wrong duration");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.hours], self.video.hours, @"Wrong hours");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.minutes], self.video.minutes, @"Wrong minutes");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.seconds], self.video.seconds, @"Wrong seconds");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoThumbnail],
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.duration], self.video.duration, @"Wrong duration");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.hours], self.video.hours, @"Wrong hours");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.minutes], self.video.minutes, @"Wrong minutes");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.seconds], self.video.seconds, @"Wrong seconds");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoThumbnail],
                          [self.video.videoThumbnail absoluteString], @"Wrong videoThumbnail");
-    STAssertEqualObjects(JSON[JiveVideoAttributes.videoType], self.video.videoType, @"Wrong videoType");
+    XCTAssertEqualObjects(JSON[JiveVideoAttributes.videoType], self.video.videoType, @"Wrong videoType");
 }
 
 - (void)testVideoParsing {
@@ -225,29 +225,29 @@
     id JSON = [self.video persistentJSON];
     JiveVideo *newContent = [JiveVideo objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.video class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.video.type, @"Wrong type");
-    STAssertEqualObjects(newContent.externalID, self.video.externalID, @"Wrong externalID");
-    STAssertEqualObjects([newContent.playerBaseURL absoluteString],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.video class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.video.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.externalID, self.video.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects([newContent.playerBaseURL absoluteString],
                          [self.video.playerBaseURL absoluteString], @"Wrong playerBaseURL");
-    STAssertEqualObjects(newContent.height, self.video.height, @"Wrong height");
-    STAssertEqualObjects(newContent.width, self.video.width, @"Wrong width");
-    STAssertEqualObjects(newContent.authtoken, self.video.authtoken, @"Wrong authtoken");
-    STAssertEqualObjects(newContent.autoplay, self.video.autoplay, @"Wrong autoplay");
-    STAssertEqualObjects(newContent.embedded, self.video.embedded, @"Wrong embedded");
-    STAssertEqualObjects([newContent.stillImageURL absoluteString],
+    XCTAssertEqualObjects(newContent.height, self.video.height, @"Wrong height");
+    XCTAssertEqualObjects(newContent.width, self.video.width, @"Wrong width");
+    XCTAssertEqualObjects(newContent.authtoken, self.video.authtoken, @"Wrong authtoken");
+    XCTAssertEqualObjects(newContent.autoplay, self.video.autoplay, @"Wrong autoplay");
+    XCTAssertEqualObjects(newContent.embedded, self.video.embedded, @"Wrong embedded");
+    XCTAssertEqualObjects([newContent.stillImageURL absoluteString],
                          [self.video.stillImageURL absoluteString], @"Wrong stillImageURL");
-    STAssertEqualObjects(newContent.iframeSource, self.video.iframeSource, @"Wrong iframeSource");
-    STAssertEqualObjects(newContent.playerName, self.video.playerName, @"Wrong playerName");
-    STAssertEqualObjects([newContent.watermarkURL absoluteString],
+    XCTAssertEqualObjects(newContent.iframeSource, self.video.iframeSource, @"Wrong iframeSource");
+    XCTAssertEqualObjects(newContent.playerName, self.video.playerName, @"Wrong playerName");
+    XCTAssertEqualObjects([newContent.watermarkURL absoluteString],
                          [self.video.watermarkURL absoluteString], @"Wrong watermarkURL");
-    STAssertEqualObjects(newContent.duration, self.video.duration, @"Wrong duration");
-    STAssertEqualObjects(newContent.hours, self.video.hours, @"Wrong hours");
-    STAssertEqualObjects(newContent.minutes, self.video.minutes, @"Wrong minutes");
-    STAssertEqualObjects(newContent.seconds, self.video.seconds, @"Wrong seconds");
-    STAssertEqualObjects([newContent.videoThumbnail absoluteString],
+    XCTAssertEqualObjects(newContent.duration, self.video.duration, @"Wrong duration");
+    XCTAssertEqualObjects(newContent.hours, self.video.hours, @"Wrong hours");
+    XCTAssertEqualObjects(newContent.minutes, self.video.minutes, @"Wrong minutes");
+    XCTAssertEqualObjects(newContent.seconds, self.video.seconds, @"Wrong seconds");
+    XCTAssertEqualObjects([newContent.videoThumbnail absoluteString],
                          [self.video.videoThumbnail absoluteString], @"Wrong videoThumbnail");
-    STAssertEqualObjects(newContent.videoType, self.video.videoType, @"Wrong videoType");
+    XCTAssertEqualObjects(newContent.videoType, self.video.videoType, @"Wrong videoType");
 }
 
 - (void)testVideoParsingAlternate {
@@ -256,29 +256,29 @@
     id JSON = [self.video persistentJSON];
     JiveVideo *newContent = [JiveVideo objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.video class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.video.type, @"Wrong type");
-    STAssertEqualObjects(newContent.externalID, self.video.externalID, @"Wrong externalID");
-    STAssertEqualObjects([newContent.playerBaseURL absoluteString],
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.video class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.video.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.externalID, self.video.externalID, @"Wrong externalID");
+    XCTAssertEqualObjects([newContent.playerBaseURL absoluteString],
                          [self.video.playerBaseURL absoluteString], @"Wrong playerBaseURL");
-    STAssertEqualObjects(newContent.height, self.video.height, @"Wrong height");
-    STAssertEqualObjects(newContent.width, self.video.width, @"Wrong width");
-    STAssertEqualObjects(newContent.authtoken, self.video.authtoken, @"Wrong authtoken");
-    STAssertEqualObjects(newContent.autoplay, self.video.autoplay, @"Wrong autoplay");
-    STAssertEqualObjects(newContent.embedded, self.video.embedded, @"Wrong embedded");
-    STAssertEqualObjects([newContent.stillImageURL absoluteString],
+    XCTAssertEqualObjects(newContent.height, self.video.height, @"Wrong height");
+    XCTAssertEqualObjects(newContent.width, self.video.width, @"Wrong width");
+    XCTAssertEqualObjects(newContent.authtoken, self.video.authtoken, @"Wrong authtoken");
+    XCTAssertEqualObjects(newContent.autoplay, self.video.autoplay, @"Wrong autoplay");
+    XCTAssertEqualObjects(newContent.embedded, self.video.embedded, @"Wrong embedded");
+    XCTAssertEqualObjects([newContent.stillImageURL absoluteString],
                          [self.video.stillImageURL absoluteString], @"Wrong stillImageURL");
-    STAssertEqualObjects(newContent.iframeSource, self.video.iframeSource, @"Wrong iframeSource");
-    STAssertEqualObjects(newContent.playerName, self.video.playerName, @"Wrong playerName");
-    STAssertEqualObjects([newContent.watermarkURL absoluteString],
+    XCTAssertEqualObjects(newContent.iframeSource, self.video.iframeSource, @"Wrong iframeSource");
+    XCTAssertEqualObjects(newContent.playerName, self.video.playerName, @"Wrong playerName");
+    XCTAssertEqualObjects([newContent.watermarkURL absoluteString],
                          [self.video.watermarkURL absoluteString], @"Wrong watermarkURL");
-    STAssertEqualObjects(newContent.duration, self.video.duration, @"Wrong duration");
-    STAssertEqualObjects(newContent.hours, self.video.hours, @"Wrong hours");
-    STAssertEqualObjects(newContent.minutes, self.video.minutes, @"Wrong minutes");
-    STAssertEqualObjects(newContent.seconds, self.video.seconds, @"Wrong seconds");
-    STAssertEqualObjects([newContent.videoThumbnail absoluteString],
+    XCTAssertEqualObjects(newContent.duration, self.video.duration, @"Wrong duration");
+    XCTAssertEqualObjects(newContent.hours, self.video.hours, @"Wrong hours");
+    XCTAssertEqualObjects(newContent.minutes, self.video.minutes, @"Wrong minutes");
+    XCTAssertEqualObjects(newContent.seconds, self.video.seconds, @"Wrong seconds");
+    XCTAssertEqualObjects([newContent.videoThumbnail absoluteString],
                          [self.video.videoThumbnail absoluteString], @"Wrong videoThumbnail");
-    STAssertEqualObjects(newContent.videoType, self.video.videoType, @"Wrong videoType");
+    XCTAssertEqualObjects(newContent.videoType, self.video.videoType, @"Wrong videoType");
 }
 
 @end

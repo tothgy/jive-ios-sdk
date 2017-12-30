@@ -36,8 +36,8 @@
     NSDictionary *preferredExperience = [NSDictionary dictionaryWithObject:@"preferredExperience" forKey:@"key"];
     NSDictionary *JSON = [self.embedded toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self.embedded setValue:[NSURL URLWithString:@"http://dummy.com"] forKey:@"gadget"];
     [self.embedded setValue:@"image data" forKey:@"previewImage"];
@@ -47,13 +47,13 @@
     
     JSON = [self.embedded toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"previewImage"], self.embedded.previewImage, @"Wrong previewImage.");
-    STAssertEqualObjects([JSON objectForKey:@"context"], self.embedded.context, @"Wrong context.");
-    STAssertEqualObjects([JSON objectForKey:@"preferredExperience"], self.embedded.preferredExperience, @"Wrong preferredExperience.");
-    STAssertEqualObjects([JSON objectForKey:@"gadget"], [self.embedded.gadget absoluteString], @"Wrong gadget.");
-    STAssertEqualObjects([JSON objectForKey:@"url"], [self.embedded.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"previewImage"], self.embedded.previewImage, @"Wrong previewImage.");
+    XCTAssertEqualObjects([JSON objectForKey:@"context"], self.embedded.context, @"Wrong context.");
+    XCTAssertEqualObjects([JSON objectForKey:@"preferredExperience"], self.embedded.preferredExperience, @"Wrong preferredExperience.");
+    XCTAssertEqualObjects([JSON objectForKey:@"gadget"], [self.embedded.gadget absoluteString], @"Wrong gadget.");
+    XCTAssertEqualObjects([JSON objectForKey:@"url"], [self.embedded.url absoluteString], @"Wrong url.");
 }
 
 - (void)testToJSON_alternate {
@@ -61,8 +61,8 @@
     NSDictionary *preferredExperience = [NSDictionary dictionaryWithObject:@"not preferred" forKey:@"key"];
     NSDictionary *JSON = [self.embedded toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self.embedded setValue:[NSURL URLWithString:@"http://super.com"] forKey:@"gadget"];
     [self.embedded setValue:@"http://preview.com/image.png" forKey:@"previewImage"];
@@ -72,13 +72,13 @@
     
     JSON = [self.embedded toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"previewImage"], self.embedded.previewImage, @"Wrong previewImage.");
-    STAssertEqualObjects([JSON objectForKey:@"context"], self.embedded.context, @"Wrong context.");
-    STAssertEqualObjects([JSON objectForKey:@"preferredExperience"], self.embedded.preferredExperience, @"Wrong preferredExperience.");
-    STAssertEqualObjects([JSON objectForKey:@"gadget"], [self.embedded.gadget absoluteString], @"Wrong gadget.");
-    STAssertEqualObjects([JSON objectForKey:@"url"], [self.embedded.url absoluteString], @"Wrong url.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"previewImage"], self.embedded.previewImage, @"Wrong previewImage.");
+    XCTAssertEqualObjects([JSON objectForKey:@"context"], self.embedded.context, @"Wrong context.");
+    XCTAssertEqualObjects([JSON objectForKey:@"preferredExperience"], self.embedded.preferredExperience, @"Wrong preferredExperience.");
+    XCTAssertEqualObjects([JSON objectForKey:@"gadget"], [self.embedded.gadget absoluteString], @"Wrong gadget.");
+    XCTAssertEqualObjects([JSON objectForKey:@"url"], [self.embedded.url absoluteString], @"Wrong url.");
 }
 
 - (void)testEmbeddedParsing {
@@ -94,12 +94,12 @@
     id JSON = [self.embedded toJSONDictionary];
     JiveEmbedded *newEmbedded = [JiveEmbedded objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newEmbedded class], [JiveEmbedded class], @"Wrong item class");
-    STAssertEqualObjects(newEmbedded.gadget, self.embedded.gadget, @"Wrong gadget");
-    STAssertEqualObjects(newEmbedded.previewImage, self.embedded.previewImage, @"Wrong previewImage");
-    STAssertEqualObjects(newEmbedded.url, self.embedded.url, @"Wrong url");
-    STAssertEqualObjects(newEmbedded.context, self.embedded.context, @"Wrong context");
-    STAssertEqualObjects(newEmbedded.preferredExperience, self.embedded.preferredExperience, @"Wrong preferredExperience");
+    XCTAssertEqual([newEmbedded class], [JiveEmbedded class], @"Wrong item class");
+    XCTAssertEqualObjects(newEmbedded.gadget, self.embedded.gadget, @"Wrong gadget");
+    XCTAssertEqualObjects(newEmbedded.previewImage, self.embedded.previewImage, @"Wrong previewImage");
+    XCTAssertEqualObjects(newEmbedded.url, self.embedded.url, @"Wrong url");
+    XCTAssertEqualObjects(newEmbedded.context, self.embedded.context, @"Wrong context");
+    XCTAssertEqualObjects(newEmbedded.preferredExperience, self.embedded.preferredExperience, @"Wrong preferredExperience");
 }
 
 - (void)testEmbeddedParsingAlternate {
@@ -115,12 +115,12 @@
     id JSON = [self.embedded toJSONDictionary];
     JiveEmbedded *newEmbedded = [JiveEmbedded objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEquals([newEmbedded class], [JiveEmbedded class], @"Wrong item class");
-    STAssertEqualObjects(newEmbedded.gadget, self.embedded.gadget, @"Wrong gadget");
-    STAssertEqualObjects(newEmbedded.previewImage, self.embedded.previewImage, @"Wrong previewImage");
-    STAssertEqualObjects(newEmbedded.url, self.embedded.url, @"Wrong url");
-    STAssertEqualObjects(newEmbedded.context, self.embedded.context, @"Wrong context");
-    STAssertEqualObjects(newEmbedded.preferredExperience, self.embedded.preferredExperience, @"Wrong preferredExperience");
+    XCTAssertEqual([newEmbedded class], [JiveEmbedded class], @"Wrong item class");
+    XCTAssertEqualObjects(newEmbedded.gadget, self.embedded.gadget, @"Wrong gadget");
+    XCTAssertEqualObjects(newEmbedded.previewImage, self.embedded.previewImage, @"Wrong previewImage");
+    XCTAssertEqualObjects(newEmbedded.url, self.embedded.url, @"Wrong url");
+    XCTAssertEqualObjects(newEmbedded.context, self.embedded.context, @"Wrong context");
+    XCTAssertEqualObjects(newEmbedded.preferredExperience, self.embedded.preferredExperience, @"Wrong preferredExperience");
 }
 
 @end

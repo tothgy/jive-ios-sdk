@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2192BC091614F33300082926"
-               BuildableName = "jive-ios-sdkTests.octest"
+               BuildableName = "jive-ios-sdkTests.xctest"
                BlueprintName = "jive-ios-sdkTests"
                ReferencedContainer = "container:../jive-ios-sdk.xcodeproj">
             </BuildableReference>
@@ -68,7 +68,8 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B8A71F0E16A89DFA00A7D2CE"
@@ -86,7 +87,8 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B8A71F0E16A89DFA00A7D2CE"

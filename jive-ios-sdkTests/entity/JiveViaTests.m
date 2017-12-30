@@ -42,33 +42,33 @@
 - (void)testViaToJSON {
     NSDictionary *JSON = [self.via toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeVia];
     
     JSON = [self.via toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveViaAttributes.displayName], self.via.displayName, @"Wrong displayName");
-    STAssertEqualObjects(JSON[JiveViaAttributes.url], [self.via.url absoluteString], @"Wrong url");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveViaAttributes.displayName], self.via.displayName, @"Wrong displayName");
+    XCTAssertEqualObjects(JSON[JiveViaAttributes.url], [self.via.url absoluteString], @"Wrong url");
 }
 
 - (void)testViaToJSON_alternate {
     NSDictionary *JSON = [self.via toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     [self initializeAlternateVia];
     
     JSON = [self.via toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveViaAttributes.displayName], self.via.displayName, @"Wrong displayName");
-    STAssertEqualObjects(JSON[JiveViaAttributes.url], [self.via.url absoluteString], @"Wrong url");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveViaAttributes.displayName], self.via.displayName, @"Wrong displayName");
+    XCTAssertEqualObjects(JSON[JiveViaAttributes.url], [self.via.url absoluteString], @"Wrong url");
 }
 
 - (void)testViaParsing {
@@ -77,8 +77,8 @@
     id JSON = [self.via persistentJSON];
     JiveVia *newVia = [JiveVia objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects(newVia.displayName, self.via.displayName, @"Wrong displayName");
-    STAssertEqualObjects([newVia.url absoluteString], [self.via.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(newVia.displayName, self.via.displayName, @"Wrong displayName");
+    XCTAssertEqualObjects([newVia.url absoluteString], [self.via.url absoluteString], @"Wrong url");
 }
 
 - (void)testViaParsing_alternate {
@@ -87,8 +87,8 @@
     id JSON = [self.via persistentJSON];
     JiveVia *newVia = [JiveVia objectFromJSON:JSON withInstance:self.instance];
 
-    STAssertEqualObjects(newVia.displayName, self.via.displayName, @"Wrong displayName");
-    STAssertEqualObjects([newVia.url absoluteString], [self.via.url absoluteString], @"Wrong url");
+    XCTAssertEqualObjects(newVia.displayName, self.via.displayName, @"Wrong displayName");
+    XCTAssertEqualObjects([newVia.url absoluteString], [self.via.url absoluteString], @"Wrong url");
 }
 
 @end

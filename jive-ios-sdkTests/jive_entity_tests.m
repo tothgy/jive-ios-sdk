@@ -31,7 +31,7 @@
     NSError* error;
     id json  = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     
-    STAssertNil(error, @"Unable to deserialize JSON text data from file '%@'.json", filename);
+    XCTAssertNil(error, @"Unable to deserialize JSON text data from file '%@'.json", filename);
     return json;
 }
 
@@ -43,8 +43,8 @@
     JiveInboxEntry *inboxEntry = [JiveInboxEntry objectFromJSON:inboxEntryData
                                                      withInstance:instance];
     
-    STAssertNotNil(inboxEntry, @"JiveInboxEntry was nil!");
-    STAssertNotNil(inboxEntry.object.jiveId, @"JiveId was nil!");
+    XCTAssertNotNil(inboxEntry, @"JiveInboxEntry was nil!");
+    XCTAssertNotNil(inboxEntry.object.jiveId, @"JiveId was nil!");
 }
 
 - (void) testJiveInboxEntryDeserializeList {
@@ -55,15 +55,15 @@
     NSArray *JSONList = [json objectForKey:@"list"];
     JiveInboxEntry *inboxEntry = nil;
     
-    STAssertNoThrow(inboxEntry = [JiveInboxEntry objectFromJSON:(NSDictionary *)JSONList
+    XCTAssertNoThrow(inboxEntry = [JiveInboxEntry objectFromJSON:(NSDictionary *)JSONList
                                                    withInstance:instance], @"bad JSON should not throw");
-    STAssertNil(inboxEntry,
+    XCTAssertNil(inboxEntry,
                 @"JiveInboxEntry should have failed initialization when passed incorrect JSON.");
     
     NSArray* instances = [JiveInboxEntry objectsFromJSONList:JSONList withInstance:instance];
     
-    STAssertNotNil(instances, @"JiveInboxEntry list should not be nil!");
-    STAssertTrue([instances count] == [JSONList count],
+    XCTAssertNotNil(instances, @"JiveInboxEntry list should not be nil!");
+    XCTAssertTrue([instances count] == [JSONList count],
                  @"Incorrect number of JiveInboxEntry objects found in list. Expected %d, found %d.",
                  [JSONList count], [instances count]);
 }

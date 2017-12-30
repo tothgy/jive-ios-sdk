@@ -39,8 +39,8 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"uri=http://dummy_uri", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"uri=http://dummy_uri", asString, @"Wrong string contents");
 }
 
 - (void)testAlternateURI {
@@ -49,8 +49,8 @@
     
     NSString *asString = [options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"uri=http://alternate/address", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"uri=http://alternate/address", asString, @"Wrong string contents");
 }
 
 @end

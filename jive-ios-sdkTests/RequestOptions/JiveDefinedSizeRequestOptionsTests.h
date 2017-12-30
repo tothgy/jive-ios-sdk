@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "JiveDefinedSizeRequestOptions.h"
 
-@interface JiveDefinedSizeRequestOptionsTests : SenTestCase
+@interface JiveDefinedSizeRequestOptionsTests : XCTestCase
 
 @property (nonatomic, strong) JiveDefinedSizeRequestOptions *options;
 

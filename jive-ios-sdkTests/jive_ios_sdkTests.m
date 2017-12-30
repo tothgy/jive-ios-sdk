@@ -66,7 +66,7 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     
     [[[mockString stub] andReturnValue:OCMOCK_VALUE(expectedValue)] length];
     
-    STAssertEquals(expectedValue, [mockString length], @"Mock string length incorrect.");
+    XCTAssertEqual(expectedValue, [mockString length], @"Mock string length incorrect.");
     
 }
 
@@ -86,8 +86,8 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     JiveRetryingJAPIRequestOperation *operation = [JiveRetryingJAPIRequestOperation JSONRequestOperationWithRequest:request success:nil failure:nil];
     [jive setAuthenticationBlocksAndRetrierForRetryingURLConnectionOperation:(AFURLConnectionOperation<JiveRetryingOperation> *)operation];
     
-    STAssertNoThrow(operation.innerOperation.operation.authenticationChallenge([NSURLConnection new], challenge), nil);
-    STAssertNoThrow([mockAuthDelegate verify], @"receivedServerTrustAuthenticationChallenge should be called");
+    XCTAssertNoThrow(operation.innerOperation.operation.authenticationChallenge([NSURLConnection new], challenge));
+    XCTAssertNoThrow([mockAuthDelegate verify], @"receivedServerTrustAuthenticationChallenge should be called");
 }
 
 - (void)test_setAuthenticationBlocksAndRetrierForRetryingURLConnectionOperation_with_NSURLAuthenticationMethodDefault {
@@ -102,8 +102,8 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     JiveRetryingJAPIRequestOperation *operation = [JiveRetryingJAPIRequestOperation JSONRequestOperationWithRequest:request success:nil failure:nil];
     [jive setAuthenticationBlocksAndRetrierForRetryingURLConnectionOperation:(AFURLConnectionOperation<JiveRetryingOperation> *)operation];
     
-    STAssertNoThrow(operation.innerOperation.operation.authenticationChallenge([NSURLConnection new], challenge), nil);
-    STAssertNoThrow([mockAuthDelegate verify], @"receivedServerTrustAuthenticationChallenge should not be called");
+    XCTAssertNoThrow(operation.innerOperation.operation.authenticationChallenge([NSURLConnection new], challenge));
+    XCTAssertNoThrow([mockAuthDelegate verify], @"receivedServerTrustAuthenticationChallenge should not be called");
 }
 
 // API call is to Jive, by removing "throw 'allowIllegalResourceCall is false.';"
@@ -121,10 +121,10 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [mock setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *HTTPRequestOperation, id responseObject) {
             // Test succeeds if we get here
-            STAssertNotNil(responseObject, @"JAPIRequestOperation returned nil response.");
+            XCTAssertNotNil(responseObject, @"JAPIRequestOperation returned nil response.");
             finishedBlock();
         } failure:^(AFHTTPRequestOperation *HTTPRequestOperation, NSError *error) {
-            STFail(@"Unable to load test data. %@", [error localizedDescription]);
+            XCTFail(@"Unable to load test data. %@", [error localizedDescription]);
         }];
         
         [(JAPIRequestOperation *)mock start];
@@ -139,18 +139,18 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.jivesoftware.com"]];
     
-    STAssertTrue([[request allHTTPHeaderFields] count] == 0, @"NSMutableURLRequest should have 0 header count");
+    XCTAssertTrue([[request allHTTPHeaderFields] count] == 0, @"NSMutableURLRequest should have 0 header count");
     
     [HTTPBasicAuthCredentials applyToRequest:request];
     
     
-    STAssertTrue([[request allHTTPHeaderFields] count] == 1, @"NSMutableURLRequest should have at least 1 header");
+    XCTAssertTrue([[request allHTTPHeaderFields] count] == 1, @"NSMutableURLRequest should have at least 1 header");
     
     NSString *header = [[request allHTTPHeaderFields] objectForKey:@"Authorization"];
     
-    STAssertNotNil(header, @"Authorization should not be nil");
+    XCTAssertNotNil(header, @"Authorization should not be nil");
     
-    STAssertTrue([header isEqualToString:@"Basic cm9iOmJsYWhibGFoOTg3NjU0"],
+    XCTAssertTrue([header isEqualToString:@"Basic cm9iOmJsYWhibGFoOTg3NjU0"],
                  @"JiveCredentials failed to properly generate Basic Auth header");
     
 }
@@ -164,15 +164,15 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.jivesoftware.com"]];
     
-    STAssertTrue([[request allHTTPHeaderFields] count] == 0, @"NSMutableURLRequest should have 0 header count");
+    XCTAssertTrue([[request allHTTPHeaderFields] count] == 0, @"NSMutableURLRequest should have 0 header count");
     
     [mobileAnalyticsHeader applyToRequest:request];
     
-    STAssertTrue([[request allHTTPHeaderFields] count] == 1, @"NSMutableURLRequest should have at least 1 header");
+    XCTAssertTrue([[request allHTTPHeaderFields] count] == 1, @"NSMutableURLRequest should have at least 1 header");
     
     NSString *header = [[request allHTTPHeaderFields] objectForKey:@"X-Jive-Client"];
     
-    STAssertNotNil(header, @"Mobile Analytics Header should not be nil");
+    XCTAssertNotNil(header, @"Mobile Analytics Header should not be nil");
     
 #ifdef __LP64__
     NSString *expectedHeader = @"eyJBcHAtU3BlYyI6eyJkZXZpY2VWZXJzaW9uIjoiNi4wLjAiLCJjb25uZWN0aW9uVHlwZSI6IndpZmkiLCJkZXZpY2VQbGF0Zm9ybSI6ImlQYWQiLCJyZXF1ZXN0T3JpZ2luIjoiTmF0aXZlIn0sIkFwcC1JRCI6ImppdmUtaW9zLXNka1Rlc3RzIiwiQXBwLVZlcnNpb24iOiIwLjViIn0=";
@@ -180,7 +180,7 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     NSString *expectedHeader = @"eyJBcHAtVmVyc2lvbiI6IjAuNWIiLCJBcHAtU3BlYyI6eyJkZXZpY2VQbGF0Zm9ybSI6ImlQYWQiLCJyZXF1ZXN0T3JpZ2luIjoiTmF0aXZlIiwiY29ubmVjdGlvblR5cGUiOiJ3aWZpIiwiZGV2aWNlVmVyc2lvbiI6IjYuMC4wIn0sIkFwcC1JRCI6ImppdmUtaW9zLXNka1Rlc3RzIn0=";
 #endif // ifdef __LP64__ else
     
-    STAssertTrue([header isEqualToString:expectedHeader],
+    XCTAssertTrue([header isEqualToString:expectedHeader],
                  @"JiveCredentials failed to properly generate Basic Auth header: %@", header);
 }
 
@@ -203,10 +203,10 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive me:^(id JSON) {
-            STAssertNotNil(JSON, @"Response was nil");
+            XCTAssertNotNil(JSON, @"Response was nil");
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
         }];
     });
     
@@ -232,11 +232,11 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
     post.content.text = @"<body><p>This is a test of the emergency broadcast system.</p></body>";
     waitForTimeout(^(void (^finishedBlock)(void)) {
         [jive createContent:post withOptions:nil onComplete:^(JiveContent *newPost) {
-            STAssertEqualObjects([newPost class], [JivePost class], @"Wrong content created");
+            XCTAssertEqualObjects([newPost class], [JivePost class], @"Wrong content created");
             postToDelete = newPost;
             finishedBlock();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock();
         }];
     });
@@ -249,7 +249,7 @@ typedef void (^AFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnec
         [jive deleteContent:postToDelete onComplete:^{
             finishedBlock2();
         } onError:^(NSError *error) {
-            STFail([error localizedDescription]);
+            XCTFail(@"%@", [error localizedDescription]);
             finishedBlock2();
         }];
     });

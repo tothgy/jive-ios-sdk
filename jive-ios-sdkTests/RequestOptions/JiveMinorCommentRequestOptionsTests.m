@@ -37,7 +37,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"minor=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"minor=true", asString, @"Wrong string contents");
 }
 
 - (void)testAuthorWithField {
@@ -47,7 +47,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&minor=true", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&minor=true", asString, @"Wrong string contents");
 }
 
 @end

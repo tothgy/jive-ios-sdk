@@ -30,14 +30,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.externalURL.type, @"url", @"Wrong type.");
+    XCTAssertEqualObjects(self.externalURL.type, @"url", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.externalURL.type
                                                                             forKey:JiveTypedObjectAttributes.type];
     
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.externalURL class], @"External url class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.externalURL class], @"External url class not registered with JiveContent.");
 }
 
 - (void)initializeExternalURL {
@@ -51,18 +51,18 @@
 - (void)testExternalURLToJSON {
     NSDictionary *JSON = [self.externalURL toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
     
     [self initializeExternalURL];
     
     JSON = [self.externalURL toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveExternalURLEntityAttributes.url],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveExternalURLEntityAttributes.url],
                          [self.externalURL.url absoluteString], @"Wrong url");
 }
 
@@ -71,10 +71,10 @@
     
     NSDictionary *JSON = [self.externalURL toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveExternalURLEntityAttributes.url],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.externalURL.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveExternalURLEntityAttributes.url],
                          [self.externalURL.url absoluteString], @"Wrong url");
 }
 
@@ -85,7 +85,7 @@
     JiveExternalURLEntity *newExternalURL = [JiveExternalURLEntity objectFromJSON:JSON
                                                                      withInstance:self.instance];
     
-    STAssertEqualObjects([newExternalURL.url absoluteString], [self.externalURL.url absoluteString], nil);
+    XCTAssertEqualObjects([newExternalURL.url absoluteString], [self.externalURL.url absoluteString]);
 }
 
 - (void)testExternalURLParsing_alternate {
@@ -95,7 +95,7 @@
     JiveExternalURLEntity *newExternalURL = [JiveExternalURLEntity objectFromJSON:JSON
                                                                      withInstance:self.instance];
     
-    STAssertEqualObjects([newExternalURL.url absoluteString], [self.externalURL.url absoluteString], nil);
+    XCTAssertEqualObjects([newExternalURL.url absoluteString], [self.externalURL.url absoluteString]);
 }
 
 @end

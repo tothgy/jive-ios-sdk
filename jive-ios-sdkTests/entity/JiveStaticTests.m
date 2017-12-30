@@ -37,9 +37,9 @@
     JiveBlog *place = [[JiveBlog alloc] init];
     NSDictionary *JSON = [self.jiveStatic toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"static", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"static", @"Wrong type");
     
     author.location = @"location";
     place.displayName = @"place";
@@ -53,26 +53,26 @@
     
     JSON = [self.jiveStatic toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], self.jiveStatic.jiveId, @"Wrong id");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.jiveStatic.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"description"], self.jiveStatic.jiveDescription, @"Wrong description");
-    STAssertEqualObjects([JSON objectForKey:@"filename"], self.jiveStatic.filename, @"Wrong filename");
-    STAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], self.jiveStatic.jiveId, @"Wrong id");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.jiveStatic.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], self.jiveStatic.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects([JSON objectForKey:@"filename"], self.jiveStatic.filename, @"Wrong filename");
+    XCTAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:00:00.000+0000", @"Wrong published");
+    XCTAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:16:40.123+0000", @"Wrong updated");
     
     NSDictionary *authorJSON = [JSON objectForKey:@"author"];
     
-    STAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([authorJSON objectForKey:@"location"], author.location, @"Wrong value");
+    XCTAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([authorJSON objectForKey:@"location"], author.location, @"Wrong value");
     
     NSDictionary *placeJSON = [JSON objectForKey:@"place"];
     
-    STAssertTrue([[placeJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([placeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([placeJSON objectForKey:@"displayName"], place.displayName, @"Wrong value");
+    XCTAssertTrue([[placeJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([placeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([placeJSON objectForKey:@"displayName"], place.displayName, @"Wrong value");
 }
 
 - (void)testToJSON_alternate {
@@ -91,26 +91,26 @@
     
     NSDictionary *JSON = [self.jiveStatic toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"id"], self.jiveStatic.jiveId, @"Wrong id.");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.jiveStatic.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:@"description"], self.jiveStatic.jiveDescription, @"Wrong description");
-    STAssertEqualObjects([JSON objectForKey:@"filename"], self.jiveStatic.filename, @"Wrong filename");
-    STAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
-    STAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)8, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"id"], self.jiveStatic.jiveId, @"Wrong id.");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.jiveStatic.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:@"description"], self.jiveStatic.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects([JSON objectForKey:@"filename"], self.jiveStatic.filename, @"Wrong filename");
+    XCTAssertEqualObjects([JSON objectForKey:@"published"], @"1970-01-01T00:16:40.123+0000", @"Wrong published");
+    XCTAssertEqualObjects([JSON objectForKey:@"updated"], @"1970-01-01T00:00:00.000+0000", @"Wrong updated");
     
     NSDictionary *authorJSON = [JSON objectForKey:@"author"];
     
-    STAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([authorJSON objectForKey:@"location"], author.location, @"Wrong value");
+    XCTAssertTrue([[authorJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([authorJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([authorJSON objectForKey:@"location"], author.location, @"Wrong value");
     
     NSDictionary *placeJSON = [JSON objectForKey:@"place"];
     
-    STAssertTrue([[placeJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([placeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([placeJSON objectForKey:@"displayName"], place.displayName, @"Wrong value");
+    XCTAssertTrue([[placeJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([placeJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([placeJSON objectForKey:@"displayName"], place.displayName, @"Wrong value");
 }
 
 - (void)testContentParsing {
@@ -140,15 +140,15 @@
     
     JiveStatic *newStatic = [JiveStatic objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStatic class] isSubclassOfClass:[self.jiveStatic class]], @"Wrong item class");
-    STAssertEqualObjects(newStatic.jiveId, self.jiveStatic.jiveId, @"Wrong id");
-    STAssertEqualObjects(newStatic.type, self.jiveStatic.type, @"Wrong type");
-    STAssertEqualObjects(newStatic.jiveDescription, self.jiveStatic.jiveDescription, @"Wrong description");
-    STAssertEqualObjects(newStatic.filename, self.jiveStatic.filename, @"Wrong filename");
-    STAssertEqualObjects(newStatic.published, self.jiveStatic.published, @"Wrong published");
-    STAssertEqualObjects(newStatic.updated, self.jiveStatic.updated, @"Wrong updated");
-    STAssertEqualObjects(newStatic.author.location, self.jiveStatic.author.location, @"Wrong author.location");
-    STAssertEqualObjects(newStatic.place.displayName, self.jiveStatic.place.displayName, @"Wrong place.displayName");
+    XCTAssertTrue([[newStatic class] isSubclassOfClass:[self.jiveStatic class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStatic.jiveId, self.jiveStatic.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newStatic.type, self.jiveStatic.type, @"Wrong type");
+    XCTAssertEqualObjects(newStatic.jiveDescription, self.jiveStatic.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects(newStatic.filename, self.jiveStatic.filename, @"Wrong filename");
+    XCTAssertEqualObjects(newStatic.published, self.jiveStatic.published, @"Wrong published");
+    XCTAssertEqualObjects(newStatic.updated, self.jiveStatic.updated, @"Wrong updated");
+    XCTAssertEqualObjects(newStatic.author.location, self.jiveStatic.author.location, @"Wrong author.location");
+    XCTAssertEqualObjects(newStatic.place.displayName, self.jiveStatic.place.displayName, @"Wrong place.displayName");
 }
 
 - (void)testContentParsingAlternate {
@@ -178,15 +178,15 @@
     
     JiveStatic *newStatic = [JiveStatic objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newStatic class] isSubclassOfClass:[self.jiveStatic class]], @"Wrong item class");
-    STAssertEqualObjects(newStatic.jiveId, self.jiveStatic.jiveId, @"Wrong id");
-    STAssertEqualObjects(newStatic.type, self.jiveStatic.type, @"Wrong type");
-    STAssertEqualObjects(newStatic.jiveDescription, self.jiveStatic.jiveDescription, @"Wrong description");
-    STAssertEqualObjects(newStatic.filename, self.jiveStatic.filename, @"Wrong filename");
-    STAssertEqualObjects(newStatic.published, self.jiveStatic.published, @"Wrong published");
-    STAssertEqualObjects(newStatic.updated, self.jiveStatic.updated, @"Wrong updated");
-    STAssertEqualObjects(newStatic.author.location, self.jiveStatic.author.location, @"Wrong author.location");
-    STAssertEqualObjects(newStatic.place.displayName, self.jiveStatic.place.displayName, @"Wrong place.displayName");
+    XCTAssertTrue([[newStatic class] isSubclassOfClass:[self.jiveStatic class]], @"Wrong item class");
+    XCTAssertEqualObjects(newStatic.jiveId, self.jiveStatic.jiveId, @"Wrong id");
+    XCTAssertEqualObjects(newStatic.type, self.jiveStatic.type, @"Wrong type");
+    XCTAssertEqualObjects(newStatic.jiveDescription, self.jiveStatic.jiveDescription, @"Wrong description");
+    XCTAssertEqualObjects(newStatic.filename, self.jiveStatic.filename, @"Wrong filename");
+    XCTAssertEqualObjects(newStatic.published, self.jiveStatic.published, @"Wrong published");
+    XCTAssertEqualObjects(newStatic.updated, self.jiveStatic.updated, @"Wrong updated");
+    XCTAssertEqualObjects(newStatic.author.location, self.jiveStatic.author.location, @"Wrong author.location");
+    XCTAssertEqualObjects(newStatic.place.displayName, self.jiveStatic.place.displayName, @"Wrong place.displayName");
 }
 
 @end

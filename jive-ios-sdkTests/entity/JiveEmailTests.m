@@ -27,8 +27,8 @@
     JiveEmail *email = [[JiveEmail alloc] init];
     id JSON = [email toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     email.jive_label = @"Email";
     email.value = @"12345";
@@ -39,25 +39,25 @@
    
     JSON = [email toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], email.jive_label, @"Wrong display name.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], email.value, @"Wrong id.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], email.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], email.jive_label, @"Wrong display name.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], email.value, @"Wrong id.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], email.type, @"Wrong type");
     
     NSNumber *primary = [(NSDictionary *)JSON objectForKey:@"primary"];
     
-    STAssertNotNil(primary, @"Missing primary");
+    XCTAssertNotNil(primary, @"Missing primary");
     if (primary)
-        STAssertTrue([primary boolValue], @"Wrong primary");
+        XCTAssertTrue([primary boolValue], @"Wrong primary");
 }
 
 - (void)testToJSON_alternate {
     JiveEmail *email = [[JiveEmail alloc] init];
     id JSON = [email toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     email.jive_label = @"Address";
     email.value = @"87654";
@@ -65,12 +65,12 @@
     
     JSON = [email toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], email.jive_label, @"Wrong display name.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], email.value, @"Wrong id.");
-    STAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], email.type, @"Wrong type");
-    STAssertNil([(NSDictionary *)JSON objectForKey:@"primary"], @"primary included?");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([(NSDictionary *)JSON count], (NSUInteger)3, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"jive_label"], email.jive_label, @"Wrong display name.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"value"], email.value, @"Wrong id.");
+    XCTAssertEqualObjects([(NSDictionary *)JSON objectForKey:@"type"], email.type, @"Wrong type");
+    XCTAssertNil([(NSDictionary *)JSON objectForKey:@"primary"], @"primary included?");
 }
 
 @end

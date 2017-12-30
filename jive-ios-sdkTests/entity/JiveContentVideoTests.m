@@ -52,15 +52,15 @@
 - (void)testContentVideoToJSON {
     NSDictionary *JSON = [self.contentVideo toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
 
     [self initializeContentVideo];
     
     JSON = [self.contentVideo toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
 }
 
 - (void)testContentVideoPersistentJSON {
@@ -68,14 +68,14 @@
     
     NSDictionary *JSON = [self.contentVideo persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.height], self.contentVideo.height, @"Wrong height");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.stillImageURL],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.height], self.contentVideo.height, @"Wrong height");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.stillImageURL],
                          [self.contentVideo.stillImageURL absoluteString], @"Wrong still image url");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.videoSourceURL],
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.videoSourceURL],
                          [self.contentVideo.videoSourceURL absoluteString], @"Wrong video source url");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.width], self.contentVideo.width, @"Wrong width");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.width], self.contentVideo.width, @"Wrong width");
 }
 
 - (void)testContentVideoPersistentJSON_alternate {
@@ -83,14 +83,14 @@
     
     NSDictionary *JSON = [self.contentVideo persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.height], self.contentVideo.height, @"Wrong height");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.stillImageURL],
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)4, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.height], self.contentVideo.height, @"Wrong height");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.stillImageURL],
                          [self.contentVideo.stillImageURL absoluteString], @"Wrong still image url");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.videoSourceURL],
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.videoSourceURL],
                          [self.contentVideo.videoSourceURL absoluteString], @"Wrong video source url");
-    STAssertEqualObjects(JSON[JiveContentVideoAttributes.width], self.contentVideo.width, @"Wrong width");
+    XCTAssertEqualObjects(JSON[JiveContentVideoAttributes.width], self.contentVideo.width, @"Wrong width");
 }
 
 - (void)testContentVideoParsing {
@@ -99,12 +99,12 @@
     NSDictionary *JSON = [self.contentVideo persistentJSON];
     JiveContentVideo *newContentVideo = [JiveContentVideo objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects(newContentVideo.height, self.contentVideo.height, @"Wrong height");
-    STAssertEqualObjects([newContentVideo.stillImageURL absoluteString],
+    XCTAssertEqualObjects(newContentVideo.height, self.contentVideo.height, @"Wrong height");
+    XCTAssertEqualObjects([newContentVideo.stillImageURL absoluteString],
                          [self.contentVideo.stillImageURL absoluteString], @"Wrong still image url");
-    STAssertEqualObjects([newContentVideo.videoSourceURL absoluteString],
+    XCTAssertEqualObjects([newContentVideo.videoSourceURL absoluteString],
                          [self.contentVideo.videoSourceURL absoluteString], @"Wrong video source url");
-    STAssertEqualObjects(newContentVideo.width, self.contentVideo.width, @"Wrong width");
+    XCTAssertEqualObjects(newContentVideo.width, self.contentVideo.width, @"Wrong width");
 }
 
 - (void)testContentVideoParsing_alternate {
@@ -113,12 +113,12 @@
     NSDictionary *JSON = [self.contentVideo persistentJSON];
     JiveContentVideo *newContentVideo = [JiveContentVideo objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertEqualObjects(newContentVideo.height, self.contentVideo.height, @"Wrong height");
-    STAssertEqualObjects([newContentVideo.stillImageURL absoluteString],
+    XCTAssertEqualObjects(newContentVideo.height, self.contentVideo.height, @"Wrong height");
+    XCTAssertEqualObjects([newContentVideo.stillImageURL absoluteString],
                          [self.contentVideo.stillImageURL absoluteString], @"Wrong still image url");
-    STAssertEqualObjects([newContentVideo.videoSourceURL absoluteString],
+    XCTAssertEqualObjects([newContentVideo.videoSourceURL absoluteString],
                          [self.contentVideo.videoSourceURL absoluteString], @"Wrong video source url");
-    STAssertEqualObjects(newContentVideo.width, self.contentVideo.width, @"Wrong width");
+    XCTAssertEqualObjects(newContentVideo.width, self.contentVideo.width, @"Wrong width");
 }
 
 @end

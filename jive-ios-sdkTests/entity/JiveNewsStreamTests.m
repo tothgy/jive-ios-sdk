@@ -31,7 +31,7 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.newsStream.type, @"newsStream", @"Wrong type.");
+    XCTAssertEqualObjects(self.newsStream.type, @"newsStream", @"Wrong type.");
 }
 
 - (void)initializeDocument {
@@ -59,17 +59,17 @@
 - (void)testNewsStreamToJSON {
     NSDictionary *JSON = [self.newsStream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], @"newsStream", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], @"newsStream", @"Wrong type");
     
     [self initializeDocument];
     
     JSON = [self.newsStream toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
 }
 
 - (void)testPersistentJSON_activities {
@@ -85,17 +85,17 @@
 
     NSDictionary *JSON = [self.newsStream persistentJSON];
 
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
 
     NSArray *array = [JSON objectForKey:JiveNewsStreamAttributes.activities];
     id object1 = [array objectAtIndex:0];
 
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"activities array not converted");
-    STAssertEquals([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"activity object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveActivityAttributes.published],
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"activities array not converted");
+    XCTAssertEqual([array count], (NSUInteger)1, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"activity object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveActivityAttributes.published],
                          [dateFormatter stringFromDate:activity1.published], @"Wrong value");
 
     [self.newsStream setValue:[self.newsStream.activities arrayByAddingObject:activity2]
@@ -103,22 +103,22 @@
 
     JSON = [self.newsStream persistentJSON];
 
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
 
     array = [JSON objectForKey:JiveNewsStreamAttributes.activities];
     object1 = [array objectAtIndex:0];
 
     id object2 = [array objectAtIndex:1];
 
-    STAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"activities array not converted");
-    STAssertEquals([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
-    STAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"activity 1 object not converted");
-    STAssertEqualObjects([object1 objectForKey:JiveActivityAttributes.published],
+    XCTAssertTrue([[array class] isSubclassOfClass:[NSArray class]], @"activities array not converted");
+    XCTAssertEqual([array count], (NSUInteger)2, @"Wrong number of elements in the address array");
+    XCTAssertTrue([[object1 class] isSubclassOfClass:[NSDictionary class]], @"activity 1 object not converted");
+    XCTAssertEqualObjects([object1 objectForKey:JiveActivityAttributes.published],
                          [dateFormatter stringFromDate:activity1.published], @"Wrong value 1");
-    STAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"activity 2 object not converted");
-    STAssertEqualObjects([object2 objectForKey:JiveActivityAttributes.published],
+    XCTAssertTrue([[object2 class] isSubclassOfClass:[NSDictionary class]], @"activity 2 object not converted");
+    XCTAssertEqualObjects([object2 objectForKey:JiveActivityAttributes.published],
                          [dateFormatter stringFromDate:activity2.published], @"Wrong value 2");
 }
 
@@ -126,34 +126,34 @@
     NSDictionary *JSON = [self.newsStream persistentJSON];
     NSDateFormatter *dateFormatter = [NSDateFormatter jive_threadLocalISO8601DateFormatter];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], @"newsStream", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], @"newsStream", @"Wrong type");
     
     [self initializeDocument];
     
     JSON = [self.newsStream persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
     
     NSDictionary *streamJSON = [JSON objectForKey:JiveNewsStreamAttributes.stream];
     
-    STAssertTrue([[streamJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([streamJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([streamJSON objectForKey:JiveTypedObjectAttributes.type], self.newsStream.stream.type, @"Wrong type");
-    STAssertEqualObjects([streamJSON objectForKey:JiveStreamAttributes.count],
+    XCTAssertTrue([[streamJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([streamJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([streamJSON objectForKey:JiveTypedObjectAttributes.type], self.newsStream.stream.type, @"Wrong type");
+    XCTAssertEqualObjects([streamJSON objectForKey:JiveStreamAttributes.count],
                          self.newsStream.stream.count,
                          @"Wrong value");
     
     NSArray *activitiesJSON = [JSON objectForKey:JiveNewsStreamAttributes.activities];
     NSDictionary *activityJSON = [activitiesJSON objectAtIndex:0];
     
-    STAssertTrue([[activitiesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([activitiesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([activityJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([activityJSON objectForKey:JiveActivityAttributes.published],
+    XCTAssertTrue([[activitiesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([activitiesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([activityJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([activityJSON objectForKey:JiveActivityAttributes.published],
                          [dateFormatter stringFromDate:((JiveActivity *)self.newsStream.activities[0]).published], @"Wrong value");
 }
 
@@ -163,26 +163,26 @@
     NSDictionary *JSON = [self.newsStream persistentJSON];
     NSDateFormatter *dateFormatter = [NSDateFormatter jive_threadLocalISO8601DateFormatter];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveNewsStreamAttributes.type], self.newsStream.type, @"Wrong type");
     
     NSDictionary *streamJSON = [JSON objectForKey:JiveNewsStreamAttributes.stream];
     
-    STAssertTrue([[streamJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
-    STAssertEquals([streamJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([streamJSON objectForKey:JiveTypedObjectAttributes.type], self.newsStream.stream.type, @"Wrong type");
-    STAssertEqualObjects([streamJSON objectForKey:JiveStreamAttributes.count],
+    XCTAssertTrue([[streamJSON class] isSubclassOfClass:[NSDictionary class]], @"Jive not converted");
+    XCTAssertEqual([streamJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([streamJSON objectForKey:JiveTypedObjectAttributes.type], self.newsStream.stream.type, @"Wrong type");
+    XCTAssertEqualObjects([streamJSON objectForKey:JiveStreamAttributes.count],
                          self.newsStream.stream.count,
                          @"Wrong value");
     
     NSArray *activitiesJSON = [JSON objectForKey:JiveNewsStreamAttributes.activities];
     NSDictionary *activityJSON = [activitiesJSON objectAtIndex:0];
     
-    STAssertTrue([[activitiesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([activitiesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEquals([activityJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([activityJSON objectForKey:JiveActivityAttributes.published],
+    XCTAssertTrue([[activitiesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([activitiesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqual([activityJSON count], (NSUInteger)2, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([activityJSON objectForKey:JiveActivityAttributes.published],
                          [dateFormatter stringFromDate:((JiveActivity *)self.newsStream.activities[0]).published], @"Wrong value");
 }
 
@@ -192,17 +192,17 @@
     id JSON = [self.newsStream persistentJSON];
     JiveNewsStream *newNewsStream = [JiveNewsStream objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newNewsStream class] isSubclassOfClass:[self.newsStream class]], @"Wrong item class");
-    STAssertEqualObjects(newNewsStream.type, self.newsStream.type, @"Wrong type");
-    STAssertEqualObjects(newNewsStream.stream.count,
+    XCTAssertTrue([[newNewsStream class] isSubclassOfClass:[self.newsStream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newNewsStream.type, self.newsStream.type, @"Wrong type");
+    XCTAssertEqualObjects(newNewsStream.stream.count,
                          self.newsStream.stream.count, @"Wrong stream count");
     
     if ([newNewsStream.activities count] > 0) {
         id convertedObject = newNewsStream.activities[0];
 
-        STAssertEquals([convertedObject class], [JiveActivity class], @"Wrong activity object class");
+        XCTAssertEqual([convertedObject class], [JiveActivity class], @"Wrong activity object class");
         if ([[convertedObject class] isSubclassOfClass:[JiveActivity class]])
-            STAssertEqualObjects([(JiveActivity *)convertedObject published],
+            XCTAssertEqualObjects([(JiveActivity *)convertedObject published],
                                  ((JiveActivity *)self.newsStream.activities[0]).published, @"Wrong activity object");
     }
 }
@@ -213,17 +213,17 @@
     id JSON = [self.newsStream persistentJSON];
     JiveNewsStream *newNewsStream = [JiveNewsStream objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newNewsStream class] isSubclassOfClass:[self.newsStream class]], @"Wrong item class");
-    STAssertEqualObjects(newNewsStream.type, self.newsStream.type, @"Wrong type");
-    STAssertEqualObjects(newNewsStream.stream.count,
+    XCTAssertTrue([[newNewsStream class] isSubclassOfClass:[self.newsStream class]], @"Wrong item class");
+    XCTAssertEqualObjects(newNewsStream.type, self.newsStream.type, @"Wrong type");
+    XCTAssertEqualObjects(newNewsStream.stream.count,
                          self.newsStream.stream.count, @"Wrong stream count");
     
     if ([newNewsStream.activities count] > 0) {
         id convertedObject = newNewsStream.activities[0];
         
-        STAssertEquals([convertedObject class], [JiveActivity class], @"Wrong activity object class");
+        XCTAssertEqual([convertedObject class], [JiveActivity class], @"Wrong activity object class");
         if ([[convertedObject class] isSubclassOfClass:[JiveActivity class]])
-            STAssertEqualObjects([(JiveActivity *)convertedObject published],
+            XCTAssertEqualObjects([(JiveActivity *)convertedObject published],
                                  ((JiveActivity *)self.newsStream.activities[0]).published, @"Wrong activity object");
     }
 }

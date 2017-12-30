@@ -33,14 +33,14 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.poll.type, @"poll", @"Wrong type.");
+    XCTAssertEqualObjects(self.poll.type, @"poll", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.poll.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.poll class], @"Poll class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.poll class], @"Poll class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.poll class], @"Poll class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.poll class], @"Poll class not registered with JiveContent.");
 }
 
 - (void)testPollToJSON {
@@ -53,9 +53,9 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
     
     NSDictionary *JSON = [self.poll toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"poll", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], @"poll", @"Wrong type");
     
     self.poll.options = [NSArray arrayWithObject:option];
     [self.poll setValue:[NSArray arrayWithObject:tag] forKey:JiveContentAttributes.tags];
@@ -66,39 +66,39 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
     
     JSON = [self.poll toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.poll.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JivePollAttributes.voteCount], self.poll.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects([JSON objectForKey:JiveContentAttributes.visibleToExternalContributors], self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)7, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.poll.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JivePollAttributes.voteCount], self.poll.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects([JSON objectForKey:JiveContentAttributes.visibleToExternalContributors], self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
     
     NSArray *votesJSON = [JSON objectForKey:JivePollAttributes.votes];
     
-    STAssertTrue([[votesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([votesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([votesJSON objectAtIndex:0], vote, @"Wrong value");
+    XCTAssertTrue([[votesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([votesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([votesJSON objectAtIndex:0], vote, @"Wrong value");
     
     NSArray *optionsJSON = [JSON objectForKey:JivePollAttributes.options];
     
-    STAssertTrue([[optionsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([optionsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([optionsJSON objectAtIndex:0], option, @"Wrong value");
+    XCTAssertTrue([[optionsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([optionsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([optionsJSON objectAtIndex:0], option, @"Wrong value");
     
     NSArray *tagsJSON = [JSON objectForKey:JiveContentAttributes.tags];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
     
     NSArray *optionsImagesJson = [JSON objectForKey:JivePollAttributes.optionsImages];
-    STAssertTrue([[optionsImagesJson class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([optionsImagesJson count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertTrue([[[optionsImagesJson objectAtIndex:0] class] isSubclassOfClass:[NSDictionary class]], @"Option image record is not a dictionary");
+    XCTAssertTrue([[optionsImagesJson class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([optionsImagesJson count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertTrue([[[optionsImagesJson objectAtIndex:0] class] isSubclassOfClass:[NSDictionary class]], @"Option image record is not a dictionary");
     
     
     NSDictionary *optionsImagesImageRecord = [optionsImagesJson objectAtIndex:0];
-    STAssertEquals([optionsImagesImageRecord objectForKey:option], option, @"Option image had wrong option key");
-    STAssertTrue([[[optionsImagesImageRecord objectForKey:JivePollTestsOptionsImageImageKey] class] isSubclassOfClass:[NSDictionary class]], @"Option image record was not a dictionary");
+    XCTAssertEqual([optionsImagesImageRecord objectForKey:option], option, @"Option image had wrong option key");
+    XCTAssertTrue([[[optionsImagesImageRecord objectForKey:JivePollTestsOptionsImageImageKey] class] isSubclassOfClass:[NSDictionary class]], @"Option image record was not a dictionary");
     
 }
 
@@ -114,29 +114,29 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
     
     NSDictionary *JSON = [self.poll toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.poll.type, @"Wrong type");
-    STAssertEqualObjects([JSON objectForKey:JivePollAttributes.voteCount], self.poll.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects([JSON objectForKey:JiveContentAttributes.visibleToExternalContributors], self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:JiveTypedObjectAttributes.type], self.poll.type, @"Wrong type");
+    XCTAssertEqualObjects([JSON objectForKey:JivePollAttributes.voteCount], self.poll.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects([JSON objectForKey:JiveContentAttributes.visibleToExternalContributors], self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
     
     NSArray *votesJSON = [JSON objectForKey:JivePollAttributes.votes];
     
-    STAssertTrue([[votesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([votesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([votesJSON objectAtIndex:0], vote, @"Wrong value");
+    XCTAssertTrue([[votesJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([votesJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([votesJSON objectAtIndex:0], vote, @"Wrong value");
     
     NSArray *optionsJSON = [JSON objectForKey:JivePollAttributes.options];
     
-    STAssertTrue([[optionsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([optionsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([optionsJSON objectAtIndex:0], option, @"Wrong value");
+    XCTAssertTrue([[optionsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([optionsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([optionsJSON objectAtIndex:0], option, @"Wrong value");
     
     NSArray *tagsJSON = [JSON objectForKey:JiveContentAttributes.tags];
     
-    STAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
-    STAssertEquals([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
+    XCTAssertTrue([[tagsJSON class] isSubclassOfClass:[NSArray class]], @"Jive not converted");
+    XCTAssertEqual([tagsJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([tagsJSON objectAtIndex:0], tag, @"Wrong value");
 }
 
 - (void)testPollParsing {
@@ -153,29 +153,29 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
     id JSON = [self.poll toJSONDictionary];
     JivePoll *newContent = [JivePoll objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.poll class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.poll.type, @"Wrong type");
-    STAssertEqualObjects(newContent.voteCount, self.poll.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects(newContent.visibleToExternalContributors, self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
-    STAssertEquals([newContent.tags count], [self.poll.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newContent.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEquals([newContent.options count], [self.poll.options count], @"Wrong number of options");
-    STAssertEqualObjects([newContent.options objectAtIndex:0], option, @"Wrong option");
-    STAssertEquals([newContent.votes count], [self.poll.votes count], @"Wrong number of votes");
-    STAssertEqualObjects([newContent.votes objectAtIndex:0], vote, @"Wrong vote");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.poll class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.poll.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.voteCount, self.poll.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects(newContent.visibleToExternalContributors, self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertEqual([newContent.tags count], [self.poll.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newContent.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqual([newContent.options count], [self.poll.options count], @"Wrong number of options");
+    XCTAssertEqualObjects([newContent.options objectAtIndex:0], option, @"Wrong option");
+    XCTAssertEqual([newContent.votes count], [self.poll.votes count], @"Wrong number of votes");
+    XCTAssertEqualObjects([newContent.votes objectAtIndex:0], vote, @"Wrong vote");
 }
 
 - (void)testOptionImagesParsed {
     JivePoll *poll = [self pollFromTestData];
     NSDictionary *optionsImages = poll.optionsImages;
     NSUInteger expectedImageCount = 6;
-    STAssertEquals([optionsImages count], expectedImageCount, @"Expected six images");
+    XCTAssertEqual([optionsImages count], expectedImageCount, @"Expected six images");
     
     for (NSString *option in poll.options) {
-        STAssertNotNil([optionsImages objectForKey:option], @"Did not get an image for an expected option %@", option);
+        XCTAssertNotNil([optionsImages objectForKey:option], @"Did not get an image for an expected option %@", option);
     }
     
-    STAssertNil([optionsImages objectForKey:@"abcdefghijklmonop"], @"Got non-null image for an option that does not exist");
+    XCTAssertNil([optionsImages objectForKey:@"abcdefghijklmonop"], @"Got non-null image for an option that does not exist");
     
 }
 
@@ -192,21 +192,21 @@ NSString * const JivePollTestsOptionsImageImageKey = @"image";
     id JSON = [self.poll toJSONDictionary];
     JivePoll *newContent = [JivePoll objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.poll class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.poll.type, @"Wrong type");
-    STAssertEqualObjects(newContent.voteCount, self.poll.voteCount, @"Wrong voteCount");
-    STAssertEqualObjects(newContent.visibleToExternalContributors, self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
-    STAssertEquals([newContent.tags count], [self.poll.tags count], @"Wrong number of tags");
-    STAssertEqualObjects([newContent.tags objectAtIndex:0], tag, @"Wrong tag");
-    STAssertEquals([newContent.options count], [self.poll.options count], @"Wrong number of options");
-    STAssertEqualObjects([newContent.options objectAtIndex:0], option, @"Wrong option");
-    STAssertEquals([newContent.votes count], [self.poll.votes count], @"Wrong number of votes");
-    STAssertEqualObjects([newContent.votes objectAtIndex:0], vote, @"Wrong vote");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.poll class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.poll.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.voteCount, self.poll.voteCount, @"Wrong voteCount");
+    XCTAssertEqualObjects(newContent.visibleToExternalContributors, self.poll.visibleToExternalContributors, @"Wrong visibleToExternalContributors");
+    XCTAssertEqual([newContent.tags count], [self.poll.tags count], @"Wrong number of tags");
+    XCTAssertEqualObjects([newContent.tags objectAtIndex:0], tag, @"Wrong tag");
+    XCTAssertEqual([newContent.options count], [self.poll.options count], @"Wrong number of options");
+    XCTAssertEqualObjects([newContent.options objectAtIndex:0], option, @"Wrong option");
+    XCTAssertEqual([newContent.votes count], [self.poll.votes count], @"Wrong number of votes");
+    XCTAssertEqualObjects([newContent.votes objectAtIndex:0], vote, @"Wrong vote");
 }
 
 -(void) testCanVote {
     JivePoll *poll = [self pollFromTestData];
-    STAssertTrue(poll.canVote, @"Should be able to vote");
+    XCTAssertTrue(poll.canVote, @"Should be able to vote");
 }
 
 #pragma mark - Test Object Generator

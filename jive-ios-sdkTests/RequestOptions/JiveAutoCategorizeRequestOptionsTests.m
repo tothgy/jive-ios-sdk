@@ -37,8 +37,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"autoCategorize=true", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"autoCategorize=true", asString, @"Wrong string contents");
 }
 
 - (void)testAutoCategorizedWithField {
@@ -50,8 +50,8 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(@"fields=name&autoCategorize=true", asString, @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(@"fields=name&autoCategorize=true", asString, @"Wrong string contents");
 }
 
 @end

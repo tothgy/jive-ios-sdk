@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "JiveImageURIRequestOptions.h"
 
-@interface JiveImageURIRequestOptionsTests : SenTestCase
+@interface JiveImageURIRequestOptionsTests : XCTestCase
 
 @property (nonatomic, strong) JiveImageURIRequestOptions *options;
 

@@ -32,15 +32,15 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.file.type, @"file", @"Wrong type.");
+    XCTAssertEqualObjects(self.file.type, @"file", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.file.type
                                                                             forKey:JiveTypedObjectAttributes.type];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.file class], @"File class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.file class], @"File class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.file class], @"File class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.file class], @"File class not registered with JiveContent.");
 }
 
 - (void)initializeFile {
@@ -61,21 +61,21 @@
 - (void)testFileToJSON {
     NSDictionary *JSON = [self.file toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"file", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"file", @"Wrong type");
     
     [self initializeFile];
     
     JSON = [self.file toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)2, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
     if ([self.file commentsNotAllowed])
-        STAssertTrue([JSON[JiveFileAttributes.restrictComments] boolValue], @"Wrong restrictComments");
+        XCTAssertTrue([JSON[JiveFileAttributes.restrictComments] boolValue], @"Wrong restrictComments");
     else
-        STFail(@"Wrong restrictComments");
+        XCTFail(@"Wrong restrictComments");
 }
 
 - (void)testFileToJSON_alternate {
@@ -83,37 +83,37 @@
     
     NSDictionary *JSON = [self.file toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
     if (![self.file commentsNotAllowed])
-        STAssertNil(JSON[JiveFileAttributes.restrictComments], @"Wrong restrictComments");
+        XCTAssertNil(JSON[JiveFileAttributes.restrictComments], @"Wrong restrictComments");
     else
-        STFail(@"Wrong restrictComments");
+        XCTFail(@"Wrong restrictComments");
 }
 
 - (void)testPersistentJSON {
     NSDictionary *JSON = [self.file toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"file", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], @"file", @"Wrong type");
     
     [self initializeFile];
     
     JSON = [self.file persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveFileAttributes.binaryURL], [self.file.binaryURL absoluteString], @"Wrong binaryURL");
-    STAssertEqualObjects(JSON[JiveFileAttributes.size], self.file.size, @"Wrong size");
-    STAssertEqualObjects(JSON[JiveFileAttributes.contentType], self.file.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveFileAttributes.name], self.file.name, @"Wrong name");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)6, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.binaryURL], [self.file.binaryURL absoluteString], @"Wrong binaryURL");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.size], self.file.size, @"Wrong size");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.contentType], self.file.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.name], self.file.name, @"Wrong name");
     if ([self.file commentsNotAllowed])
-        STAssertTrue([JSON[JiveFileAttributes.restrictComments] boolValue], @"Wrong restrictComments");
+        XCTAssertTrue([JSON[JiveFileAttributes.restrictComments] boolValue], @"Wrong restrictComments");
     else
-        STFail(@"Wrong restrictComments");
+        XCTFail(@"Wrong restrictComments");
 }
 
 - (void)testPersistentJSON_alternate {
@@ -121,17 +121,17 @@
     
     NSDictionary *JSON = [self.file persistentJSON];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
-    STAssertEqualObjects(JSON[JiveFileAttributes.binaryURL], [self.file.binaryURL absoluteString], @"Wrong binaryURL");
-    STAssertEqualObjects(JSON[JiveFileAttributes.size], self.file.size, @"Wrong size");
-    STAssertEqualObjects(JSON[JiveFileAttributes.contentType], self.file.contentType, @"Wrong contentType");
-    STAssertEqualObjects(JSON[JiveFileAttributes.name], self.file.name, @"Wrong name");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)5, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects(JSON[JiveTypedObjectAttributes.type], self.file.type, @"Wrong type");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.binaryURL], [self.file.binaryURL absoluteString], @"Wrong binaryURL");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.size], self.file.size, @"Wrong size");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.contentType], self.file.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(JSON[JiveFileAttributes.name], self.file.name, @"Wrong name");
     if (![self.file commentsNotAllowed])
-        STAssertNil(JSON[JiveFileAttributes.restrictComments], @"Wrong restrictComments");
+        XCTAssertNil(JSON[JiveFileAttributes.restrictComments], @"Wrong restrictComments");
     else
-        STFail(@"Wrong restrictComments");
+        XCTFail(@"Wrong restrictComments");
 }
 
 - (void)testFileParsing {
@@ -140,13 +140,13 @@
     id JSON = [self.file persistentJSON];
     JiveFile *newContent = [JiveFile objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.file class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.file.type, @"Wrong type");
-    STAssertEqualObjects(newContent.binaryURL, self.file.binaryURL, @"Wrong binaryURL");
-    STAssertEqualObjects(newContent.contentType, self.file.contentType, @"Wrong contentType");
-    STAssertEqualObjects(newContent.name, self.file.name, @"Wrong name");
-    STAssertEqualObjects(newContent.restrictComments, self.file.restrictComments, @"Wrong restrictComments");
-    STAssertEqualObjects(newContent.size, self.file.size, @"Wrong size");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.file class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.file.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.binaryURL, self.file.binaryURL, @"Wrong binaryURL");
+    XCTAssertEqualObjects(newContent.contentType, self.file.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(newContent.name, self.file.name, @"Wrong name");
+    XCTAssertEqualObjects(newContent.restrictComments, self.file.restrictComments, @"Wrong restrictComments");
+    XCTAssertEqualObjects(newContent.size, self.file.size, @"Wrong size");
 }
 
 - (void)testFileParsingAlternate {
@@ -155,13 +155,13 @@
     id JSON = [self.file persistentJSON];
     JiveFile *newContent = [JiveFile objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.file class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.file.type, @"Wrong type");
-    STAssertEqualObjects(newContent.binaryURL, self.file.binaryURL, @"Wrong binaryURL");
-    STAssertEqualObjects(newContent.contentType, self.file.contentType, @"Wrong contentType");
-    STAssertEqualObjects(newContent.name, self.file.name, @"Wrong name");
-    STAssertEqualObjects(newContent.restrictComments, self.file.restrictComments, @"Wrong restrictComments");
-    STAssertEqualObjects(newContent.size, self.file.size, @"Wrong size");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.file class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.file.type, @"Wrong type");
+    XCTAssertEqualObjects(newContent.binaryURL, self.file.binaryURL, @"Wrong binaryURL");
+    XCTAssertEqualObjects(newContent.contentType, self.file.contentType, @"Wrong contentType");
+    XCTAssertEqualObjects(newContent.name, self.file.name, @"Wrong name");
+    XCTAssertEqualObjects(newContent.restrictComments, self.file.restrictComments, @"Wrong restrictComments");
+    XCTAssertEqualObjects(newContent.size, self.file.size, @"Wrong size");
 }
 
 @end

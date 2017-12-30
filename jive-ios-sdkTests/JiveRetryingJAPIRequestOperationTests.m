@@ -65,7 +65,7 @@
         })];
         [testObject start];
     });
-    STAssertEqualObjects(expectedJSON, actualJSON, nil);
+    XCTAssertEqualObjects(expectedJSON, actualJSON);
 }
 
 - (void)testResponseJSONFailure {
@@ -97,9 +97,9 @@
         [testObject start];
     });
     
-    STAssertEqualObjects(NSCocoaErrorDomain, [actualError domain], nil);
-    STAssertEquals([actualError code], (NSInteger)NSPropertyListReadCorruptError, nil);
-    STAssertNil(actualJSON, nil);
+    XCTAssertEqualObjects(NSCocoaErrorDomain, [actualError domain]);
+    XCTAssertEqual([actualError code], (NSInteger)NSPropertyListReadCorruptError);
+    XCTAssertNil(actualJSON);
 }
 
 @end

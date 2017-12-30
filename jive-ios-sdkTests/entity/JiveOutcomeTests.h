@@ -20,6 +20,6 @@
 #import "JiveContentTests.h"
 #import "JiveOutcome.h"
 
-@interface JiveOutcomeTests : SenTestCase
+@interface JiveOutcomeTests : XCTestCase
 
 @end

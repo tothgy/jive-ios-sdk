@@ -56,11 +56,11 @@
 #pragma mark - tests
 
 - (void)testConformsToJiveRetryingOperation {
-    STAssertTrue([testObject conformsToProtocol:@protocol(JiveRetryingOperation)], nil);
+    XCTAssertTrue([testObject conformsToProtocol:@protocol(JiveRetryingOperation)]);
 }
 
 - (void)testClassUnderTestIsSubclassOfAFURLConnectionOperation {
-    STAssertTrue([[self classUnderTest] isSubclassOfClass:[AFURLConnectionOperation class]], nil);
+    XCTAssertTrue([[self classUnderTest] isSubclassOfClass:[AFURLConnectionOperation class]]);
 }
 
 - (void)testSuccessCallsCompletionBlockAndNilsRetrier {
@@ -83,9 +83,9 @@
         [testObject start];
     });
     
-    STAssertTrue(completionBlockCalled, nil);
-    STAssertNil(testObject.retrier, nil);
-    STAssertTrue([testObject isFinished], nil);
+    XCTAssertTrue(completionBlockCalled);
+    XCTAssertNil(testObject.retrier);
+    XCTAssertTrue([testObject isFinished]);
 }
 
 - (void)testFailureCallsCompletionBlockWhenThereIsNoRetrierAndHasOperationError {
@@ -106,10 +106,10 @@
         [testObject start];
     });
     
-    STAssertTrue(completionBlockCalled, nil);
-    STAssertTrue([testObject isFinished], nil);
-    STAssertEqualObjects([testObject.error domain], [testError domain], nil);
-    STAssertEquals([testObject.error code], [testError code], nil);
+    XCTAssertTrue(completionBlockCalled);
+    XCTAssertTrue([testObject isFinished]);
+    XCTAssertEqualObjects([testObject.error domain], [testError domain]);
+    XCTAssertEqual([testObject.error code], [testError code]);
 }
 
 - (void)testFailureCallsCompletionBlockWhenRetrierFailsAndHasRetrierErrorAndNilsRetrier {
@@ -137,20 +137,20 @@
         [testObject start];
     });
     
-    STAssertTrue(completionBlockCalled, nil);
-    STAssertTrue([testObject isFinished], nil);
-    STAssertEqualObjects([testObject.error domain], [retryError domain], nil);
-    STAssertEquals([testObject.error code], [retryError code], nil);
-    STAssertEqualObjects(testRetrier.retryingOperations, (@[
+    XCTAssertTrue(completionBlockCalled);
+    XCTAssertTrue([testObject isFinished]);
+    XCTAssertEqualObjects([testObject.error domain], [retryError domain]);
+    XCTAssertEqual([testObject.error code], [retryError code]);
+    XCTAssertEqualObjects(testRetrier.retryingOperations, (@[
                                                           testObject,
-                                                          ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorDomains, (@[
+                                                          ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorDomains, (@[
                                                             [testError domain],
-                                                            ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorCodes, (@[
+                                                            ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorCodes, (@[
                                                           @([testError code]),
-                                                          ]), nil);
-    STAssertNil(testObject.retrier, nil);
+                                                          ]));
+    XCTAssertNil(testObject.retrier);
 }
 
 - (void)testFailureRetriesWithGivenOperationAndCallsCompletionBlockWithSuccessAndNilsRetrier {
@@ -185,19 +185,19 @@
         [testObject start];
     });
     
-    STAssertTrue(completionBlockCalled, nil);
-    STAssertTrue([testObject isFinished], nil);
-    STAssertNil(testObject.error, nil);
-    STAssertEqualObjects(testRetrier.retryingOperations, (@[
+    XCTAssertTrue(completionBlockCalled);
+    XCTAssertTrue([testObject isFinished]);
+    XCTAssertNil(testObject.error);
+    XCTAssertEqualObjects(testRetrier.retryingOperations, (@[
                                                           testObject,
-                                                          ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorDomains, (@[
+                                                          ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorDomains, (@[
                                                             [testError domain],
-                                                            ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorCodes, (@[
+                                                            ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorCodes, (@[
                                                           @([testError code]),
-                                                          ]), nil);
-    STAssertNil(testObject.retrier, nil);
+                                                          ]));
+    XCTAssertNil(testObject.retrier);
 }
 
 - (void)testFailureRetriesWithGivenOperationAndCallsCompletionBlockWhenSecondRetrierFailsWithSecondRetryErrorAndNilsRetrier {
@@ -239,23 +239,23 @@
         [testObject start];
     });
     
-    STAssertTrue(completionBlockCalled, nil);
-    STAssertTrue([testObject isFinished], nil);
-    STAssertEqualObjects([testObject.error domain], [secondRetryError domain], nil);
-    STAssertEquals([testObject.error code], [secondRetryError code], nil);
-    STAssertEqualObjects(testRetrier.retryingOperations, (@[
+    XCTAssertTrue(completionBlockCalled);
+    XCTAssertTrue([testObject isFinished]);
+    XCTAssertEqualObjects([testObject.error domain], [secondRetryError domain]);
+    XCTAssertEqual([testObject.error code], [secondRetryError code]);
+    XCTAssertEqualObjects(testRetrier.retryingOperations, (@[
                                                           testObject,
                                                           testObject,
-                                                          ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorDomains, (@[
+                                                          ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorDomains, (@[
                                                             [testError domain],
                                                             [firstRetryError domain],
-                                                            ]), nil);
-    STAssertEqualObjects(testRetrier.originalErrorCodes, (@[
+                                                            ]));
+    XCTAssertEqualObjects(testRetrier.originalErrorCodes, (@[
                                                           @([testError code]),
                                                           @([firstRetryError code]),
-                                                          ]), nil);
-    STAssertNil(testObject.retrier, nil);
+                                                          ]));
+    XCTAssertNil(testObject.retrier);
 }
 
 //- (void)testResponseFieldsNilUntilFinishedOnSuccess {

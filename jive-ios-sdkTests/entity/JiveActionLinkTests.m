@@ -26,8 +26,8 @@
     JiveActionLink *actionLink = [[JiveActionLink alloc] init];
     NSDictionary *JSON = [actionLink toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     actionLink.caption = @"text";
     actionLink.httpVerb = @"1234";
@@ -35,19 +35,19 @@
     
     JSON = [actionLink toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"caption"], actionLink.caption, @"Wrong caption.");
-    STAssertEqualObjects([JSON objectForKey:@"httpVerb"], actionLink.httpVerb, @"Wrong httpVerb.");
-    STAssertEqualObjects([JSON objectForKey:@"target"], [actionLink.target absoluteString], @"Wrong target.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"caption"], actionLink.caption, @"Wrong caption.");
+    XCTAssertEqualObjects([JSON objectForKey:@"httpVerb"], actionLink.httpVerb, @"Wrong httpVerb.");
+    XCTAssertEqualObjects([JSON objectForKey:@"target"], [actionLink.target absoluteString], @"Wrong target.");
 }
 
 - (void)testToJSON_alternate {
     JiveActionLink *actionLink = [[JiveActionLink alloc] init];
     NSDictionary *JSON = [actionLink toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)0, @"Initial dictionary is not empty");
     
     actionLink.caption = @"html";
     actionLink.httpVerb = @"6541";
@@ -55,11 +55,11 @@
     
     JSON = [actionLink toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"caption"], actionLink.caption, @"Wrong caption.");
-    STAssertEqualObjects([JSON objectForKey:@"httpVerb"], actionLink.httpVerb, @"Wrong httpVerb.");
-    STAssertEqualObjects([JSON objectForKey:@"target"], [actionLink.target absoluteString], @"Wrong target.");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"caption"], actionLink.caption, @"Wrong caption.");
+    XCTAssertEqualObjects([JSON objectForKey:@"httpVerb"], actionLink.httpVerb, @"Wrong httpVerb.");
+    XCTAssertEqualObjects([JSON objectForKey:@"target"], [actionLink.target absoluteString], @"Wrong target.");
 }
 
 @end

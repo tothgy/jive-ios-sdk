@@ -31,14 +31,14 @@
 }
 
 - (void)testType {
-    STAssertEqualObjects(self.share.type, @"share", @"Wrong type.");
+    XCTAssertEqualObjects(self.share.type, @"share", @"Wrong type.");
 }
 
 - (void)testClassRegistration {
     NSMutableDictionary *typeSpecifier = [NSMutableDictionary dictionaryWithObject:self.share.type forKey:@"type"];
     
-    STAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.share class], @"Share class not registered with JiveTypedObject.");
-    STAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.share class], @"Share class not registered with JiveContent.");
+    XCTAssertEqualObjects([JiveTypedObject entityClass:typeSpecifier], [self.share class], @"Share class not registered with JiveTypedObject.");
+    XCTAssertEqualObjects([JiveContent entityClass:typeSpecifier], [self.share class], @"Share class not registered with JiveContent.");
 }
 
 - (void)testShareToJSON {
@@ -46,9 +46,9 @@
     JiveContent *sharedContent = [JiveContent new];
     NSDictionary *JSON = [self.share toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
-    STAssertEqualObjects([JSON objectForKey:@"type"], @"share", @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)1, @"Initial dictionary is not empty");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], @"share", @"Wrong type");
     
     sharedPlace.jiveDescription = @"Going places";
     sharedContent.subject = @"What to do when you get there.";
@@ -57,17 +57,17 @@
     
     JSON = [self.share toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.share.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.share.type, @"Wrong type");
     
     NSDictionary *itemJSON = [JSON objectForKey:JiveShareAttributes.sharedContent];
-    STAssertEquals([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([itemJSON objectForKey:JiveContentAttributes.subject], sharedContent.subject, @"Wrong description");
+    XCTAssertEqual([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([itemJSON objectForKey:JiveContentAttributes.subject], sharedContent.subject, @"Wrong description");
     
     itemJSON = [JSON objectForKey:JiveShareAttributes.sharedPlace];
-    STAssertEquals([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([itemJSON objectForKey:@"description"], sharedPlace.jiveDescription, @"Wrong description");
+    XCTAssertEqual([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([itemJSON objectForKey:@"description"], sharedPlace.jiveDescription, @"Wrong description");
 }
 
 - (void)testShareToJSON_alternate {
@@ -81,17 +81,17 @@
     
     NSDictionary *JSON = [self.share toJSONDictionary];
     
-    STAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
-    STAssertEquals([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
-    STAssertEqualObjects([JSON objectForKey:@"type"], self.share.type, @"Wrong type");
+    XCTAssertTrue([[JSON class] isSubclassOfClass:[NSDictionary class]], @"Generated JSON has the wrong class");
+    XCTAssertEqual([JSON count], (NSUInteger)3, @"Initial dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([JSON objectForKey:@"type"], self.share.type, @"Wrong type");
     
     NSDictionary *itemJSON = [JSON objectForKey:JiveShareAttributes.sharedContent];
-    STAssertEquals([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([itemJSON objectForKey:JiveContentAttributes.subject], sharedContent.subject, @"Wrong description");
+    XCTAssertEqual([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([itemJSON objectForKey:JiveContentAttributes.subject], sharedContent.subject, @"Wrong description");
     
     itemJSON = [JSON objectForKey:JiveShareAttributes.sharedPlace];
-    STAssertEquals([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
-    STAssertEqualObjects([itemJSON objectForKey:@"description"], sharedPlace.jiveDescription, @"Wrong description");
+    XCTAssertEqual([itemJSON count], (NSUInteger)1, @"Jive dictionary had the wrong number of entries");
+    XCTAssertEqualObjects([itemJSON objectForKey:@"description"], sharedPlace.jiveDescription, @"Wrong description");
 }
 
 - (void)testShareParsing {
@@ -108,12 +108,12 @@
     id JSON = [self.share toJSONDictionary];
     JiveShare *newContent = [JiveShare objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.share class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.share.type, @"Wrong type");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.share class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.share.type, @"Wrong type");
     if ([newContent.sharedContent isKindOfClass:[JiveContent class]]) {
-        STAssertEqualObjects(((JiveContent *)newContent.sharedContent).subject, ((JiveContent *)self.share.sharedContent).subject, @"Wrong shared content");
+        XCTAssertEqualObjects(((JiveContent *)newContent.sharedContent).subject, ((JiveContent *)self.share.sharedContent).subject, @"Wrong shared content");
     }
-    STAssertEqualObjects(newContent.sharedPlace.jiveDescription, self.share.sharedPlace.jiveDescription, @"Wrong shared place");
+    XCTAssertEqualObjects(newContent.sharedPlace.jiveDescription, self.share.sharedPlace.jiveDescription, @"Wrong shared place");
 }
 
 - (void)testShareParsingAlternate {
@@ -130,12 +130,12 @@
     id JSON = [self.share toJSONDictionary];
     JiveShare *newContent = [JiveShare objectFromJSON:JSON withInstance:self.instance];
     
-    STAssertTrue([[newContent class] isSubclassOfClass:[self.share class]], @"Wrong item class");
-    STAssertEqualObjects(newContent.type, self.share.type, @"Wrong type");
+    XCTAssertTrue([[newContent class] isSubclassOfClass:[self.share class]], @"Wrong item class");
+    XCTAssertEqualObjects(newContent.type, self.share.type, @"Wrong type");
     if ([newContent.sharedContent isKindOfClass:[JiveContent class]]) {
-        STAssertEqualObjects(((JiveContent *)newContent.sharedContent).subject, ((JiveContent *)self.share.sharedContent).subject, @"Wrong shared content");
+        XCTAssertEqualObjects(((JiveContent *)newContent.sharedContent).subject, ((JiveContent *)self.share.sharedContent).subject, @"Wrong shared content");
     }
-    STAssertEqualObjects(newContent.sharedPlace.jiveDescription, self.share.sharedPlace.jiveDescription, @"Wrong shared place");
+    XCTAssertEqualObjects(newContent.sharedPlace.jiveDescription, self.share.sharedPlace.jiveDescription, @"Wrong shared place");
 }
 
 @end

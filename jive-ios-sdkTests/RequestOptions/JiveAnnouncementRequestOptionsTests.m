@@ -37,7 +37,7 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"activeOnly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"activeOnly", asString, @"Wrong string contents");
 }
 
 - (void)testCollapseWithOtherFields {
@@ -47,11 +47,11 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertEqualObjects(@"fields=name&activeOnly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&activeOnly", asString, @"Wrong string contents");
     
     self.announcementOptions.startIndex = 5;
     asString = [self.options toQueryString];
-    STAssertEqualObjects(@"fields=name&startIndex=5&activeOnly", asString, @"Wrong string contents");
+    XCTAssertEqualObjects(@"fields=name&startIndex=5&activeOnly", asString, @"Wrong string contents");
 }
 
 @end

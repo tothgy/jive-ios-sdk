@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "JiveReturnFieldsRequestOptions.h"
 
-@interface JiveReturnFieldsRequestOptionsTests : SenTestCase
+@interface JiveReturnFieldsRequestOptionsTests : XCTestCase
 
 @property (nonatomic, strong) JiveReturnFieldsRequestOptions *options;
 

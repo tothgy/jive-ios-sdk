@@ -17,10 +17,10 @@
 //    limitations under the License.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "JiveAssociationTargetList.h"
 
-@interface JiveAssociationTargetListTests : SenTestCase
+@interface JiveAssociationTargetListTests : XCTestCase
 
 @property (nonatomic) JiveAssociationTargetList *targets;
 

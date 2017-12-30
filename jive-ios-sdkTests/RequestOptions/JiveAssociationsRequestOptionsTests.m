@@ -37,18 +37,18 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(asString, @"filter=type(dm)", @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(asString, @"filter=type(dm)", @"Wrong string contents");
     
     [self.associationsOptions addType:@"mention"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(asString, @"filter=type(dm,mention)", @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(asString, @"filter=type(dm,mention)", @"Wrong string contents");
     
     [self.associationsOptions addType:@"share"];
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(asString, @"filter=type(dm,mention,share)", @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(asString, @"filter=type(dm,mention,share)", @"Wrong string contents");
 }
 
 - (void)testTagWithFields {
@@ -58,13 +58,13 @@
     
     NSString *asString = [self.options toQueryString];
     
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(asString, @"fields=name&filter=type(dm)", @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(asString, @"fields=name&filter=type(dm)", @"Wrong string contents");
     
     self.associationsOptions.startIndex = 5;
     asString = [self.options toQueryString];
-    STAssertNotNil(asString, @"Invalid string returned");
-    STAssertEqualObjects(asString, @"fields=name&startIndex=5&filter=type(dm)", @"Wrong string contents");
+    XCTAssertNotNil(asString, @"Invalid string returned");
+    XCTAssertEqualObjects(asString, @"fields=name&startIndex=5&filter=type(dm)", @"Wrong string contents");
 }
 
 @end

@@ -62,10 +62,10 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:testValue};
     NSDate *testDate = [NSDate date];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance], @"Reported invalid deserialize with valid JSON");
-    STAssertFalse(self.object.extraFieldsDetected, @"Extra fields reported with valid JSON");
-    STAssertNotNil(self.object.refreshDate, @"A refresh date is reqired with valid JSON");
-    STAssertEqualsWithAccuracy([testDate timeIntervalSinceDate:self.object.refreshDate],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance], @"Reported invalid deserialize with valid JSON");
+    XCTAssertFalse(self.object.extraFieldsDetected, @"Extra fields reported with valid JSON");
+    XCTAssertNotNil(self.object.refreshDate, @"A refresh date is reqired with valid JSON");
+    XCTAssertEqualWithAccuracy([testDate timeIntervalSinceDate:self.object.refreshDate],
                                (NSTimeInterval)0,
                                (NSTimeInterval)0.1,
                                @"An invalid refresh date was specified");
@@ -74,18 +74,18 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
 - (void)testURLDeserialization_baseURL {
     NSDictionary *JSON = @{TestJiveObjectAttributes.testURL:[self.serverURL absoluteString]};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testURL, self.serverURL, @"Wrong URL reported");
+    XCTAssertEqualObjects(self.testObject.testURL, self.serverURL, @"Wrong URL reported");
 }
 
 - (void)testURLDeserialization_contentURL {
     NSString *contentURLString = [[self.serverURL absoluteString] stringByAppendingString:@"/api/core/v3/content/1234"];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testURL:contentURLString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects([self.testObject.testURL absoluteString], contentURLString,
+    XCTAssertEqualObjects([self.testObject.testURL absoluteString], contentURLString,
                          @"Wrong URL reported");
 }
 
@@ -96,14 +96,14 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSDictionary *JSON = @{TestJiveObjectAttributes.testURL:[badInstanceURL stringByAppendingString:contentPath]};
     
     self.instance.jiveInstanceURL = [NSURL URLWithString:proxyURLString];
-    STAssertNil(self.instance.badInstanceURL, @"PRECONDITION: There should be no badInstanceURL to start");
+    XCTAssertNil(self.instance.badInstanceURL, @"PRECONDITION: There should be no badInstanceURL to start");
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects([self.testObject.testURL absoluteString],
+    XCTAssertEqualObjects([self.testObject.testURL absoluteString],
                          [proxyURLString stringByAppendingString:contentPath],
                          @"Wrong URL reported");
-    STAssertEqualObjects(self.instance.badInstanceURL, badInstanceURL, @"Bad instance url not saved.");
+    XCTAssertEqualObjects(self.instance.badInstanceURL, badInstanceURL, @"Bad instance url not saved.");
 }
 
 - (void)testURLDeserialization_nonInstanceURL {
@@ -111,9 +111,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *proxyURLString = [@"https://alternate.net/" stringByAppendingString:contentPath];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testURL:proxyURLString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects([self.testObject.testURL absoluteString], proxyURLString,
+    XCTAssertEqualObjects([self.testObject.testURL absoluteString], proxyURLString,
                          @"Should not change URLs for other instances");
 }
 
@@ -121,18 +121,18 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *serverURLString = [self.serverURL absoluteString];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:serverURLString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, serverURLString, @"Wrong URL reported");
+    XCTAssertEqualObjects(self.testObject.testProperty, serverURLString, @"Wrong URL reported");
 }
 
 - (void)testURLStringDeserialization_contentURL {
     NSString *contentURLString = [[self.serverURL absoluteString] stringByAppendingString:@"/api/core/v3/content/1234"];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:contentURLString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, contentURLString,
+    XCTAssertEqualObjects(self.testObject.testProperty, contentURLString,
                          @"Wrong URL reported");
 }
 
@@ -142,9 +142,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:[[self.instance.jiveInstanceURL absoluteString] stringByAppendingString:contentPath]};
     
     self.instance.jiveInstanceURL = [NSURL URLWithString:proxyURLString];
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty,
+    XCTAssertEqualObjects(self.testObject.testProperty,
                          [proxyURLString stringByAppendingString:contentPath],
                          @"Wrong URL reported");
 }
@@ -154,9 +154,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *proxyURLString = [@"https://alternate.net/" stringByAppendingString:contentPath];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:proxyURLString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, proxyURLString,
+    XCTAssertEqualObjects(self.testObject.testProperty, proxyURLString,
                          @"Should not change URLs for other instances");
 }
 
@@ -164,9 +164,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *proxyString = @"<body>Stuff to look at</body>";
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:proxyString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, proxyString,
+    XCTAssertEqualObjects(self.testObject.testProperty, proxyString,
                          @"Should not change simple html");
 }
 
@@ -174,9 +174,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *proxyString = @"<body><a href='https://link.com/stuff>Stuff to look at</a></body>";
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:proxyString};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, proxyString,
+    XCTAssertEqualObjects(self.testObject.testProperty, proxyString,
                          @"Should not change simple html");
 }
 
@@ -189,9 +189,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -201,9 +201,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
                                @"http://proxy.com/"];
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:expectedValue};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Changed instance url without a badInstanceURL");
 }
 
@@ -228,9 +228,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
                                [self.serverURL absoluteString],
                                @"2"];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -243,9 +243,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -258,9 +258,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -273,9 +273,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -288,9 +288,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -303,9 +303,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -318,9 +318,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -333,9 +333,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -348,9 +348,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -363,9 +363,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -378,9 +378,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = [NSString stringWithFormat:stringFormat,
                                [self.serverURL absoluteString]];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -400,9 +400,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
                                [self.serverURL absoluteString],
                                imageID];
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
@@ -412,9 +412,9 @@ struct TestJiveObjectAttributes const TestJiveObjectAttributes = {
     NSString *expectedValue = @"<body><a href=\"http://lorempixel.com/400/200/\"><img alt=\"http://lorempixel.com/400/200/\" class=\"jive-image image-1\" src=\"http://lorempixel.com/400/200/\" style=\"height: auto;\"/></a></body>";
     NSDictionary *JSON = @{TestJiveObjectAttributes.testProperty:expectedValue};
     
-    STAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
+    XCTAssertTrue([self.object deserialize:JSON fromInstance:self.instance],
                  @"Reported invalid deserialize with valid JSON");
-    STAssertEqualObjects(self.testObject.testProperty, expectedValue,
+    XCTAssertEqualObjects(self.testObject.testProperty, expectedValue,
                          @"Failed to change instance url");
 }
 
